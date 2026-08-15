@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 import sys
@@ -14,6 +15,7 @@ from pipeline.validation import validate_timeline
 from pipeline.commands import MAIN_COMMAND_ALIASES, KLIPY_COMMAND_ALIASES
 from pipeline.runtime import redact_secrets, project_logger
 from pipeline import parsers
+from pipeline import media
 
 
 class ParserTests(unittest.TestCase):
@@ -43,6 +45,19 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class MediaTests(unittest.TestCase):
+    def test_stringify_command_accepts_paths(self):
+        self.assertEqual(media.stringify_command(["ffmpeg", Path("out.mp4")]), ["ffmpeg", "out.mp4"])
+
+    @patch("pipeline.media.subprocess.check_output", return_value="12.5\n")
+    def test_probe_duration_returns_finite_value(self, _check_output):
+        self.assertEqual(media.probe_duration(Path("song.mp3")), 12.5)
+
+    @patch("pipeline.media.subprocess.check_output", return_value="nan\n")
+    def test_probe_duration_rejects_nan(self, _check_output):
+        self.assertEqual(media.probe_duration(Path("song.mp3")), 0.0)
 
 
 class RuntimeAndCliTests(unittest.TestCase):

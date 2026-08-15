@@ -293,6 +293,12 @@ def file_hash(path: Path) -> str:
     except Exception:
         return ""
 
+# Přechodná fasáda: externí media helpery jsou nyní centralizované v pipeline.media.
+try:
+    from pipeline.media import run_cmd, run_ffmpeg, probe_duration, is_valid_media, file_hash
+except ImportError:
+    from media import run_cmd, run_ffmpeg, probe_duration, is_valid_media, file_hash
+
 # ===== PARSOVÁNÍ PLÁNU =====
 
 def extract_sections(text):
