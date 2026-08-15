@@ -11,6 +11,8 @@ import pro_pipeline
 from klipy import KlipyPipeline
 from pipeline.models import TimelineEntry
 from pipeline.validation import validate_timeline
+from pipeline.commands import MAIN_COMMAND_ALIASES, KLIPY_COMMAND_ALIASES
+from pipeline.runtime import redact_secrets, project_logger
 
 
 class ParserTests(unittest.TestCase):
@@ -35,6 +37,26 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class RuntimeAndCliTests(unittest.TestCase):
+    def test_shared_aliases_are_resolved(self):
+        self.assertEqual(MAIN_COMMAND_ALIASES["vse"], "all")
+        self.assertEqual(MAIN_COMMAND_ALIASES["zarovnej-rap"], "align-rap")
+        self.assertEqual(KLIPY_COMMAND_ALIASES["order"], "2")
+
+    def test_secrets_are_redacted(self):
+        value = redact_secrets("api_key=secret-token authorization: Bearer xyz")
+        self.assertNotIn("secret-token", value)
+        self.assertNotIn("Bearer xyz", value)
+
+    def test_project_logger_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            logger_a = project_logger(Path(tmp))
+            logger_b = project_logger(Path(tmp))
+            self.assertIs(logger_a, logger_b)
+            logger_a.info("test")
+            self.assertTrue((Path(tmp) / "EDIT_PROJECT" / "pipeline.log").exists())
 
 
 class PipelineTests(unittest.TestCase):

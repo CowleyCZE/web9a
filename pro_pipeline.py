@@ -61,9 +61,13 @@ from difflib import SequenceMatcher
 try:
     from pipeline.models import StepResult, TimelineEntry
     from pipeline.validation import validate_timeline
+    from pipeline.runtime import project_logger, log_exception
+    from pipeline.commands import MAIN_COMMAND_ALIASES
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
+    from runtime import project_logger, log_exception
+    from commands import MAIN_COMMAND_ALIASES
 
 # Pokus o import librosa
 try:
@@ -1010,6 +1014,7 @@ class TemagenPipeline:
         self.full_plan = self.prompts_dir / "full_plan.txt"
         self.timeline_file = self.edit_dir / "timeline.txt"
         self.settings_file = self.edit_dir / "settings.json"
+        self.logger = project_logger(self.project_dir)
 
     # ===== NASTAVENÍ PROJEKTU (Whisper model, CPU/GPU, FPS, speed limity) =====
 
@@ -1523,7 +1528,9 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
 
     def parse_plan(self):
         """Rozparsuje full_plan.txt a rozdistribuuje data."""
+        self.logger.info("Začíná parsování plánu: %s", self.full_plan)
         if not self.full_plan.exists() or self.full_plan.stat().st_size == 0:
+            self.logger.error("Plán chybí nebo je prázdný: %s", self.full_plan)
             print(f"❌ Soubor {self.full_plan} chybí nebo je prázdný. Nejprve do něj vložte kreativní plán songu.")
             return
 
@@ -1565,6 +1572,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         for error in timeline_errors:
             print(f"❌ Timeline: {error}")
         if timeline_errors:
+            self.logger.error("Validace timeline selhala: %s", "; ".join(timeline_errors))
             print("❌ Plán nebyl zapsán jako validní timeline. Oprav full_plan.txt a spusť parse znovu.")
             return False
 
@@ -1608,6 +1616,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                         pass
         self._write_json(self.edit_dir / "metadata.json", metadata)
 
+        self.logger.info("Plán úspěšně rozparsován do Prompts/ a EDIT_PROJECT/")
         print(f"✅ Plán full_plan.txt úspěšně rozparsován do složek Prompts/ a EDIT_PROJECT/")
 
     def create_placeholders(self):
@@ -4575,6 +4584,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
 
     def validate_project(self, final: bool = False, no_rap: bool = False) -> bool:
         """Provede validační bránu projektu podle new_pipeline.txt."""
+        self.logger.info("Validuji projekt; final=%s, no_rap=%s", final, no_rap)
         issues = []
 
         if self.timeline_file.exists() and self.timeline_file.stat().st_size > 0:
@@ -6753,50 +6763,7 @@ def main():
             print("\n👋 Ukončeno uživatelem.")
         return
 
-    command_aliases = {
-        "init": "init",
-        "inicializuj": "init",
-        "parse": "parse",
-        "parsuj": "parse",
-        "placeholders": "placeholders",
-        "zastupce": "placeholders",
-        "analyze": "analyze",
-        "analyzuj": "analyze",
-        "analyze-song": "analyze-song",
-        "analyzuj-song": "analyze-song",
-        "plan": "plan",
-        "navrh": "plan",
-        "scenario": "scenario",
-        "scenar": "scenario",
-        "plan-ai": "plan-ai",
-        "navrh-ai": "plan-ai",
-        "sync": "sync",
-        "synchronizuj": "sync",
-        "transcribe-rap": "transcribe-rap",
-        "transkribuj-rap": "transcribe-rap",
-        "resync-rap": "resync-rap",
-        "resynchronizuj-rap": "resync-rap",
-        "align-rap": "align-rap",
-        "zarovnej-rap": "align-rap",
-        "align-vid": "align-vid",
-        "zarovnej-vid": "align-vid",
-        "update-timeline": "update-timeline",
-        "prepocitej-timeline": "update-timeline",
-        "apply-speeds-timeline": "apply-speeds-timeline",
-        "aplikuj-rychlosti-timeline": "apply-speeds-timeline",
-        "validate": "validate",
-        "validuj": "validate",
-        "prepare-lipsync": "prepare-lipsync",
-        "priprav-lipsync": "prepare-lipsync",
-        "inject-lipsync": "inject-lipsync",
-        "vloz-lipsync": "inject-lipsync",
-        "all": "all",
-        "vse": "all",
-        "render": "render",
-        "renderuj": "render",
-        "settings": "settings",
-        "nastaveni": "settings",
-    }
+    command_aliases = MAIN_COMMAND_ALIASES
 
     parser = argparse.ArgumentParser(
         description="Temagen Music Video - sjednocená produkční pipeline",

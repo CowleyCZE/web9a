@@ -86,6 +86,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from pipeline.cli_registry import natural_command_key
+from pipeline.commands import KLIPY_COMMAND_ALIASES
 
 try:
     from pro_pipeline import (
@@ -613,18 +614,7 @@ MENU_ACTIONS = {
           lambda p: p.run_render_flow(no_rap=False)),
 }
 
-CLI_COMMANDS = {
-    "scenario": "1", "scenar": "1",
-    "poradi": "2", "order": "2",
-    "parse": "3", "parsuj": "3",
-    "transcribe-rap": "4", "transkribuj-rap": "4",
-    "resync-rap": "4b", "resynchronizuj-rap": "4b",
-    "align-rap": "5", "zarovnej-rap": "5",
-    "apply-speeds": "5b", "apply-speeds-timeline": "5b", "aplikuj-rychlosti": "5b",
-    "update-timeline": "6", "prepocitej-timeline": "6",
-    "align-vid": "7", "zarovnej-vid": "7",
-    "render": "8", "renderuj": "8",
-}
+CLI_COMMANDS = KLIPY_COMMAND_ALIASES
 
 
 def _list_project_dirs():

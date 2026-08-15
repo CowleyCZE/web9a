@@ -1,0 +1,39 @@
+from __future__ import annotations
+
+MAIN_COMMAND_ALIASES = {
+    "init": "init", "inicializuj": "init",
+    "parse": "parse", "parsuj": "parse",
+    "placeholders": "placeholders", "zastupce": "placeholders",
+    "analyze": "analyze", "analyzuj": "analyze",
+    "analyze-song": "analyze-song", "analyzuj-song": "analyze-song",
+    "plan": "plan", "navrh": "plan",
+    "scenario": "scenario", "scenar": "scenario",
+    "plan-ai": "plan-ai", "navrh-ai": "plan-ai",
+    "sync": "sync", "synchronizuj": "sync",
+    "transcribe-rap": "transcribe-rap", "transkribuj-rap": "transcribe-rap",
+    "resync-rap": "resync-rap", "resynchronizuj-rap": "resync-rap",
+    "align-rap": "align-rap", "zarovnej-rap": "align-rap",
+    "align-vid": "align-vid", "zarovnej-vid": "align-vid",
+    "update-timeline": "update-timeline", "prepocitej-timeline": "update-timeline",
+    "apply-speeds-timeline": "apply-speeds-timeline",
+    "aplikuj-rychlosti-timeline": "apply-speeds-timeline",
+    "validate": "validate", "validuj": "validate",
+    "prepare-lipsync": "prepare-lipsync", "priprav-lipsync": "prepare-lipsync",
+    "inject-lipsync": "inject-lipsync", "vloz-lipsync": "inject-lipsync",
+    "all": "all", "vse": "all",
+    "render": "render", "renderuj": "render",
+    "settings": "settings", "nastaveni": "settings",
+}
+
+KLIPY_COMMAND_ALIASES = {
+    "scenario": "1", "scenar": "1",
+    "poradi": "2", "order": "2",
+    "parse": "3", "parsuj": "3",
+    "transcribe-rap": "4", "transkribuj-rap": "4",
+    "resync-rap": "4b", "resynchronizuj-rap": "4b",
+    "align-rap": "5", "zarovnej-rap": "5",
+    "apply-speeds": "5b", "apply-speeds-timeline": "5b", "aplikuj-rychlosti": "5b",
+    "update-timeline": "6", "prepocitej-timeline": "6",
+    "align-vid": "7", "zarovnej-vid": "7",
+    "render": "8", "renderuj": "8",
+}
