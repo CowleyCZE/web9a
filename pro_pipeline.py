@@ -68,6 +68,7 @@ try:
     from pipeline.ai import dispatch_text, normalize_provider, finite_positive_int, finite_temperature
     from pipeline.orchestration import execute_step, execute_sequence
     from pipeline.precision import validate_duration_drift, validate_lipsync_manifest, ffprobe_media_qa, DEFAULT_DURATION_TOLERANCE_MS
+    from pipeline.visual_quality import enrich_beats, nearest_sync_point
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -78,6 +79,7 @@ except ImportError:
     from ai import dispatch_text, normalize_provider, finite_positive_int, finite_temperature
     from orchestration import execute_step, execute_sequence
     from precision import validate_duration_drift, validate_lipsync_manifest, ffprobe_media_qa, DEFAULT_DURATION_TOLERANCE_MS
+    from visual_quality import enrich_beats, nearest_sync_point
 
 # Pokus o import librosa
 try:
@@ -1716,10 +1718,16 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 bpm_val = float(tempo[0])
 
             times = librosa.frames_to_time(beats, sr=sr).tolist()
+            enriched_beats = enrich_beats(times, bpm=bpm_val)
 
             beats_file = self.edit_dir / "beats.json"
             with open(beats_file, "w", encoding="utf-8") as f:
-                json.dump({"bpm": bpm_val, "beats": [round(t, 3) for t in times]}, f, indent=2)
+                json.dump({
+                    "bpm": bpm_val,
+                    "beats": [round(t, 3) for t in times],
+                    "beat_events": enriched_beats,
+                    "schema_version": 2,
+                }, f, indent=2)
             print(f"  ✅ BPM: {bpm_val:.1f}. Beaty uloženy do: {beats_file.relative_to(self.project_dir)}")
         else:
             print("⚠️ Librosa není nainstalována (použijte: pip install librosa). Detekce beatů přeskočena.")
@@ -6192,7 +6200,10 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         if use_beat_sync and beats_file.exists():
             try:
                 with open(beats_file, "r") as f:
-                    beats = json.load(f).get("beats", [])
+                    beat_data = json.load(f)
+                beats = beat_data.get("beat_events") or enrich_beats(
+                    beat_data.get("beats", []), bpm=beat_data.get("bpm")
+                )
             except Exception:
                 pass
 
@@ -6246,6 +6257,11 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             speed = parse_speed_factor(note)
             trim = parse_trim_factor(note)
             speed_applied = parse_speed_applied(note)
+            sync_anchor = nearest_sync_point(
+                start, beats,
+                prefer_downbeat=not asset_name.lower().startswith("rap"),
+                tolerance_sec=0.20,
+            ) if beats else None
             segments.append({
                 "index": len(segments) + 1,
                 "start": round(start, 3),
@@ -6257,7 +6273,10 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 "speed_applied": speed_applied,
                 "trim": trim,
                 "glitch": '[GLITCH]' in note.upper(),
-                "whippan": '[WHIPPAN]' in note.upper()
+                "whippan": '[WHIPPAN]' in note.upper(),
+                "beat_anchor_ms": sync_anchor.get("time_ms") if sync_anchor else None,
+                "beat_is_downbeat": bool(sync_anchor and sync_anchor.get("is_downbeat")),
+                "beat_phrase_index": sync_anchor.get("phrase_index") if sync_anchor else None,
             })
 
         print(f"🎞️ Sestaveno {len(segments)} segmentů.")

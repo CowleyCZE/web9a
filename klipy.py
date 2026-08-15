@@ -87,6 +87,7 @@ if str(ROOT) not in sys.path:
 
 from pipeline.cli_registry import natural_command_key
 from pipeline.commands import KLIPY_COMMAND_ALIASES
+from pipeline.visual_quality import rank_candidates
 
 try:
     from pro_pipeline import (
@@ -474,10 +475,11 @@ class KlipyPipeline(TemagenPipeline):
                             break
                 context_ref = context_ref or context_text
 
-                candidates = sorted(
-                    broll_pool.keys(),
-                    key=lambda c: self._text_overlap_score(context_ref, klipy.get(c, {}).get("obsah", "")),
-                    reverse=True,
+                recent_ids = ids[-3:]
+                candidates = rank_candidates(
+                    broll_pool.keys(), klipy, context=context_ref,
+                    previous_id=ids[-1] if ids else None,
+                    recent_ids=recent_ids,
                 )
                 for cand in candidates:
                     if dur >= min_block_dur:

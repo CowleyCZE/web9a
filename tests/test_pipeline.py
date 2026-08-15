@@ -22,6 +22,7 @@ from pipeline import renderer
 from pipeline import ai
 from pipeline import orchestration
 from pipeline import precision
+from pipeline import visual_quality
 
 
 class ParserTests(unittest.TestCase):
@@ -51,6 +52,33 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class VisualQualityTests(unittest.TestCase):
+    def test_metadata_and_continuity_score(self):
+        catalog = {
+            "vid_01": {"group": "VID", "obsah": "noční město", "location": "město", "energy": 0.8},
+            "vid_02": {"group": "VID", "obsah": "les v mlze", "location": "les", "energy": 0.2},
+        }
+        ranked = visual_quality.rank_candidates(["vid_01", "vid_02"], catalog, "noční město", previous_id="vid_01")
+        self.assertEqual(ranked[0], "vid_01")
+        self.assertEqual(visual_quality.normalize_clip_metadata("vid_01", catalog["vid_01"]).location, "město")
+
+    def test_recent_clip_is_penalized(self):
+        catalog = {
+            "vid_01": {"group": "VID", "obsah": "město", "energy": 0.5},
+            "vid_02": {"group": "VID", "obsah": "město", "energy": 0.5},
+        }
+        ranked = visual_quality.rank_candidates(["vid_01", "vid_02"], catalog, "město", recent_ids=["vid_01"])
+        self.assertEqual(ranked[0], "vid_02")
+
+    def test_enriched_beats_mark_downbeats_and_phrases(self):
+        beats = visual_quality.enrich_beats([0.0, 0.5, 1.0, 1.5, 2.0])
+        self.assertTrue(beats[0]["is_downbeat"])
+        self.assertTrue(beats[0]["is_phrase_start"])
+        self.assertTrue(beats[4]["is_downbeat"])
+        anchor = visual_quality.nearest_sync_point(1.02, beats, prefer_downbeat=True)
+        self.assertEqual(anchor["time_ms"], 1000)
 
 
 class PrecisionTests(unittest.TestCase):
