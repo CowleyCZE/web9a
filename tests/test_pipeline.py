@@ -18,6 +18,7 @@ from pipeline import parsers
 from pipeline import media
 from pipeline import alignment
 from pipeline import renderer
+from pipeline import ai
 
 
 class ParserTests(unittest.TestCase):
@@ -47,6 +48,38 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class AITests(unittest.TestCase):
+    def test_provider_normalization_and_limits(self):
+        self.assertEqual(ai.normalize_provider(" GROQ "), "groq")
+        self.assertEqual(ai.normalize_provider("unknown"), "local")
+        self.assertEqual(ai.finite_positive_int("999", 1, maximum=10), 10)
+        self.assertEqual(ai.finite_temperature("9"), 2.0)
+
+    def test_local_plan_uses_stream_call(self):
+        calls = []
+        result = ai.dispatch_text(
+            [], "plan", {"text_ai_provider": "groq"}, "local-model", "groq-model",
+            lambda **kwargs: calls.append(("local", kwargs)) or "unused",
+            lambda *args, **kwargs: calls.append(("stream", kwargs)) or "plan-text",
+            lambda *args, **kwargs: calls.append(("groq", kwargs)) or "unused",
+        )
+        self.assertEqual(result.text, "plan-text")
+        self.assertEqual(calls[0][0], "stream")
+        self.assertEqual(result.provider, "local")
+
+    def test_scenario_uses_groq_callback(self):
+        calls = []
+        result = ai.dispatch_text(
+            [], "scenario", {"text_ai_provider": "groq"}, "local-model", "groq-model",
+            lambda **kwargs: "unused", lambda **kwargs: "unused",
+            lambda *args, **kwargs: calls.append(kwargs) or "scenario-text",
+        )
+        self.assertEqual(result.text, "scenario-text")
+        self.assertEqual(result.model, "groq-model")
+        self.assertEqual(result.provider, "groq")
+        self.assertEqual(calls[0]["max_tokens"], 3000)
 
 
 class RendererTests(unittest.TestCase):

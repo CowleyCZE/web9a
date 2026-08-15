@@ -65,6 +65,7 @@ try:
     from pipeline.commands import MAIN_COMMAND_ALIASES
     from pipeline.alignment import clamp_speed, speed_for_slot, distribute_gap, validate_alignment_ranges
     from pipeline.renderer import video_segment_command, concat_manifest, concat_command, mux_audio_command, fade_command
+    from pipeline.ai import dispatch_text, normalize_provider, finite_positive_int, finite_temperature
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -72,6 +73,7 @@ except ImportError:
     from commands import MAIN_COMMAND_ALIASES
     from alignment import clamp_speed, speed_for_slot, distribute_gap, validate_alignment_ranges
     from renderer import video_segment_command, concat_manifest, concat_command, mux_audio_command, fade_command
+    from ai import dispatch_text, normalize_provider, finite_positive_int, finite_temperature
 
 # Pokus o import librosa
 try:
@@ -1240,32 +1242,27 @@ class TemagenPipeline:
         Vrací dvojici (text_odpovědi_nebo_None, jméno_použitého_modelu,
         chybová_hláška_nebo_None)."""
         settings = settings or self.load_settings()
-        provider = self._text_ai_provider(settings) if phase == "scenario" else "local"
-
-        if provider == "groq":
-            model = self._groq_scenario_model(settings)
-            raw = groq_chat(messages, model=model, temperature=temperature, timeout=min(timeout, 600),
-                             max_tokens=max_tokens or 16000)
-            error = None if raw else (GROQ_LLM_LAST_ERROR.get("message") or "neznámá chyba (Groq API nevrátilo žádná data)")
-            return raw, model, error
-
-        model = self._ollama_scenario_model(settings) if phase == "scenario" else self._ollama_plan_model(settings)
-        if phase == "plan":
-            # Streamovaně — viz ollama_chat_stream(). Oba limity jsou nastavitelné
-            # (volba 13), protože na slabším CPU bez GPU může kompletní full_plan.txt
-            # legitimně (stabilně produkující tokeny) trvat přes hodinu:
-            # - read_timeout: max. mezera MEZI tokeny (vč. prvního — zahrnuje prefill)
-            # - max_total_seconds: celková pojistka na celý běh
-            read_timeout = int(settings.get("ollama_stream_read_timeout_sec", 600) or 600)
-            max_total = int(settings.get("ollama_stream_max_total_sec", 7200) or 7200)
-            raw = ollama_chat_stream(
-                messages, model=model, temperature=temperature, num_ctx=num_ctx,
-                read_timeout=read_timeout, max_total_seconds=max(timeout, max_total),
-            )
+        result = dispatch_text(
+            messages=messages,
+            phase=phase,
+            settings=settings,
+            local_model=(self._ollama_scenario_model(settings) if phase == "scenario" else self._ollama_plan_model(settings)),
+            groq_model=self._groq_scenario_model(settings),
+            local_call=ollama_chat,
+            local_stream_call=ollama_chat_stream,
+            groq_call=groq_chat,
+            temperature=temperature,
+            timeout=timeout,
+            num_ctx=num_ctx,
+            max_tokens=max_tokens,
+        )
+        if result.text:
+            return result.text, result.model, None
+        if result.provider == "groq":
+            error = GROQ_LLM_LAST_ERROR.get("message") or result.error or "neznámá chyba Groq"
         else:
-            raw = ollama_chat(messages, model=model, format="text", temperature=temperature, timeout=timeout, num_ctx=num_ctx)
-        error = None if raw else (OLLAMA_LAST_ERROR.get("message") or "neznámá chyba (Ollama nevrátila žádná data)")
-        return raw, model, error
+            error = OLLAMA_LAST_ERROR.get("message") or result.error or "neznámá chyba Ollamy"
+        return None, result.model, error
 
     # ===== STAV PROJEKTU A NASTAVENÍ RENDERU PRO INTERAKTIVNÍ MENU =====
 
