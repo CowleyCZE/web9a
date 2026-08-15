@@ -16,6 +16,7 @@ from pipeline.commands import MAIN_COMMAND_ALIASES, KLIPY_COMMAND_ALIASES
 from pipeline.runtime import redact_secrets, project_logger
 from pipeline import parsers
 from pipeline import media
+from pipeline import alignment
 
 
 class ParserTests(unittest.TestCase):
@@ -45,6 +46,20 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class AlignmentTests(unittest.TestCase):
+    def test_speed_for_slot_is_clamped(self):
+        self.assertEqual(alignment.speed_for_slot(8, 2, 0.5, 2.0), 2.0)
+        self.assertEqual(alignment.speed_for_slot(2, 8, 0.5, 2.0), 0.5)
+
+    def test_distribute_gap_is_contiguous(self):
+        slots = alignment.distribute_gap(0, 9, [1, 2, 3])
+        self.assertEqual(slots, [(0.0, 3.0), (3.0, 6.0), (6.0, 9.0)])
+
+    def test_alignment_ranges_detect_overlap(self):
+        errors = alignment.validate_alignment_ranges([(0, 2), (1.5, 3)])
+        self.assertTrue(any("překrývá" in error for error in errors))
 
 
 class MediaTests(unittest.TestCase):

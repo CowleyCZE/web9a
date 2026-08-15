@@ -63,11 +63,13 @@ try:
     from pipeline.validation import validate_timeline
     from pipeline.runtime import project_logger, log_exception
     from pipeline.commands import MAIN_COMMAND_ALIASES
+    from pipeline.alignment import clamp_speed, speed_for_slot, distribute_gap, validate_alignment_ranges
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
     from runtime import project_logger, log_exception
     from commands import MAIN_COMMAND_ALIASES
+    from alignment import clamp_speed, speed_for_slot, distribute_gap, validate_alignment_ranges
 
 # Pokus o import librosa
 try:
@@ -4235,7 +4237,12 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 rap_end = clip_dur
 
             rap_dur = max(0.05, rap_end - rap_start)
-            speed = round(max(speed_min, min(speed_max, rap_dur / target_dur)), 4)
+            try:
+                speed = speed_for_slot(rap_dur, target_dur, speed_min, speed_max)
+            except ValueError as exc:
+                print(f"  ⚠️  {clip_name}: nelze vypočítat rychlost ({exc}), řádek beze změny.")
+                rebuilt.append(raw)
+                continue
 
             out = adjusted_dir / f"{clip_name}.mp4"
             ok = self._adjust_rap_clip_segments(src, out, rap_start, rap_end, speed)
