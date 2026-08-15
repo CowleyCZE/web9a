@@ -17,6 +17,7 @@ from pipeline.runtime import redact_secrets, project_logger
 from pipeline import parsers
 from pipeline import media
 from pipeline import alignment
+from pipeline import renderer
 
 
 class ParserTests(unittest.TestCase):
@@ -46,6 +47,27 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class RendererTests(unittest.TestCase):
+    def test_video_commands_differ_for_image_and_video(self):
+        image_cmd = renderer.video_segment_command(Path("in.png"), Path("out.mp4"), 2.0, "scale=640:360", True)
+        video_cmd = renderer.video_segment_command(Path("in.mp4"), Path("out.mp4"), 2.0, "scale=640:360", False)
+        self.assertIn("-loop", image_cmd)
+        self.assertNotIn("-loop", video_cmd)
+
+    def test_concat_manifest_and_commands(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            parts = [root / "one.mp4", root / "two's.mp4"]
+            manifest = renderer.concat_manifest(parts, root / "concat.txt")
+            content = manifest.read_text(encoding="utf-8")
+            self.assertIn("file '", content)
+            self.assertEqual(renderer.concat_command(manifest, root / "out.mp4")[0], "ffmpeg")
+
+    def test_fade_duration_is_clamped_to_half_video(self):
+        command = renderer.fade_command(Path("in.mp4"), Path("out.mp4"), 1.0, 1.5)
+        self.assertIn("d=0.5", " ".join(command))
 
 
 class AlignmentTests(unittest.TestCase):

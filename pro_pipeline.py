@@ -64,12 +64,14 @@ try:
     from pipeline.runtime import project_logger, log_exception
     from pipeline.commands import MAIN_COMMAND_ALIASES
     from pipeline.alignment import clamp_speed, speed_for_slot, distribute_gap, validate_alignment_ranges
+    from pipeline.renderer import video_segment_command, concat_manifest, concat_command, mux_audio_command, fade_command
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
     from runtime import project_logger, log_exception
     from commands import MAIN_COMMAND_ALIASES
     from alignment import clamp_speed, speed_for_slot, distribute_gap, validate_alignment_ranges
+    from renderer import video_segment_command, concat_manifest, concat_command, mux_audio_command, fade_command
 
 # Pokus o import librosa
 try:
@@ -6323,10 +6325,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
 
             vf_filter = ",".join(filters)
 
-            if is_image:
-                cmd = ["ffmpeg", "-hide_banner", "-y", "-loop", "1", "-t", f"{duration:.3f}", "-i", str(src_path), "-vf", vf_filter, "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "16", str(out_segment)]
-            else:
-                cmd = ["ffmpeg", "-hide_banner", "-y", "-i", str(src_path), "-t", f"{duration:.3f}", "-vf", vf_filter, "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "15", str(out_segment)]
+            cmd = video_segment_command(src_path, out_segment, duration, vf_filter, is_image=is_image)
 
             if not run_ffmpeg(cmd, quiet=True):
                 err_msg = f"❌ Selhalo renderování segmentu {asset_id}"
@@ -6342,12 +6341,10 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         # Concat + audio + fades
         print("🔗 Spojuji segmenty...")
         concat_list_file = tmp_dir / "concat_list.txt"
-        with open(concat_list_file, "w", encoding="utf-8") as f:
-            for part in rendered_parts:
-                f.write(f"file '{part.as_posix()}'\n")
-
+        concat_manifest(rendered_parts, concat_list_file)
         merged_video = tmp_dir / "merged_no_audio.mp4"
-        run_cmd(["ffmpeg", "-hide_banner", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list_file), "-c", "copy", str(merged_video)], quiet=True)
+        run_cmd(concat_command(concat_list_file, merged_video), quiet=True)
+
 
         today_str = __import__('datetime').date.today().strftime("%Y-%m-%d")
         seq = 1
@@ -6359,32 +6356,12 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         final_video = candidate
 
         print("🎵 Připojuji audio...")
-        run_cmd([
-            "ffmpeg", "-hide_banner", "-y",
-            "-i", str(merged_video),
-            "-i", str(audio_path),
-            "-map", "0:v:0", "-map", "1:a:0",
-            "-c:v", "libx264", "-preset", "medium", "-crf", "15",
-            "-c:a", "aac", "-b:a", "192k",
-            "-shortest", "-movflags", "+faststart",
-            str(final_video)
-        ], quiet=True)
+        run_cmd(mux_audio_command(merged_video, audio_path, final_video), quiet=True)
 
         if use_fades:
             fade_video = self.export_dir / f"final_{mode}_{hd_mode}_{today_str}_{seq:02d}_fades.mp4"
             dur = probe_duration(final_video)
-            fade_dur = 1.5
-            fade_out_start = dur - fade_dur
-            vf_fade = f"fade=t=in:st=0:d={fade_dur},fade=t=out:st={fade_out_start:.2f}:d={fade_dur}"
-            af_fade = f"afade=t=in:st=0:d={fade_dur},afade=t=out:st={fade_out_start:.2f}:d={fade_dur}"
-            run_cmd([
-                "ffmpeg", "-hide_banner", "-y",
-                "-i", str(final_video),
-                "-vf", vf_fade, "-af", af_fade,
-                "-c:v", "libx264", "-preset", "medium", "-crf", "15",
-                "-c:a", "aac", "-b:a", "192k",
-                str(fade_video)
-            ], quiet=True)
+            run_cmd(fade_command(final_video, fade_video, dur), quiet=True)
             final_video = fade_video
 
         print(f"\n✅ Hotovo! Finální soubor: {final_video}")
