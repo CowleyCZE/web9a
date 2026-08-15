@@ -32,3 +32,15 @@ class TimelineEntry:
     @property
     def duration(self) -> float:
         return self.end - self.start
+
+    @property
+    def start_ms(self) -> int:
+        return int(round(self.start * 1000))
+
+    @property
+    def end_ms(self) -> int:
+        return int(round(self.end * 1000))
+
+    @property
+    def duration_ms(self) -> int:
+        return self.end_ms - self.start_ms

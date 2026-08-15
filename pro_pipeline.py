@@ -67,6 +67,7 @@ try:
     from pipeline.renderer import video_segment_command, concat_manifest, concat_command, mux_audio_command, fade_command
     from pipeline.ai import dispatch_text, normalize_provider, finite_positive_int, finite_temperature
     from pipeline.orchestration import execute_step, execute_sequence
+    from pipeline.precision import validate_duration_drift, validate_lipsync_manifest, ffprobe_media_qa, DEFAULT_DURATION_TOLERANCE_MS
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -76,6 +77,7 @@ except ImportError:
     from renderer import video_segment_command, concat_manifest, concat_command, mux_audio_command, fade_command
     from ai import dispatch_text, normalize_provider, finite_positive_int, finite_temperature
     from orchestration import execute_step, execute_sequence
+    from precision import validate_duration_drift, validate_lipsync_manifest, ffprobe_media_qa, DEFAULT_DURATION_TOLERANCE_MS
 
 # Pokus o import librosa
 try:
@@ -4480,6 +4482,9 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 "start": round(start, 3),
                 "end": round(end, 3),
                 "duration": round(end - start, 3),
+                "start_ms": round(start * 1000),
+                "end_ms": round(end * 1000),
+                "duration_ms": round((end - start) * 1000),
                 "audio": str(output_audio.relative_to(self.project_dir)),
                 "lyrics": lyrics,
                 "generation_rule": (
@@ -4593,12 +4598,27 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 continue
 
             actual = probe_duration(expected)
-            target = float(segment.get("duration", 0))
-            if abs(actual - target) > 0.15:
-                issues.append(
-                    f"{asset}: délka klipu {actual:.3f}s neodpovídá "
-                    f"audio segmentu {target:.3f}s."
-                )
+            target = segment.get("duration_ms")
+            if target is None:
+                target = segment.get("duration", 0)
+            try:
+                if "duration_ms" in segment:
+                    actual_ms = round(actual * 1000)
+                    drift_ms = abs(actual_ms - int(target))
+                    if drift_ms > DEFAULT_DURATION_TOLERANCE_MS:
+                        issues.append(
+                            f"{asset}: délka {actual_ms / 1000:.3f}s neodpovídá "
+                            f"očekávaným {int(target) / 1000:.3f}s "
+                            f"(odchylka {drift_ms} ms)."
+                        )
+                else:
+                    drift_issue = validate_duration_drift(
+                        asset, actual, target, DEFAULT_DURATION_TOLERANCE_MS
+                    )
+                    if drift_issue:
+                        issues.append(drift_issue.message())
+            except (TypeError, ValueError) as exc:
+                issues.append(f"{asset}: neplatná délka v manifestu ({exc})")
 
         timeline_text = self.timeline_file.read_text(encoding="utf-8", errors="ignore") if self.timeline_file.exists() else ""
         for segment in segments:
@@ -6132,6 +6152,9 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
 
     def render_video(self, mode="draft", hd_mode="draft", use_fades=False, use_beat_sync=False):
         """Vyrenderuje finální hudební klip."""
+        if mode == "final" and not self.validate_project(final=True, no_rap=False):
+            print("❌ Final render zablokován: preflight validace projektu selhala.")
+            return False
         audio_path = self.find_audio()
         if not audio_path:
             print("❌ Audio soubor nebyl nalezen v INPUT/.")
@@ -6385,7 +6408,21 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             run_cmd(fade_command(final_video, fade_video, dur), quiet=True)
             final_video = fade_video
 
+        qa = ffprobe_media_qa(final_video, expected_duration=audio_dur)
+        qa_report = final_video.with_suffix(final_video.suffix + ".qa.json")
+        self._write_json(qa_report, qa)
+        if not qa.get("ok"):
+            print("❌ Post-render QA selhala:")
+            for error in qa.get("errors", []):
+                print(f"   - {error}")
+            if mode == "final":
+                print(f"   Report: {qa_report}")
+                return False
+            print("⚠️ Draft výstup bude ponechán pro diagnostiku.")
+
         print(f"\n✅ Hotovo! Finální soubor: {final_video}")
+        print(f"   QA report: {qa_report}")
+        return True
 
     def clean_exports(self, keep_last: int = 5):
         """Smaže staré render soubory z EXPORT/, ponechá posledních N verzí.

@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+from unittest import mock
 from unittest.mock import patch
 from pathlib import Path
 
@@ -20,6 +21,7 @@ from pipeline import alignment
 from pipeline import renderer
 from pipeline import ai
 from pipeline import orchestration
+from pipeline import precision
 
 
 class ParserTests(unittest.TestCase):
@@ -49,6 +51,27 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class PrecisionTests(unittest.TestCase):
+    def test_integer_millisecond_model(self):
+        self.assertEqual(precision.seconds_to_ms("1.2345"), 1234)
+        self.assertEqual(precision.ms_to_seconds(1235), 1.235)
+        self.assertEqual(precision.duration_drift_ms(2.001, 2.0), 1)
+        self.assertEqual(precision.duration_drift_ms(2.021, 2.0), 21)
+
+    def test_drift_tolerance(self):
+        self.assertIsNone(precision.validate_duration_drift("rap_01", 2.02, 2.0, 20))
+        issue = precision.validate_duration_drift("rap_01", 2.021, 2.0, 20)
+        self.assertIsNotNone(issue)
+        self.assertIn("21 ms", issue.message())
+
+    def test_ffprobe_qa_rejects_invalid_output(self):
+        with mock.patch("pipeline.precision.subprocess.run") as run:
+            run.return_value = mock.Mock(returncode=1, stderr="invalid media")
+            report = precision.ffprobe_media_qa(Path("output.mp4"))
+        self.assertFalse(report["ok"])
+        self.assertIn("invalid media", report["errors"][0])
 
 
 class OrchestrationTests(unittest.TestCase):
