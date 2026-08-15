@@ -19,6 +19,7 @@ from pipeline import media
 from pipeline import alignment
 from pipeline import renderer
 from pipeline import ai
+from pipeline import orchestration
 
 
 class ParserTests(unittest.TestCase):
@@ -48,6 +49,32 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class OrchestrationTests(unittest.TestCase):
+    def test_none_is_legacy_success(self):
+        result = orchestration.execute_step("legacy", lambda: None)
+        self.assertTrue(result.ok)
+
+    def test_false_is_failure(self):
+        result = orchestration.execute_step("validation", lambda: False)
+        self.assertFalse(result.ok)
+        self.assertIn("validation", result.errors[0])
+
+    def test_exception_is_captured(self):
+        result = orchestration.execute_step("broken", lambda: 1 / 0)
+        self.assertFalse(result.ok)
+        self.assertIn("ZeroDivisionError", result.errors[0])
+
+    def test_sequence_stops_after_failure(self):
+        calls = []
+        result = orchestration.execute_sequence([
+            ("first", lambda: calls.append("first")),
+            ("second", lambda: False),
+            ("third", lambda: calls.append("third")),
+        ])
+        self.assertFalse(result.ok)
+        self.assertEqual(calls, ["first"])
 
 
 class AITests(unittest.TestCase):

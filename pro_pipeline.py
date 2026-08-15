@@ -66,6 +66,7 @@ try:
     from pipeline.alignment import clamp_speed, speed_for_slot, distribute_gap, validate_alignment_ranges
     from pipeline.renderer import video_segment_command, concat_manifest, concat_command, mux_audio_command, fade_command
     from pipeline.ai import dispatch_text, normalize_provider, finite_positive_int, finite_temperature
+    from pipeline.orchestration import execute_step, execute_sequence
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -74,6 +75,7 @@ except ImportError:
     from alignment import clamp_speed, speed_for_slot, distribute_gap, validate_alignment_ranges
     from renderer import video_segment_command, concat_manifest, concat_command, mux_audio_command, fade_command
     from ai import dispatch_text, normalize_provider, finite_positive_int, finite_temperature
+    from orchestration import execute_step, execute_sequence
 
 # Pokus o import librosa
 try:
@@ -5142,36 +5144,58 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
 
     def run_all(self, mode="draft", hd_mode="draft", no_rap=False, force=False):
         """Spustí kompletní pipeline podle new_pipeline.txt."""
-        self.init_project()
-        self.parse_plan()
-        self.create_placeholders()
+        setup = execute_sequence([
+            ("init_project", self.init_project),
+            ("parse_plan", self.parse_plan),
+            ("create_placeholders", self.create_placeholders),
+        ])
+        if not setup.ok:
+            self.logger.error("Pipeline zastavena: %s", "; ".join(setup.errors))
+            for error in setup.errors:
+                print(f"❌ {error}")
+            return False
 
         if mode == "final":
-            if not self.transcribe_song_czech():
-                return
+            transcribed = execute_step("transcribe_song_czech", self.transcribe_song_czech)
+            if not transcribed.ok:
+                self.logger.error("Final pipeline zastavena: %s", "; ".join(transcribed.errors))
+                for error in transcribed.errors:
+                    print(f"❌ {error}")
+                return False
             self.analyze_song()
-            if not self.export_lipsync_audio_segments():
-                return
+            exported = execute_step("export_lipsync_audio_segments", self.export_lipsync_audio_segments)
+            if not exported.ok:
+                self.logger.error("Export lipsync segmentů selhal: %s", "; ".join(exported.errors))
+                for error in exported.errors:
+                    print(f"❌ {error}")
+                return False
             print(
                 "\n✅ Audio segmenty jsou připravené v LIPSYNC_AUDIO/.\n"
                 "👉 Vygenerujte rap_001.mp4, rap_002.mp4 atd. z těchto přesně odpovídajících WAV souborů.\n"
                 "👉 Vložte je do gen_rap/ a teprve potom spusťte 'inject-lipsync', 'validate' a 'render'."
             )
-            return
+            return True
 
         self.analyze_song()
         if not no_rap:
-            self.transcribe_rap_clips()
-            self.align_rap_clips()
-        # generate_video_plan() se spouští pouze manuálně (volba 8), aby se nepřepsal autorský záměr.
+            rap_steps = execute_sequence([
+                ("transcribe_rap_clips", self.transcribe_rap_clips),
+                ("align_rap_clips", self.align_rap_clips),
+            ])
+            if not rap_steps.ok:
+                self.logger.error("Rap pipeline zastavena: %s", "; ".join(rap_steps.errors))
+                for error in rap_steps.errors:
+                    print(f"❌ {error}")
+                return False
         self.update_timeline_from_alignment()
         validated = self.validate_project(final=False, no_rap=no_rap)
         if validated:
             print("\n✅ Validace v pořádku. Pipeline (body 1–9) dokončena — render (bod 10) se nespouští automaticky, spusť ho ručně.")
         elif force:
-            print("⚠️  Validace selhala, ale force=True bylo zadáno. Render se přesto NESPOUŠTÍ automaticky (bod 10 je vyloučen z 'all'/'11') — spusť render ručně, pokud chceš pokračovat i s problémy výše.")
+            print("⚠️ Validace selhala, ale force=True bylo zadáno. Render se nespouští automaticky; spusť jej ručně.")
         else:
-            print("⚠️  Validace našla problémy (viz výše). Oprav je a render spusť ručně (bod 10).")
+            print("⚠️ Validace našla problémy. Oprav je a render spusť ručně.")
+        return bool(validated)
 
     def generate_scenario_ai(self) -> bool:
         """FÁZE A: Nechá lokální AI (Ollama) vymyslet scénář videoklipu na základě
