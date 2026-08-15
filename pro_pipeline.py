@@ -453,6 +453,18 @@ def parse_timeline_entries(text: str) -> tuple[list[TimelineEntry], list[str]]:
         entries.append(TimelineEntry(start, end, clip_id, description))
     return entries, warnings
 
+# Přechodná kompatibilní fasáda: autoritativní parsery jsou nyní v pipeline.parsers.
+try:
+    from pipeline.parsers import (
+        extract_sections, parse_timecode, format_timecode, clean_asset_id,
+        clean_code_block_text, normalize_timeline_text, parse_timeline_entries,
+    )
+except ImportError:
+    from parsers import (
+        extract_sections, parse_timecode, format_timecode, clean_asset_id,
+        clean_code_block_text, normalize_timeline_text, parse_timeline_entries,
+    )
+
 # ===== JEDNOTNÁ VRSTVA PRO LOKÁLNÍ AI (OLLAMA) =====
 #
 # Tato sekce poskytuje sdílené, bezstavové funkce pro volání lokálního Ollama

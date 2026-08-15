@@ -13,9 +13,15 @@ from pipeline.models import TimelineEntry
 from pipeline.validation import validate_timeline
 from pipeline.commands import MAIN_COMMAND_ALIASES, KLIPY_COMMAND_ALIASES
 from pipeline.runtime import redact_secrets, project_logger
+from pipeline import parsers
 
 
 class ParserTests(unittest.TestCase):
+    def test_main_module_uses_shared_parser_implementation(self):
+        self.assertIs(pro_pipeline.parse_timecode, parsers.parse_timecode)
+        self.assertIs(pro_pipeline.extract_sections, parsers.extract_sections)
+        self.assertIs(pro_pipeline.parse_timeline_entries, parsers.parse_timeline_entries)
+
     def test_timecode_rejects_non_finite_and_negative_values(self):
         self.assertEqual(pro_pipeline.parse_timecode("00:42.50"), 42.5)
         for value in ("-1", "nan", "inf", "1:80.0", "1:2:3:4"):
