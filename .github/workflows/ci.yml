@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Run regression tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Compile all Python modules
+        run: python -m py_compile pro_pipeline.py klipy.py pipeline/*.py tests/*.py
+
+      - name: Check trailing whitespace
+        run: |
+          if grep -RInE '[[:blank:]]+$' --include='*.py' --include='*.yml' --include='*.yaml' --exclude-dir=.git .; then
+            echo "Trailing whitespace detected."
+            exit 1
+          fi
+          echo "Source whitespace check passed."
