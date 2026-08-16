@@ -78,6 +78,7 @@ try:
     from pipeline.motion import transition_plan, motion_filters
     from pipeline.social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
     from pipeline.experiments import write_experiment_manifest
+    from pipeline.observability import append_render_event, write_qa_summary, read_render_registry
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -98,6 +99,7 @@ except ImportError:
     from motion import transition_plan, motion_filters
     from social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
     from experiments import write_experiment_manifest
+    from observability import append_render_event, write_qa_summary, read_render_registry
 
 # Pokus o import librosa
 try:
@@ -6533,6 +6535,18 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             qa.setdefault("warnings", []).extend(visual.get("warnings", []))
         qa_report = final_video.with_suffix(final_video.suffix + ".qa.json")
         self._write_json(qa_report, qa)
+        registry_path = append_render_event(
+            self.project_dir,
+            output=final_video,
+            mode=mode,
+            resolution=hd_mode,
+            duration=probe_duration(final_video),
+            qa=qa,
+            seed=seed,
+        )
+        qa_summary = write_qa_summary(self.project_dir)
+        print(f"   Render registry: {registry_path}")
+        print(f"   QA summary: {qa_summary}")
         if not qa.get("ok"):
             print("❌ Post-render QA selhala:")
             for error in qa.get("errors", []):
@@ -6583,6 +6597,22 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             print(f"✅ Katalog quality report: {catalog_quality_path}")
         if contact_sheet:
             print(f"✅ Kontaktní list: {contact_sheet}")
+        return True
+
+    def generate_qa_summary(self):
+        """Regeneruje agregovaný QA summary z dostupných QA reportů a registry."""
+        output = write_qa_summary(self.project_dir)
+        print(f"✅ QA summary: {output}")
+        return True
+
+    def show_render_registry(self):
+        """Vypíše poslední render registry události a uloží aktuální QA summary."""
+        records = read_render_registry(self.project_dir)
+        summary = write_qa_summary(self.project_dir)
+        print(f"Render registry: {len(records)} událostí")
+        for record in records[-10:]:
+            print(f"- {record.get('timestamp_utc')} | {record.get('mode')} | {record.get('resolution')} | {record.get('status')} | QA={record.get('qa_ok')} | {record.get('output_relative')}")
+        print(f"QA summary: {summary}")
         return True
 
     def generate_social_exports(self, source: Path | None = None, profiles: tuple[str, ...] = ("youtube", "vertical", "square")):
@@ -6864,6 +6894,8 @@ def interactive_menu():
         "j": "[SOCIAL] Vytvoří YouTube, vertikální a čtvercový export z posledního renderu.",
         "k": "[THUMBNAILS] Vytvoří a seřadí kandidáty titulních snímků.",
         "a": "[A/B] Vytvoří experimentální manifest s kontrolní a dvěma kreativními variantami.",
+        "q": "[QA] Vytvoří agregovaný QA summary ze všech render reportů.",
+        "g": "[OBSERVABILITY] Vypíše poslední události render registry.",
     }
 
     while True:
@@ -6910,6 +6942,8 @@ def interactive_menu():
         print("J  - Exportovat social formáty (YouTube / vertical / square)")
         print("K  - Vygenerovat thumbnail kandidáty")
         print("A  - Vytvořit A/B experimentální manifest")
+        print("Q  - Vytvořit automatický QA summary")
+        print("G  - Zobrazit render registry")
         print("H  - Nápověda (co která volba dělá)")
         print("0  - Konec")
         print("============================================================")
@@ -6995,6 +7029,10 @@ def interactive_menu():
             pipeline.generate_thumbnail_candidates()
         elif choice == 'a':
             pipeline.generate_ab_variants()
+        elif choice == 'q':
+            pipeline.generate_qa_summary()
+        elif choice == 'g':
+            pipeline.show_render_registry()
         elif choice == 'e':
             export_dir = pipeline.export_dir
             if export_dir.exists():
@@ -7151,6 +7189,12 @@ def main():
         sys.exit(0 if ok else 1)
     elif command == "ab-variants":
         ok = pipeline.generate_ab_variants()
+        sys.exit(0 if ok else 1)
+    elif command == "qa-summary":
+        ok = pipeline.generate_qa_summary()
+        sys.exit(0 if ok else 1)
+    elif command == "render-registry":
+        ok = pipeline.show_render_registry()
         sys.exit(0 if ok else 1)
 
 if __name__ == "__main__":

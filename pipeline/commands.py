@@ -27,6 +27,8 @@ MAIN_COMMAND_ALIASES = {
     "social-export": "social-export", "social": "social-export",
     "thumbnails": "thumbnails", "thumbs": "thumbnails",
     "ab-variants": "ab-variants", "ab": "ab-variants",
+    "qa-summary": "qa-summary", "qa": "qa-summary",
+    "render-registry": "render-registry", "registry": "render-registry",
 }
 
 KLIPY_COMMAND_ALIASES = {
