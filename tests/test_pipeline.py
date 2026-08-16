@@ -25,6 +25,7 @@ from pipeline import precision
 from pipeline import visual_quality
 from pipeline import output_quality
 from pipeline import productivity
+from pipeline import dramaturgy
 
 
 class ParserTests(unittest.TestCase):
@@ -54,6 +55,25 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class DramaturgyTests(unittest.TestCase):
+    def test_section_profiles_create_different_visual_energy(self):
+        plan = dramaturgy.build_dramaturgy_plan([
+            ("intro", 0.0, 8.0, "start"),
+            ("chorus", 8.0, 20.0, "refrain"),
+        ])
+        self.assertEqual(plan[0]["key"], "intro")
+        self.assertEqual(plan[1]["key"], "chorus")
+        self.assertLess(plan[0]["cut_density"], plan[1]["cut_density"])
+        self.assertLess(plan[0]["energy"], plan[1]["energy"])
+        self.assertEqual(plan[1]["start_ms"], 8000)
+
+    def test_czech_section_alias_and_time_lookup(self):
+        plan = dramaturgy.build_dramaturgy_plan([("refrén", 0.0, 10.0, "")])
+        self.assertEqual(plan[0]["key"], "chorus")
+        self.assertEqual(dramaturgy.section_at_time(plan, 3.0)["key"], "chorus")
+        self.assertEqual(dramaturgy.section_at_time(plan, 20.0)["key"], "unknown")
 
 
 class ProductivityTests(unittest.TestCase):

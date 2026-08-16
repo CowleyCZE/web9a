@@ -71,6 +71,7 @@ try:
     from pipeline.visual_quality import enrich_beats, nearest_sync_point
     from pipeline.output_quality import profile_for, run_loudness_audit
     from pipeline.productivity import ensure_seed, load_segment_locks, write_preview_report, generate_contact_sheet
+    from pipeline.dramaturgy import build_dramaturgy_plan, section_at_time
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -84,6 +85,7 @@ except ImportError:
     from visual_quality import enrich_beats, nearest_sync_point
     from output_quality import profile_for, run_loudness_audit
     from productivity import ensure_seed, load_segment_locks, write_preview_report, generate_contact_sheet
+    from dramaturgy import build_dramaturgy_plan, section_at_time
 
 # Pokus o import librosa
 try:
@@ -5871,6 +5873,21 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         audio_path = self.find_audio()
         audio_duration = probe_duration(audio_path) if audio_path else song_sections[-1][2]
 
+        beat_events = []
+        beats_file = self.edit_dir / "beats.json"
+        if beats_file.exists():
+            try:
+                beat_data = json.loads(beats_file.read_text(encoding="utf-8"))
+                beat_events = beat_data.get("beat_events", [])
+            except (OSError, json.JSONDecodeError):
+                beat_events = []
+        dramaturgy_plan = build_dramaturgy_plan(song_sections, beat_events)
+        self._write_json(self.edit_dir / "dramaturgy.json", {
+            "schema_version": 1,
+            "sections": dramaturgy_plan,
+        })
+        print(f"🎭 Dramaturgie: {len(dramaturgy_plan)} hudebních sekcí zapsáno do EDIT_PROJECT/dramaturgy.json")
+
         # ── 2. Načtení rapper segment alignment ──
         rap_alignment = []  # [(start, end, clip_name), ...]
         alignment_text = sections.get("RAPPER_SEGMENT_ALIGNMENT", "")
@@ -6046,8 +6063,9 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             lyrics_context = get_lyrics_for_range(gap_start, gap_end)
             section_name = get_section_name((gap_start + gap_end) / 2)
 
-            # Rozdělíme dlouhé mezery na sub-segmenty (max 7s per B-roll)
-            MAX_BROLL_DUR = 7.0
+            # Hustota střihu je řízena dramaturgickým profilem sekce.
+            section_profile = section_at_time(dramaturgy_plan, (gap_start + gap_end) / 2)
+            MAX_BROLL_DUR = float(section_profile.get("max_shot_sec", 7.0))
             sub_starts = []
             t = gap_start
             while t < gap_end - 0.5:
@@ -6095,6 +6113,11 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
 
                 used_brolls.add(chosen_clip)
                 desc = broll_descriptions.get(chosen_clip, "")[:80]
+                desc = (
+                    f"{desc} [SECTION={section_profile.get('key', 'unknown')}]"
+                    f" [ENERGY={float(section_profile.get('energy', 0.5)):.2f}]"
+                    f" [CUT_DENSITY={float(section_profile.get('cut_density', 0.45)):.2f}]"
+                )
                 broll_segments.append((sub_start, sub_end, chosen_clip, 0.0, desc))
                 if chosen_confidence is not None:
                     print(f"  🧠 {sub_start:.2f}-{sub_end:.2f}s [{section_name}] → {chosen_clip} "
