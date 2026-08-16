@@ -24,6 +24,7 @@ from pipeline import orchestration
 from pipeline import precision
 from pipeline import visual_quality
 from pipeline import output_quality
+from pipeline import productivity
 
 
 class ParserTests(unittest.TestCase):
@@ -53,6 +54,28 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class ProductivityTests(unittest.TestCase):
+    def test_seed_is_persistent_and_deterministic(self):
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            first = productivity.ensure_seed(project)
+            second = productivity.ensure_seed(project)
+        self.assertEqual(first, second)
+
+    def test_preview_report_counts_repeats_and_locks(self):
+        timeline = "00:00.000 - 00:02.000 | vid_01 | [LOCK]\n00:02.000 - 00:04.000 | vid_01 | [SPEED=1.2x]"
+        report = productivity.build_preview_report(timeline, seed=7, locks={"vid_02": {"reason": "manual"}})
+        self.assertEqual(report["segments"], 2)
+        self.assertEqual(report["repeated_assets"], {"vid_01": 2})
+        self.assertEqual(report["locked_segments"], 1)
+        self.assertEqual(report["speed_max"], 1.2)
+        self.assertIn("vid_02", report["locked_assets"])
+
+    def test_invalid_timeline_lines_are_ignored(self):
+        report = productivity.build_preview_report("not a timeline\n00:00.000 - 00:01.000 | pic_01 | scene")
+        self.assertEqual(report["segments"], 1)
 
 
 class OutputQualityTests(unittest.TestCase):

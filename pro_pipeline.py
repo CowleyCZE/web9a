@@ -70,6 +70,7 @@ try:
     from pipeline.precision import validate_duration_drift, validate_lipsync_manifest, ffprobe_media_qa, DEFAULT_DURATION_TOLERANCE_MS
     from pipeline.visual_quality import enrich_beats, nearest_sync_point
     from pipeline.output_quality import profile_for, run_loudness_audit
+    from pipeline.productivity import ensure_seed, load_segment_locks, write_preview_report, generate_contact_sheet
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -82,6 +83,7 @@ except ImportError:
     from precision import validate_duration_drift, validate_lipsync_manifest, ffprobe_media_qa, DEFAULT_DURATION_TOLERANCE_MS
     from visual_quality import enrich_beats, nearest_sync_point
     from output_quality import profile_for, run_loudness_audit
+    from productivity import ensure_seed, load_segment_locks, write_preview_report, generate_contact_sheet
 
 # Pokus o import librosa
 try:
@@ -6188,6 +6190,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             width, height, fps = 640, 360, 24
 
         render_settings = self.load_settings()
+        seed = ensure_seed(self.project_dir, render_settings.get("seed"))
         profile = profile_for(mode, hd_mode, fps)
         speed_min = float(render_settings.get("speed_min", 0.5) or 0.5)
         speed_max = float(render_settings.get("speed_max", 2.0) or 2.0)
@@ -6452,7 +6455,35 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             print("⚠️ Draft výstup bude ponechán pro diagnostiku.")
 
         print(f"\n✅ Hotovo! Finální soubor: {final_video}")
+        preview_report = write_preview_report(self.project_dir, qa=qa, seed=seed)
+        contact_paths = sorted(
+            list(self.gen_pic.glob("*.png")) + list(self.gen_pic.glob("*.jpg"))
+        )[:64]
+        contact_sheet = generate_contact_sheet(
+            contact_paths, self.edit_dir / "contact_sheet.jpg"
+        ) if contact_paths else None
         print(f"   QA report: {qa_report}")
+        print(f"   Preview report: {preview_report}")
+        if contact_sheet:
+            print(f"   Kontaktní list: {contact_sheet}")
+        return True
+
+    def generate_preview_report(self):
+        """Vytvoří souhrnný report bez nutnosti spouštět nový render."""
+        seed = ensure_seed(self.project_dir, self.load_settings().get("seed"))
+        qa_files = sorted(self.export_dir.glob("*.mp4.qa.json"), key=lambda path: path.stat().st_mtime, reverse=True) if self.export_dir.exists() else []
+        qa = None
+        if qa_files:
+            try:
+                qa = json.loads(qa_files[0].read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                qa = None
+        report = write_preview_report(self.project_dir, qa=qa, seed=seed)
+        contact_paths = sorted(list(self.gen_pic.glob("*.png")) + list(self.gen_pic.glob("*.jpg")))[:64]
+        contact_sheet = generate_contact_sheet(contact_paths, self.edit_dir / "contact_sheet.jpg") if contact_paths else None
+        print(f"✅ Preview report: {report}")
+        if contact_sheet:
+            print(f"✅ Kontaktní list: {contact_sheet}")
         return True
 
     def clean_exports(self, keep_last: int = 5):
@@ -6946,6 +6977,9 @@ def main():
         pipeline.render_video(mode=args.mode, hd_mode=args.res, use_fades=args.fades, use_beat_sync=args.beat_sync)
     elif command == "settings":
         pipeline.configure_settings()
+    elif command == "preview-report":
+        ok = pipeline.generate_preview_report()
+        sys.exit(0 if ok else 1)
 
 if __name__ == "__main__":
     main()

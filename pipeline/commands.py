@@ -23,6 +23,7 @@ MAIN_COMMAND_ALIASES = {
     "all": "all", "vse": "all",
     "render": "render", "renderuj": "render",
     "settings": "settings", "nastaveni": "settings",
+    "preview-report": "preview-report", "nahled-report": "preview-report",
 }
 
 KLIPY_COMMAND_ALIASES = {
