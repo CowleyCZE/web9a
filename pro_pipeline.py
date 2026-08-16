@@ -73,6 +73,7 @@ try:
     from pipeline.productivity import ensure_seed, load_segment_locks, write_preview_report, generate_contact_sheet
     from pipeline.dramaturgy import build_dramaturgy_plan, section_at_time
     from pipeline.visual_qa import audit_video
+    from pipeline.lipsync import build_lipsync_manifest, validate_manifest_against_ranges, DEFAULT_WORD_TOLERANCE_MS
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -88,6 +89,7 @@ except ImportError:
     from productivity import ensure_seed, load_segment_locks, write_preview_report, generate_contact_sheet
     from dramaturgy import build_dramaturgy_plan, section_at_time
     from visual_qa import audit_video
+    from lipsync import build_lipsync_manifest, validate_manifest_against_ranges, DEFAULT_WORD_TOLERANCE_MS
 
 # Pokus o import librosa
 try:
@@ -3268,7 +3270,12 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             "words": aligned_words,
         }
         self._write_json(self.edit_dir / "song_alignment.json", out)
+        lipsync_manifest = build_lipsync_manifest(
+            aligned_words, song_duration=song_duration, text_match_score=match_ratio
+        )
+        self._write_json(self.edit_dir / "word_phoneme_alignment.json", lipsync_manifest)
         print(f"✅ Vytvořena word-level mapa songu: {(self.edit_dir / 'song_alignment.json').relative_to(self.project_dir)}")
+        print(f"✅ Vytvořen word/foném lipsync manifest: {(self.edit_dir / 'word_phoneme_alignment.json').relative_to(self.project_dir)}")
         if match_ratio < 0.5:
             print(f"⚠️  Nízká shoda transkriptu s lyrics.txt ({match_ratio:.2f}). Zkontroluj, jestli lyrics.txt")
             print("   nepíše opakované pasáže (refrén apod.) jen jednou — časové značky po takovém")
@@ -6192,6 +6199,31 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         if mode == "final" and not self.validate_project(final=True, no_rap=False):
             print("❌ Final render zablokován: preflight validace projektu selhala.")
             return False
+        lipsync_manifest_path = self.edit_dir / "word_phoneme_alignment.json"
+        if lipsync_manifest_path.exists():
+            lipsync_manifest = self._load_json(lipsync_manifest_path, {})
+            rap_alignment_json = self._load_json(self.edit_dir / "rap_alignment.json", {})
+            lipsync_ranges = []
+            if isinstance(rap_alignment_json, dict):
+                for clip_name, item in rap_alignment_json.items():
+                    match = item.get("song_match", {}) if isinstance(item, dict) else {}
+                    if match.get("song_start") is not None and match.get("song_end") is not None:
+                        lipsync_ranges.append({
+                            "clip": clip_name,
+                            "start": match.get("song_start"),
+                            "end": match.get("song_end"),
+                        })
+            lipsync_qa = validate_manifest_against_ranges(
+                lipsync_manifest, lipsync_ranges, tolerance_ms=DEFAULT_WORD_TOLERANCE_MS
+            ) if lipsync_ranges else {"ok": True, "errors": [], "warnings": ["rap_alignment.json neobsahuje segmenty"]}
+            self._write_json(self.edit_dir / "word_phoneme_qa.json", lipsync_qa)
+            if lipsync_qa.get("errors"):
+                print("⚠️  Word-level lipsync drift:")
+                for error in lipsync_qa["errors"][:10]:
+                    print(f"   - {error}")
+                if mode == "final":
+                    print("❌ Final render zablokován: word-level lipsync drift překračuje toleranci.")
+                    return False
         audio_path = self.find_audio()
         if not audio_path:
             print("❌ Audio soubor nebyl nalezen v INPUT/.")

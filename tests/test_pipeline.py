@@ -27,6 +27,7 @@ from pipeline import output_quality
 from pipeline import productivity
 from pipeline import dramaturgy
 from pipeline import visual_qa
+from pipeline import lipsync
 
 
 class ParserTests(unittest.TestCase):
@@ -56,6 +57,31 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class LipsyncTests(unittest.TestCase):
+    def test_word_and_phoneme_manifest_uses_integer_ms(self):
+        manifest = lipsync.build_lipsync_manifest([
+            {"word": "Ahoj", "start": 1.25, "end": 1.75, "confidence": 0.92},
+        ], song_duration=5.0, text_match_score=0.9)
+        self.assertEqual(manifest["words"][0]["start_ms"], 1250)
+        self.assertEqual(manifest["words"][0]["end_ms"], 1750)
+        self.assertGreaterEqual(manifest["stats"]["phoneme_count"], 4)
+        self.assertEqual(manifest["stats"]["low_confidence_word_count"], 0)
+
+    def test_lipsync_drift_and_low_confidence(self):
+        manifest = lipsync.build_lipsync_manifest([
+            {"word": "test", "start": 1.0, "end": 1.5, "confidence": 0.2},
+        ])
+        report = lipsync.validate_manifest_against_ranges(
+            manifest, [{"clip": "rap_01", "start": 0.0, "end": 2.0}], tolerance_ms=100
+        )
+        self.assertFalse(report["ok"])
+        self.assertTrue(any("drift" in error for error in report["errors"]))
+        self.assertTrue(any("nízkou confidence" in warning for warning in report["warnings"]))
+
+    def test_czech_ch_is_single_phoneme_unit(self):
+        self.assertEqual(lipsync.word_to_phonemes("chata")[0], "ch")
 
 
 class VisualQATests(unittest.TestCase):
