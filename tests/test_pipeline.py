@@ -26,6 +26,7 @@ from pipeline import visual_quality
 from pipeline import output_quality
 from pipeline import productivity
 from pipeline import dramaturgy
+from pipeline import visual_qa
 
 
 class ParserTests(unittest.TestCase):
@@ -55,6 +56,28 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class VisualQATests(unittest.TestCase):
+    def test_black_samples_are_errors(self):
+        samples = [
+            {"time": 0.1, "mean": 0.0, "variance": 0.0, "dark_ratio": 1.0},
+            {"time": 1.0, "mean": 0.0, "variance": 0.0, "dark_ratio": 1.0},
+        ]
+        with mock.patch("pipeline.visual_qa.sample_video_frames", return_value=samples):
+            report = visual_qa.audit_visual_quality(Path("clip.mp4"), 2.0, sample_count=2)
+        self.assertFalse(report["ok"])
+        self.assertIn("černých", report["errors"][0])
+
+    def test_freeze_is_warning_not_error(self):
+        samples = [
+            {"time": 0.1, "mean": 50.0, "variance": 0.1, "dark_ratio": 0.1},
+            {"time": 1.0, "mean": 50.05, "variance": 0.1, "dark_ratio": 0.1},
+        ]
+        with mock.patch("pipeline.visual_qa.sample_video_frames", return_value=samples):
+            report = visual_qa.audit_visual_quality(Path("clip.mp4"), 2.0, sample_count=2)
+        self.assertTrue(report["ok"])
+        self.assertTrue(report["warnings"])
 
 
 class DramaturgyTests(unittest.TestCase):

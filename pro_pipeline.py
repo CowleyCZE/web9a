@@ -72,6 +72,7 @@ try:
     from pipeline.output_quality import profile_for, run_loudness_audit
     from pipeline.productivity import ensure_seed, load_segment_locks, write_preview_report, generate_contact_sheet
     from pipeline.dramaturgy import build_dramaturgy_plan, section_at_time
+    from pipeline.visual_qa import audit_video
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -86,6 +87,7 @@ except ImportError:
     from output_quality import profile_for, run_loudness_audit
     from productivity import ensure_seed, load_segment_locks, write_preview_report, generate_contact_sheet
     from dramaturgy import build_dramaturgy_plan, section_at_time
+    from visual_qa import audit_video
 
 # Pokus o import librosa
 try:
@@ -6462,10 +6464,23 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
 
         loudness = run_loudness_audit(final_video)
         qa = ffprobe_media_qa(final_video, expected_duration=audio_dur)
+        video_meta = qa.get("video", {}) if isinstance(qa, dict) else {}
+        visual = audit_video(
+            final_video, audio_dur,
+            width=video_meta.get("width"),
+            height=video_meta.get("height"),
+            sample_count=12,
+        )
         qa["loudness"] = loudness
+        qa["visual"] = visual
         if not loudness.get("ok"):
             qa.setdefault("errors", []).extend(loudness.get("errors", []))
             qa["ok"] = False
+        if not visual.get("ok"):
+            qa.setdefault("errors", []).extend(visual.get("errors", []))
+            qa["ok"] = False
+        if visual.get("warnings"):
+            qa.setdefault("warnings", []).extend(visual.get("warnings", []))
         qa_report = final_video.with_suffix(final_video.suffix + ".qa.json")
         self._write_json(qa_report, qa)
         if not qa.get("ok"):
