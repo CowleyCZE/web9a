@@ -76,6 +76,8 @@ try:
     from pipeline.lipsync import build_lipsync_manifest, validate_manifest_against_ranges, DEFAULT_WORD_TOLERANCE_MS
     from pipeline.catalog_quality import write_catalog_quality_report
     from pipeline.motion import transition_plan, motion_filters
+    from pipeline.social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
+    from pipeline.experiments import write_experiment_manifest
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -94,6 +96,8 @@ except ImportError:
     from lipsync import build_lipsync_manifest, validate_manifest_against_ranges, DEFAULT_WORD_TOLERANCE_MS
     from catalog_quality import write_catalog_quality_report
     from motion import transition_plan, motion_filters
+    from social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
+    from experiments import write_experiment_manifest
 
 # Pokus o import librosa
 try:
@@ -6581,6 +6585,58 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             print(f"✅ Kontaktní list: {contact_sheet}")
         return True
 
+    def generate_social_exports(self, source: Path | None = None, profiles: tuple[str, ...] = ("youtube", "vertical", "square")):
+        """Vytvoří standardizované social exporty z posledního nebo zadaného masteru."""
+        source = source or self._latest_render()
+        if not source or not source.exists():
+            print("❌ Nebyl nalezen zdrojový render pro social export.")
+            return False
+        social_dir = self.export_dir / "social"
+        social_dir.mkdir(parents=True, exist_ok=True)
+        for name in profiles:
+            profile = social_profile_for(name)
+            output = social_dir / f"{source.stem}_{profile.name}.mp4"
+            command = social_export_command(source, output, profile)
+            if not run_ffmpeg(command, quiet=True):
+                print(f"❌ Social export selhal: {profile.name}")
+                return False
+            print(f"✅ Social export: {output}")
+        return True
+
+    def generate_thumbnail_candidates(self, source: Path | None = None, count: int = 8):
+        """Vygeneruje časové thumbnail kandidáty z posledního renderu a zapíše manifest."""
+        source = source or self._latest_render()
+        if not source or not source.exists():
+            print("❌ Nebyl nalezen zdrojový render pro thumbnails.")
+            return False
+        duration = probe_duration(source)
+        if duration <= 0:
+            return False
+        thumb_dir = self.edit_dir / "thumbnails"
+        thumb_dir.mkdir(parents=True, exist_ok=True)
+        candidates = []
+        for index in range(max(1, count)):
+            time_sec = duration * (index + 1) / (max(1, count) + 1)
+            output = thumb_dir / f"candidate_{index + 1:02d}.jpg"
+            if not run_ffmpeg(thumbnail_command(source, output, time_sec), quiet=True):
+                continue
+            candidates.append({"index": index + 1, "time_sec": round(time_sec, 3), "path": str(output), "sharpness": 0.5, "brightness": 0.5, "subject_score": 0.5, "black_ratio": 0.0})
+        ranked = rank_thumbnail_candidates(candidates)
+        manifest = self.edit_dir / "thumbnail_candidates.json"
+        manifest.write_text(json.dumps({"source": str(source), "candidates": ranked}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"✅ Thumbnail kandidáti: {manifest}")
+        return True
+
+    def generate_ab_variants(self, base_seed: int | None = None):
+        """Vytvoří reprodukovatelný manifest A/B variant pro následné renderování."""
+        if base_seed is None:
+            base_seed = int(self.load_settings().get("seed", 0) or 0)
+        source = self._latest_render()
+        output = self.edit_dir / "experiment_manifest.json"
+        write_experiment_manifest(self.project_dir, output, base_seed, str(source) if source else None)
+        print(f"✅ Experimentální manifest: {output}")
+        return True
+
     def clean_exports(self, keep_last: int = 5):
         """Smaže staré render soubory z EXPORT/, ponechá posledních N verzí.
         Soubory final_stable_v*.mp4 jsou chráněny a nikdy se nemažou.
@@ -6805,6 +6861,9 @@ def interactive_menu():
         "11": "[5. RENDER] Spustí VŠECHNY kroky od začátku po render S RAPEM na jedno tlačítko.",
         "c": "[5. RENDER] Jako 11, ale BEZ RAPU (Character mód).",
         "e": "[SPRÁVA] Vyčistí staré render soubory v EXPORT/ nebo označí aktuální jako stabilní verzi.",
+        "j": "[SOCIAL] Vytvoří YouTube, vertikální a čtvercový export z posledního renderu.",
+        "k": "[THUMBNAILS] Vytvoří a seřadí kandidáty titulních snímků.",
+        "a": "[A/B] Vytvoří experimentální manifest s kontrolní a dvěma kreativními variantami.",
     }
 
     while True:
@@ -6848,6 +6907,9 @@ def interactive_menu():
         print("C  - Spustit VŠECHNY kroky od začátku po render (BEZ RAPU, Character mód)")
         print("── SPRÁVA ────────────────────────────────────────────────")
         print("E  - Spravovat staré rendery v EXPORT/")
+        print("J  - Exportovat social formáty (YouTube / vertical / square)")
+        print("K  - Vygenerovat thumbnail kandidáty")
+        print("A  - Vytvořit A/B experimentální manifest")
         print("H  - Nápověda (co která volba dělá)")
         print("0  - Konec")
         print("============================================================")
@@ -6927,6 +6989,12 @@ def interactive_menu():
             pipeline.run_all_flow(no_rap=True)
         elif choice == 'r':
             pipeline.run_render_flow(no_rap=True)
+        elif choice == 'j':
+            pipeline.generate_social_exports()
+        elif choice == 'k':
+            pipeline.generate_thumbnail_candidates()
+        elif choice == 'a':
+            pipeline.generate_ab_variants()
         elif choice == 'e':
             export_dir = pipeline.export_dir
             if export_dir.exists():
@@ -7074,6 +7142,15 @@ def main():
         pipeline.configure_settings()
     elif command == "preview-report":
         ok = pipeline.generate_preview_report()
+        sys.exit(0 if ok else 1)
+    elif command == "social-export":
+        ok = pipeline.generate_social_exports()
+        sys.exit(0 if ok else 1)
+    elif command == "thumbnails":
+        ok = pipeline.generate_thumbnail_candidates()
+        sys.exit(0 if ok else 1)
+    elif command == "ab-variants":
+        ok = pipeline.generate_ab_variants()
         sys.exit(0 if ok else 1)
 
 if __name__ == "__main__":

@@ -24,6 +24,9 @@ MAIN_COMMAND_ALIASES = {
     "render": "render", "renderuj": "render",
     "settings": "settings", "nastaveni": "settings",
     "preview-report": "preview-report", "nahled-report": "preview-report",
+    "social-export": "social-export", "social": "social-export",
+    "thumbnails": "thumbnails", "thumbs": "thumbnails",
+    "ab-variants": "ab-variants", "ab": "ab-variants",
 }
 
 KLIPY_COMMAND_ALIASES = {
