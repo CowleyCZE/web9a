@@ -28,6 +28,7 @@ from pipeline import productivity
 from pipeline import dramaturgy
 from pipeline import visual_qa
 from pipeline import lipsync
+from pipeline import catalog_quality
 
 
 class ParserTests(unittest.TestCase):
@@ -57,6 +58,17 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class CatalogQualityTests(unittest.TestCase):
+    def test_missing_media_is_reported(self):
+        report = catalog_quality.build_catalog_quality({"VID_01": {"group": "VID"}}, Path("/tmp/nonexistent-input"))
+        self.assertEqual(report["stats"]["missing_count"], 1)
+        self.assertFalse(report["entries"]["VID_01"]["valid"])
+
+    def test_invalid_quality_is_penalized_in_continuity(self):
+        metadata = visual_quality.normalize_clip_metadata("bad", {"quality_score": 0.0, "valid": False})
+        self.assertLess(visual_quality.continuity_score(metadata), 0.0)
 
 
 class LipsyncTests(unittest.TestCase):

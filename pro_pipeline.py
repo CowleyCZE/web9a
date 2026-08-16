@@ -74,6 +74,7 @@ try:
     from pipeline.dramaturgy import build_dramaturgy_plan, section_at_time
     from pipeline.visual_qa import audit_video
     from pipeline.lipsync import build_lipsync_manifest, validate_manifest_against_ranges, DEFAULT_WORD_TOLERANCE_MS
+    from pipeline.catalog_quality import write_catalog_quality_report
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -90,6 +91,7 @@ except ImportError:
     from dramaturgy import build_dramaturgy_plan, section_at_time
     from visual_qa import audit_video
     from lipsync import build_lipsync_manifest, validate_manifest_against_ranges, DEFAULT_WORD_TOLERANCE_MS
+    from catalog_quality import write_catalog_quality_report
 
 # Pokus o import librosa
 try:
@@ -6548,10 +6550,21 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 qa = json.loads(qa_files[0].read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):
                 qa = None
+        catalog = self._load_klipy_md()
+        catalog_quality_path = write_catalog_quality_report(self.project_dir, catalog) if catalog else None
         report = write_preview_report(self.project_dir, qa=qa, seed=seed)
+        if catalog_quality_path:
+            try:
+                preview_data = json.loads(report.read_text(encoding="utf-8"))
+                preview_data["catalog_quality_report"] = str(catalog_quality_path.relative_to(self.project_dir))
+                report.write_text(json.dumps(preview_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            except (OSError, json.JSONDecodeError):
+                pass
         contact_paths = sorted(list(self.gen_pic.glob("*.png")) + list(self.gen_pic.glob("*.jpg")))[:64]
         contact_sheet = generate_contact_sheet(contact_paths, self.edit_dir / "contact_sheet.jpg") if contact_paths else None
         print(f"✅ Preview report: {report}")
+        if catalog_quality_path:
+            print(f"✅ Katalog quality report: {catalog_quality_path}")
         if contact_sheet:
             print(f"✅ Kontaktní list: {contact_sheet}")
         return True

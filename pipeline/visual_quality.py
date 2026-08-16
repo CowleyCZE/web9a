@@ -19,6 +19,9 @@ class ClipMetadata:
     subject: str = ""
     energy: float = 0.5
     camera_motion: str = ""
+    quality_score: float = 1.0
+    quality_valid: bool = True
+    phash: str = ""
 
 
 def _tokens(value: str) -> set[str]:
@@ -51,6 +54,9 @@ def normalize_clip_metadata(clip_id: str, data: dict[str, Any]) -> ClipMetadata:
         subject=str(data.get("subject") or data.get("postava") or "").strip().lower(),
         energy=_bounded_energy(data.get("energy", data.get("energie", 0.5))),
         camera_motion=str(data.get("camera_motion") or data.get("pohyb_kamery") or "").strip().lower(),
+        quality_score=_bounded_energy(data.get("quality_score", 1.0), default=1.0),
+        quality_valid=bool(data.get("quality_valid", data.get("valid", True))),
+        phash=str(data.get("phash") or ""),
     )
 
 
@@ -59,6 +65,10 @@ def continuity_score(candidate: ClipMetadata, context: str = "", previous: ClipM
     candidate_tokens = _tokens(candidate.description) | set(candidate.tags)
     semantic = len(context_tokens & candidate_tokens) / max(1, len(context_tokens)) if context_tokens else 0.0
     score = 0.55 * min(1.0, semantic)
+    if not candidate.quality_valid:
+        score -= 0.8
+    else:
+        score += 0.20 * (candidate.quality_score - 0.5)
     if previous:
         if candidate.location and previous.location and candidate.location == previous.location:
             score += 0.15
