@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from .output_quality import RenderProfile
 
 
 def video_segment_command(
@@ -9,6 +10,7 @@ def video_segment_command(
     duration: float,
     video_filter: str,
     is_image: bool = False,
+    profile: RenderProfile | None = None,
 ) -> list[str]:
     if duration <= 0:
         raise ValueError("Délka segmentu musí být kladná")
@@ -16,7 +18,11 @@ def video_segment_command(
     if is_image:
         command += ["-loop", "1"]
     command += ["-t", f"{duration:.3f}", "-i", str(source), "-vf", video_filter, "-an"]
-    command += ["-c:v", "libx264", "-preset", "medium", "-crf", "16" if is_image else "15", str(output)]
+    if profile is None:
+        command += ["-c:v", "libx264", "-preset", "medium", "-crf", "16" if is_image else "15", "-pix_fmt", "yuv420p"]
+    else:
+        command += profile.video_encoder_args
+    command += [str(output)]
     return command
 
 
@@ -38,26 +44,33 @@ def concat_command(manifest: Path, output: Path) -> list[str]:
     return ["ffmpeg", "-hide_banner", "-y", "-f", "concat", "-safe", "0", "-i", str(manifest), "-c", "copy", str(output)]
 
 
-def mux_audio_command(video: Path, audio: Path, output: Path) -> list[str]:
-    return [
+def mux_audio_command(video: Path, audio: Path, output: Path, profile: RenderProfile | None = None) -> list[str]:
+    profile = profile or RenderProfile("default", 0, 0, 30, 15, "medium")
+    command = [
         "ffmpeg", "-hide_banner", "-y", "-i", str(video), "-i", str(audio),
-        "-map", "0:v:0", "-map", "1:a:0", "-c:v", "libx264", "-preset", "medium",
-        "-crf", "15", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart",
-        str(output),
+        "-map", "0:v:0", "-map", "1:a:0",
+        *profile.video_encoder_args,
+        *profile.audio_encoder_args,
+        "-shortest", "-movflags", "+faststart",
     ]
+    from .output_quality import loudness_filter
+    audio_filter = loudness_filter(profile)
+    if audio_filter:
+        command += ["-af", audio_filter]
+    return command + [str(output)]
 
 
-def fade_command(video: Path, output: Path, duration: float, fade_duration: float = 1.5) -> list[str]:
+def fade_command(video: Path, output: Path, duration: float, fade_duration: float = 1.5, profile: RenderProfile | None = None) -> list[str]:
     if duration <= 0:
         raise ValueError("Délka videa musí být kladná")
     fade_duration = max(0.05, min(float(fade_duration), duration / 2))
     fade_start = max(0.0, duration - fade_duration)
     vf = f"fade=t=in:st=0:d={fade_duration},fade=t=out:st={fade_start:.2f}:d={fade_duration}"
     af = f"afade=t=in:st=0:d={fade_duration},afade=t=out:st={fade_start:.2f}:d={fade_duration}"
+    profile = profile or RenderProfile("default", 0, 0, 30, 15, "medium")
     return [
         "ffmpeg", "-hide_banner", "-y", "-i", str(video), "-vf", vf, "-af", af,
-        "-c:v", "libx264", "-preset", "medium", "-crf", "15",
-        "-c:a", "aac", "-b:a", "192k", str(output),
+        *profile.video_encoder_args, *profile.audio_encoder_args, str(output),
     ]
 
 

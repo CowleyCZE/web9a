@@ -69,6 +69,7 @@ try:
     from pipeline.orchestration import execute_step, execute_sequence
     from pipeline.precision import validate_duration_drift, validate_lipsync_manifest, ffprobe_media_qa, DEFAULT_DURATION_TOLERANCE_MS
     from pipeline.visual_quality import enrich_beats, nearest_sync_point
+    from pipeline.output_quality import profile_for, run_loudness_audit
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -80,6 +81,7 @@ except ImportError:
     from orchestration import execute_step, execute_sequence
     from precision import validate_duration_drift, validate_lipsync_manifest, ffprobe_media_qa, DEFAULT_DURATION_TOLERANCE_MS
     from visual_quality import enrich_beats, nearest_sync_point
+    from output_quality import profile_for, run_loudness_audit
 
 # Pokus o import librosa
 try:
@@ -6186,6 +6188,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             width, height, fps = 640, 360, 24
 
         render_settings = self.load_settings()
+        profile = profile_for(mode, hd_mode, fps)
         speed_min = float(render_settings.get("speed_min", 0.5) or 0.5)
         speed_max = float(render_settings.get("speed_max", 2.0) or 2.0)
         fps_override = render_settings.get("fps_override")
@@ -6194,6 +6197,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 fps = int(fps_override)
             except (TypeError, ValueError):
                 pass
+        profile = profile_for(mode, hd_mode, fps)
 
         beats = []
         beats_file = self.edit_dir / "beats.json"
@@ -6388,7 +6392,10 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
 
             vf_filter = ",".join(filters)
 
-            cmd = video_segment_command(src_path, out_segment, duration, vf_filter, is_image=is_image)
+            cmd = video_segment_command(
+                src_path, out_segment, duration, vf_filter,
+                is_image=is_image, profile=profile,
+            )
 
             if not run_ffmpeg(cmd, quiet=True):
                 err_msg = f"❌ Selhalo renderování segmentu {asset_id}"
@@ -6419,15 +6426,20 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         final_video = candidate
 
         print("🎵 Připojuji audio...")
-        run_cmd(mux_audio_command(merged_video, audio_path, final_video), quiet=True)
+        run_cmd(mux_audio_command(merged_video, audio_path, final_video, profile=profile), quiet=True)
 
         if use_fades:
             fade_video = self.export_dir / f"final_{mode}_{hd_mode}_{today_str}_{seq:02d}_fades.mp4"
             dur = probe_duration(final_video)
-            run_cmd(fade_command(final_video, fade_video, dur), quiet=True)
+            run_cmd(fade_command(final_video, fade_video, dur, profile=profile), quiet=True)
             final_video = fade_video
 
+        loudness = run_loudness_audit(final_video)
         qa = ffprobe_media_qa(final_video, expected_duration=audio_dur)
+        qa["loudness"] = loudness
+        if not loudness.get("ok"):
+            qa.setdefault("errors", []).extend(loudness.get("errors", []))
+            qa["ok"] = False
         qa_report = final_video.with_suffix(final_video.suffix + ".qa.json")
         self._write_json(qa_report, qa)
         if not qa.get("ok"):

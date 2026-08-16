@@ -23,6 +23,7 @@ from pipeline import ai
 from pipeline import orchestration
 from pipeline import precision
 from pipeline import visual_quality
+from pipeline import output_quality
 
 
 class ParserTests(unittest.TestCase):
@@ -52,6 +53,30 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class OutputQualityTests(unittest.TestCase):
+    def test_final_profile_is_conservative_and_normalized(self):
+        profile = output_quality.profile_for("final", "fullhd", 30)
+        self.assertEqual(profile.preset, "slow")
+        self.assertEqual(profile.pixel_format, "yuv420p")
+        self.assertTrue(profile.loudnorm)
+        self.assertIn("-r", profile.video_encoder_args)
+        self.assertIn("-ar", profile.audio_encoder_args)
+
+    def test_draft_profile_is_faster_without_loudnorm(self):
+        profile = output_quality.profile_for("draft", "draft", 24)
+        self.assertEqual(profile.preset, "veryfast")
+        self.assertFalse(profile.loudnorm)
+        self.assertIsNone(output_quality.loudness_filter(profile))
+
+    def test_loudness_audit_rejects_true_peak(self):
+        stderr = 'prefix\n{"input_i": "-14.0", "input_tp": "0.5"}\n'
+        with mock.patch("pipeline.output_quality.subprocess.run") as run:
+            run.return_value = mock.Mock(returncode=0, stderr=stderr)
+            report = output_quality.run_loudness_audit(Path("output.mp4"))
+        self.assertFalse(report["ok"])
+        self.assertIn("clipping", report["errors"][0])
 
 
 class VisualQualityTests(unittest.TestCase):
