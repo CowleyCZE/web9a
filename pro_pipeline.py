@@ -75,6 +75,7 @@ try:
     from pipeline.visual_qa import audit_video
     from pipeline.lipsync import build_lipsync_manifest, validate_manifest_against_ranges, DEFAULT_WORD_TOLERANCE_MS
     from pipeline.catalog_quality import write_catalog_quality_report
+    from pipeline.motion import transition_plan, motion_filters
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -92,6 +93,7 @@ except ImportError:
     from visual_qa import audit_video
     from lipsync import build_lipsync_manifest, validate_manifest_against_ranges, DEFAULT_WORD_TOLERANCE_MS
     from catalog_quality import write_catalog_quality_report
+    from motion import transition_plan, motion_filters
 
 # Pokus o import librosa
 try:
@@ -6328,6 +6330,13 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 prefer_downbeat=not asset_name.lower().startswith("rap"),
                 tolerance_sec=0.20,
             ) if beats else None
+            segment_motion = transition_plan({
+                "note": note,
+                "section": current_section,
+                "energy": 0.75 if current_section in ("chorus", "drop") else 0.5,
+                "duration": duration,
+                "beat_is_downbeat": bool(sync_anchor and sync_anchor.get("is_downbeat")),
+            })
             segments.append({
                 "index": len(segments) + 1,
                 "start": round(start, 3),
@@ -6343,6 +6352,8 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 "beat_anchor_ms": sync_anchor.get("time_ms") if sync_anchor else None,
                 "beat_is_downbeat": bool(sync_anchor and sync_anchor.get("is_downbeat")),
                 "beat_phrase_index": sync_anchor.get("phrase_index") if sync_anchor else None,
+                "motion_style": segment_motion["style"],
+                "motion_reason": segment_motion["reason"],
             })
 
         print(f"🎞️ Sestaveno {len(segments)} segmentů.")
@@ -6452,6 +6463,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             if is_image:
                 filters.append(f"zoompan=z='zoom+0.0018':x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s={width}x{height}")
 
+            filters.extend(motion_filters(seg.get("motion_style", "clean"), duration))
             vf_filter = ",".join(filters)
 
             cmd = video_segment_command(

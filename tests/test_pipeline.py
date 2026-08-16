@@ -29,6 +29,7 @@ from pipeline import dramaturgy
 from pipeline import visual_qa
 from pipeline import lipsync
 from pipeline import catalog_quality
+from pipeline import motion
 
 
 class ParserTests(unittest.TestCase):
@@ -58,6 +59,20 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(warnings, [])
         errors = validate_timeline(entries, song_duration=3.0)
         self.assertTrue(any("překrytí" in error for error in errors))
+
+
+class MotionTests(unittest.TestCase):
+    def test_explicit_glitch_and_whippan_tags_win(self):
+        self.assertEqual(motion.motion_style("[GLITCH]", "chorus", 0.8), "glitch")
+        self.assertEqual(motion.motion_style("[WHIPPAN]", "verse", 0.4), "whippan")
+
+    def test_downbeat_high_energy_gets_impact(self):
+        plan = motion.transition_plan({"section": "chorus", "energy": 0.9, "beat_is_downbeat": True, "duration": 2.0})
+        self.assertEqual(plan["style"], "impact")
+        self.assertTrue(any("eq=" in item for item in plan["filters"]))
+
+    def test_unknown_motion_is_empty_and_safe(self):
+        self.assertEqual(motion.motion_filters("unknown", 1.0), [])
 
 
 class CatalogQualityTests(unittest.TestCase):
