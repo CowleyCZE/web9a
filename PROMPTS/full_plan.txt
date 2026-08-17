@@ -1,0 +1,79 @@
+PROJECT_THEME
+
+Kritika digitální závislosti a izolace v moderní době. Kontrast mezi chladnou
+technologií (modrá, digitální glitche) a šedou, industriální realitou. Rychlé
+tempo, cynický vibe, cinematic střídání reality a virtuálního klamu.
+
+VIDEO_PROMPTS
+
+vid_01 | Cinematic wide shot, abandoned industrial factory at dusk, heavy smoke,
+flickering street lamps, moody atmosphere, 4k, hyper-realistic. vid_02 | Close
+up of a shattered smartphone screen on wet asphalt, vibrant city neon
+reflections, raindrops hitting the surface, cinematic lighting, high detail.
+vid_03 | Group of people walking in a busy city street at night, looking down at
+their smartphones, faces illuminated by screen glow, blurred city lights in
+background, slow motion. vid_04 | Pile of old CRT monitors and electronic waste,
+overcast sky, cinematic wide shot, desaturated color palette, gritty textures.
+vid_05 | Macro shot of an audio jack connecting to a port, electric spark,
+smoke, sharp focus, cinematic depth of field. vid_06 | Multiple smartphones
+tangled in wires falling into dark water, dramatic splash, underwater bubbles,
+moody lighting.
+
+RAPPER_PROMPTS
+
+rap_01 | Rapper in MLK hoodie and cap, standing in a dark narrow alley with
+graffiti, cinematic lighting, rapper looks into camera, says: "Ráno vstanu, hned
+mám v ruce ten zkurvenej displej." rap_02 | Rapper in MLK hoodie, walking
+through a server room with green laser beams, intense atmosphere, confident
+movement, says: "Tvůj feed mě stahuje dolů, je to regulérní žumpa." rap_03 |
+Rapper in MLK hoodie, standing in front of a wall of flickering old CRT TVs,
+intense gaze, says: "Algoritmus tě řídí, buší ti to do palice." rap_04 | Rapper
+in MLK hoodie, standing on a rooftop at sunset, city skyline in background,
+serious look, says: "Všichni jsou online, ale v hlavě mají prázdno, dávno."
+rap_05 | Rapper in MLK hoodie, standing on a pile of old electronics, aggressive
+pose, says: "Venku je realita, ne ten tvůj posranej preset." rap_06 | Rapper in
+MLK hoodie, close up, dark room, single spotlight, intense performance, says:
+"Chci vidět akci hned, ne přes displej čumět na tvůj xicht." rap_07 | Rapper in
+MLK hoodie, walking in a crowded street, people in background are blurred, he
+stands out, says: "Tady a teď, kámo, tady a teď." rap_08 | Rapper in MLK hoodie,
+standing in a dimly lit club, neon signs, confident look, says: "Sedíme v klubu,
+drahej chlast, ale všichni čumí dolů." rap_09 | Rapper in MLK hoodie, close up,
+removing mask, intense emotional expression, says: "Odhoď masku a otevři dveře."
+rap_10 | Rapper in MLK hoodie, standing in front of neon "OFFLINE" sign, final
+performance, says: "Vypínáme svět, swajpy jsou v hajzlu."
+
+MUSIC_VIDEO_TIMELINE
+
+00:00.00 - 00:05.00 | vid_01 | Intro, industriální prostředí. 00:05.00
+- 00:13.00 | rap_01 | Ráno vstanu, hned mám v ruce ten zkurvenej displej.
+00:13.00 - 00:19.00 | rap_02 | Tvůj feed mě stahuje dolů, je to regulérní žumpa.
+00:19.00 - 00:24.00 | vid_04 | Hromada staré elektroniky. 00:24.00 - 00:30.00 |
+rap_03 | Algoritmus tě řídí, buší ti to do palice. 00:30.00 - 00:36.00 | rap_04
+| Všichni jsou online, ale v hlavě mají prázdno, dávno. 00:36.00 - 00:41.00 |
+vid_02 | Rozbitý displej telefonu v dešti. 00:41.00 - 00:46.00 | rap_05 | Venku
+je realita, ne ten tvůj posranej preset. 00:46.00 - 00:51.00 | rap_06 | Chci
+vidět akci hned, ne přes displej čumět na tvůj xicht. 00:51.00 - 00:56.00 |
+vid_03 | Dav lidí v noci se smartphony. 00:56.00 - 01:01.00 | rap_07 | Tady a
+teď, kámo, tady a teď. 01:01.00 - 01:06.00 | rap_08 | Sedíme v klubu, drahej
+chlast, ale všichni čumí dolů. 01:06.00 - 01:12.00 | vid_05 | Zvukový konektor a
+jiskra. 01:12.00 - 01:17.00 | rap_09 | Odhoď masku a otevři dveře. 01:17.00
+- 01:23.00 | vid_06 | Mobily padající do vody. 01:23.00 - 01:30.00 | rap_10 |
+Vypínáme svět, swajpy jsou v hajzlu.
+
+SHOT_ORDER
+
+00:00.00 - 00:05.00 | vid_01 00:05.00 - 00:13.00 | rap_01 00:13.00 - 00:19.00 |
+rap_02 00:19.00 - 00:24.00 | vid_04 00:24.00 - 00:30.00 | rap_03 00:30.00
+- 00:36.00 | rap_04 00:36.00 - 00:41.00 | vid_02 00:41.00 - 00:46.00 | rap_05
+00:46.00 - 00:51.00 | rap_06 00:51.00 - 00:56.00 | vid_03 00:56.00 - 01:01.00 |
+rap_07 01:01.00 - 01:06.00 | rap_08 01:06.00 - 01:12.00 | vid_05 01:12.00
+- 01:17.00 | rap_09 01:17.00 - 01:23.00 | vid_06 01:23.00 - 01:30.00 | rap_10
+
+EFFECTS
+
+  - Rychlé střihy (cut-on-beat) pro zdůraznění rytmu.
+  - Digitální glitch efekty a barevné aberace (RGB split) při záběrech na
+    displeje.
+  - Color grading: Teal & Orange pro filmový vzhled, s přechodem do chladné šedé
+    v momentech "digitální prázdnoty".
+  - Motion blur při pohybech rappera pro větší dynamiku.
