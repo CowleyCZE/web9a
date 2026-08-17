@@ -6338,6 +6338,15 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         segments = []
         for start, end, asset_name, note in raw_sections:
             duration = end - start
+            current_section = "verse"
+            try:
+                section_info = section_at_time(dramaturgy_plan, (start + end) / 2)
+                if isinstance(section_info, dict):
+                    current_section = str(section_info.get("name", section_info.get("section", "verse")) or "verse").lower()
+                elif section_info:
+                    current_section = str(section_info).lower()
+            except Exception:
+                pass
             speed = parse_speed_factor(note)
             trim = parse_trim_factor(note)
             speed_applied = parse_speed_applied(note)
@@ -6633,6 +6642,16 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             print(f"- {record.get('timestamp_utc')} | {record.get('mode')} | {record.get('resolution')} | {record.get('status')} | QA={record.get('qa_ok')} | {record.get('output_relative')}")
         print(f"QA summary: {summary}")
         return True
+
+    def _latest_render(self):
+        """Vrátí nejnovější master MP4 pro post-processing exporty."""
+        candidates = []
+        if self.export_dir.exists():
+            candidates.extend(path for path in self.export_dir.glob("*.mp4") if path.is_file())
+            variant_root = self.export_dir / "AB_VARIANTS"
+            if variant_root.exists():
+                candidates.extend(path for path in variant_root.rglob("*.mp4") if path.is_file())
+        return max(candidates, key=lambda path: path.stat().st_mtime) if candidates else None
 
     def generate_rap_qa_report(self):
         """Vytvoří rap_lipsync_qa.json s kvalitou klipů, fonémy, kontinuitou a fallback doporučením."""
