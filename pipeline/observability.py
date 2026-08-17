@@ -25,7 +25,7 @@ def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str | None:
 def append_render_event(project_dir: Path, *, output: Path, mode: str, resolution: str,
                         duration: float | None = None, qa: dict[str, Any] | None = None,
                         seed: int | None = None, command: list[str] | None = None,
-                        status: str = "completed") -> Path:
+                        status: str = "completed", error: str | None = None) -> Path:
     registry = project_dir / "EDIT_PROJECT" / "render_registry.jsonl"
     registry.parent.mkdir(parents=True, exist_ok=True)
     qa = qa if isinstance(qa, dict) else {}
@@ -44,6 +44,7 @@ def append_render_event(project_dir: Path, *, output: Path, mode: str, resolutio
         "qa_ok": qa.get("ok"),
         "qa_errors": list(qa.get("errors", [])),
         "qa_warnings": list(qa.get("warnings", [])),
+        "error": error,
         "qa_report": str(output.with_suffix(output.suffix + ".qa.json")),
         "seed": seed,
         "command": command,
@@ -51,6 +52,10 @@ def append_render_event(project_dir: Path, *, output: Path, mode: str, resolutio
     with registry.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
     return registry
+
+
+def append_render_failure(project_dir: Path, *, mode: str, resolution: str, error: str, seed: int | None = None, output: Path | None = None) -> Path:
+    return append_render_event(project_dir, output=output or (project_dir / "EXPORT" / "unknown.mp4"), mode=mode, resolution=resolution, seed=seed, status="failed", error=error, qa={"ok": False, "errors": [error], "warnings": []})
 
 
 def read_render_registry(project_dir: Path) -> list[dict[str, Any]]:
@@ -83,7 +88,7 @@ def build_qa_summary(project_dir: Path, registry: Iterable[dict[str, Any]] | Non
     passed = sum(1 for item in source if item.get("ok") is True)
     failed = sum(1 for item in source if item.get("ok") is False)
     warnings = sum(1 for item in source if item.get("warnings"))
-    status = "FAIL" if failed else ("WARN" if warnings else "PASS")
+    status = "UNKNOWN" if not source else ("FAIL" if failed else ("WARN" if warnings else "PASS"))
     return {"schema_version": 1, "generated_at_utc": utc_now(), "status": status, "counts": {"reports": len(source), "passed": passed, "failed": failed, "with_warnings": warnings}, "latest_render": records[-1] if records else None, "reports": source}
 
 
@@ -93,4 +98,4 @@ def write_qa_summary(project_dir: Path) -> Path:
     output.write_text(json.dumps(build_qa_summary(project_dir), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return output
 
-__all__ = ["utc_now", "sha256_file", "append_render_event", "read_render_registry", "build_qa_summary", "write_qa_summary"]
+__all__ = ["utc_now", "sha256_file", "append_render_event", "append_render_failure", "read_render_registry", "build_qa_summary", "write_qa_summary"]

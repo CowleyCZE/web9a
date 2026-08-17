@@ -77,8 +77,8 @@ try:
     from pipeline.catalog_quality import write_catalog_quality_report
     from pipeline.motion import transition_plan, motion_filters
     from pipeline.social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
-    from pipeline.experiments import write_experiment_manifest
-    from pipeline.observability import append_render_event, write_qa_summary, read_render_registry
+    from pipeline.experiments import write_experiment_manifest, build_variant_plans, compare_variant_qa
+    from pipeline.observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -98,8 +98,8 @@ except ImportError:
     from catalog_quality import write_catalog_quality_report
     from motion import transition_plan, motion_filters
     from social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
-    from experiments import write_experiment_manifest
-    from observability import append_render_event, write_qa_summary, read_render_registry
+    from experiments import write_experiment_manifest, build_variant_plans, compare_variant_qa
+    from observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
 
 # Pokus o import librosa
 try:
@@ -6480,6 +6480,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             if not run_ffmpeg(cmd, quiet=True):
                 err_msg = f"❌ Selhalo renderování segmentu {asset_id}"
                 print(err_msg)
+                append_render_failure(self.project_dir, mode=mode, resolution=hd_mode, error=err_msg, seed=seed, output=out_segment)
                 log_file = self.export_dir / "render_errors.log"
                 import datetime
                 with open(log_file, "a", encoding="utf-8") as lf:
@@ -6650,7 +6651,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             output = thumb_dir / f"candidate_{index + 1:02d}.jpg"
             if not run_ffmpeg(thumbnail_command(source, output, time_sec), quiet=True):
                 continue
-            candidates.append({"index": index + 1, "time_sec": round(time_sec, 3), "path": str(output), "sharpness": 0.5, "brightness": 0.5, "subject_score": 0.5, "black_ratio": 0.0})
+            candidates.append({"index": index + 1, "time_sec": round(time_sec, 3), "path": str(output)})
         ranked = rank_thumbnail_candidates(candidates)
         manifest = self.edit_dir / "thumbnail_candidates.json"
         manifest.write_text(json.dumps({"source": str(source), "candidates": ranked}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -6663,8 +6664,24 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             base_seed = int(self.load_settings().get("seed", 0) or 0)
         source = self._latest_render()
         output = self.edit_dir / "experiment_manifest.json"
-        write_experiment_manifest(self.project_dir, output, base_seed, str(source) if source else None)
-        print(f"✅ Experimentální manifest: {output}")
+        base_plan = []
+        timeline_path = self.edit_dir / "timeline.txt"
+        if timeline_path.exists():
+            try:
+                entries, _warnings = parse_timeline_entries(timeline_path.read_text(encoding="utf-8"))
+                base_plan = [{"start_ms": e.start_ms, "end_ms": e.end_ms, "asset_id": e.asset_id, "cut_density": 0.5} for e in entries]
+            except (OSError, ValueError, AttributeError):
+                base_plan = []
+        manifest_path = write_experiment_manifest(self.project_dir, output, base_seed, str(source) if source else None, base_plan=base_plan)
+        manifest_data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        variant_dir = self.edit_dir / "variants"
+        for variant in manifest_data.get("variants", []):
+            target = variant_dir / str(variant["name"])
+            target.mkdir(parents=True, exist_ok=True)
+            plan = manifest_data.get("variant_plans", {}).get(variant["name"], [])
+            (target / "plan.json").write_text(json.dumps({"variant": variant, "segments": plan}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"✅ Experimentální manifest: {manifest_path}")
+        print(f"✅ Variantní plány: {variant_dir}")
         return True
 
     def clean_exports(self, keep_last: int = 5):

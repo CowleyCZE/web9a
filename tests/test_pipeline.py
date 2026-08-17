@@ -395,3 +395,35 @@ class PipelineTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SocialExperimentObservabilityTests(unittest.TestCase):
+    def test_thumbnail_image_metrics_reject_empty_and_score_real_image(self):
+        from PIL import Image
+        from pipeline import social, experiments, observability
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "thumb.png"
+            Image.new("RGB", (64, 64), (120, 80, 40)).save(path)
+            metrics = social.analyze_thumbnail_image(path)
+            self.assertTrue(metrics["valid"])
+            self.assertIn("sharpness", metrics)
+            self.assertGreaterEqual(social.thumbnail_score(metrics), 0.0)
+            self.assertFalse(social.analyze_thumbnail_image(Path(temp) / "missing.png")["valid"])
+
+    def test_variant_manifest_is_deterministic_and_applies_overrides(self):
+        from pipeline import experiments
+        variants = experiments.build_variants(42)
+        self.assertEqual([v.seed for v in variants], [v.seed for v in experiments.build_variants(42)])
+        plans = experiments.build_variant_plans([{"cut_density": 0.8}], variants)
+        self.assertGreater(plans["faster_cuts"][0]["cut_density"], plans["control"][0]["cut_density"])
+        self.assertEqual(plans["cleaner_motion"][0]["motion_intensity"], 0.75)
+
+    def test_empty_qa_is_unknown_and_failure_is_registered(self):
+        from pipeline import observability
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            self.assertEqual(observability.build_qa_summary(project)["status"], "UNKNOWN")
+            observability.append_render_failure(project, mode="final", resolution="fullhd", error="render failed")
+            records = observability.read_render_registry(project)
+            self.assertEqual(records[0]["status"], "failed")
+            self.assertEqual(observability.build_qa_summary(project)["status"], "FAIL")
