@@ -1,2 +1,7 @@
 # Mandatory runtime dependencies
 requests>=2.31,<3
+Pillow>=10.0,<13
+numpy>=1.26,<3
+opencv-python-headless>=4.8,<5
+librosa>=0.10,<1
+groq>=0.11,<1
