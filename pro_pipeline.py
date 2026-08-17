@@ -3470,6 +3470,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         rap_clips = sorted(self.gen_rap.glob("rap_*.mp4"))
         alignment_path = self.edit_dir / "rap_alignment.json"
         existing = self._load_json(alignment_path, {})
+        missing_ids = None
         if not force and rap_clips and isinstance(existing, dict):
             expected = {clip.stem for clip in rap_clips}
             completed = set()
@@ -3481,6 +3482,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 if has_words and has_transcript and not entry.get("transcript_empty", False):
                     completed.add(str(clip_id))
             missing = sorted(expected - completed)
+            missing_ids = set(missing)
             if not missing:
                 print(f"⏭️  Transkripce rap klipů už existuje: {alignment_path.relative_to(self.project_dir)}")
                 print(f"   Hotovo pro {len(expected)} klipů. Novou transkripci nespouštím.")
@@ -3517,10 +3519,18 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         if not rap_clips:
             print("❌ Ve složce gen_rap nebyly nalezeny žádné rap_*.mp4 klipy.")
             return
-
+        if not force and missing_ids is not None:
+            rap_clips = [clip for clip in rap_clips if clip.stem in missing_ids]
+            print(f"🔁 Spouštím transkripci pouze pro {len(rap_clips)} chybějících klipů.")
         backup_dir = self.project_dir / "gen_rap_original_backup"
-        results = {}
-        used_song_matches = set()
+        results = dict(existing) if isinstance(existing, dict) and not force else {}
+        used_song_matches = {
+            round(float((entry.get("song_match") or {}).get("song_start")), 1)
+            for entry in results.values()
+            if isinstance(entry, dict)
+            and (entry.get("song_match") or {}).get("song_start") is not None
+        }
+
         failed_clips = []
         with tempfile.TemporaryDirectory(prefix="rap_words_", dir=str(self.project_dir)) as tmp:
             tmpdir = Path(tmp)
@@ -3580,6 +3590,12 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                     self._write_json(self.edit_dir / "rap_alignment.json", results)
 
         print(f"✅ Vytvořen report: {(self.edit_dir / 'rap_alignment.json').relative_to(self.project_dir)}")
+        if missing_ids is not None and not failed_clips:
+            remaining = sorted(missing_ids - set(results))
+            if remaining:
+                print(f"⚠️ Po opakované transkripci stále chybí: {', '.join(remaining)}")
+            else:
+                print(f"✅ Rap alignment je nyní úplný pro všech {len(results)} klipů.")
         if failed_clips:
             print(f"⚠️  {len(failed_clips)} klip(ů) bez validní transkripce (viz 'transcript_empty' v reportu): {', '.join(failed_clips)}")
 

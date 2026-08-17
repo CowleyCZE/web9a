@@ -585,3 +585,49 @@ class LipsyncExportTests(unittest.TestCase):
             self.assertEqual(manifest["segments"][0]["source"], "rap_alignment.song_match")
             self.assertEqual(manifest["segments"][0]["start"], 12.5)
             self.assertEqual(manifest["segments"][0]["end"], 15.2)
+
+
+class PartialRapTranscriptionTests(unittest.TestCase):
+    def test_partial_alignment_transcribes_only_missing_clips(self):
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            pipeline = pro_pipeline.TemagenPipeline(project)
+            rap_dir = project / "gen_rap"
+            rap_dir.mkdir(parents=True, exist_ok=True)
+            (rap_dir / "rap_01.mp4").write_bytes(b"one")
+            (rap_dir / "rap_02.mp4").write_bytes(b"two")
+            (pipeline.edit_dir / "rap_alignment.json").write_text(
+                '{"rap_01": {"transcript_raw": "already done", '
+                '"transcript_fixed": "already done", '
+                '"words_raw": [{"word": "already", "start": 0.0, "end": 0.2}], '
+                '"transcript_empty": false}}',
+                encoding="utf-8",
+            )
+            pipeline._transcribe_media_json = lambda source, whisper, tmp: {
+                "segments": [{"words": [{"word": "missing", "start": 0.0, "end": 0.2}]}]
+            }
+            pipeline._whisper_segments_to_words = lambda data: [
+                {"word": "missing", "start": 0.0, "end": 0.2}
+            ]
+            with mock.patch.object(
+                pipeline, "load_settings", return_value={"transcription_provider": "groq"}
+            ), mock.patch.object(pipeline, "_groq_ready", return_value=True), mock.patch.object(
+                pipeline, "_load_lyrics_text", return_value="already done missing"
+            ), mock.patch.object(pipeline, "_load_song_segments", return_value=[]), mock.patch.object(
+                pipeline, "_load_timeline_rap_ranges", return_value={}
+            ), mock.patch.object(
+                pipeline, "_best_lyrics_window_scored", return_value=("missing", 1.0)
+            ), mock.patch.object(
+                pipeline, "_align_words_to_lyrics", side_effect=lambda words, text: words
+            ), mock.patch.object(
+                pipeline,
+                "_best_song_match",
+                return_value={"song_start": 3.0, "song_end": 4.0, "score": 1.0},
+            ), mock.patch.object(pro_pipeline, "probe_duration", return_value=1.0):
+                pipeline.transcribe_rap_clips()
+            saved = json.loads(
+                (pipeline.edit_dir / "rap_alignment.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(set(saved), {"rap_01", "rap_02"})
+            self.assertEqual(saved["rap_01"]["transcript_raw"], "already done")
+            self.assertEqual(saved["rap_02"]["transcript_raw"], "missing")
