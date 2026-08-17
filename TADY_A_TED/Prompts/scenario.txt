@@ -1,10 +1,24 @@
-TITLE: TADY_A_TED
+TITL: TADY A TEĎ
 
-CREATIVE BRIEF
-A stork rapper moves from pressure to self-belief and victory.
+KREATIVNÍ PREMISA
+Maskovaný čapí rapper je uvězněný v digitálním autopilotu. Telefon mu poskytuje nekonečné podněty, ale bere mu čas, vztahy a schopnost být přítomný. Během videoklipu projde od izolace v pokoji přes vědomé vypnutí telefonu až ke skutečnému kontaktu s lidmi a otevřenému městu.
 
-MOOD
-cinematic Czech rap, determined, nocturnal, urban
+HLAVNÍ DRAMATURGICKÝ OBLUK
+1. Digitální autopilot: budík, telefon v ruce, notifikace, feed, falešné stories a pokoj jako digitální klec.
+2. Přetížení: algoritmický tlak, srovnávání, prázdné vztahy a čas mizící mezi displeji.
+3. Rozhodnutí: čáp vypne zařízení, odpojí světelný kabel, odloží telefon a vyjde ven.
+4. První refrén: bar a lidé, kteří postupně položí telefony a znovu se na sebe podívají.
+5. Návrat do pasti: druhá sloka ukáže, že „jen pět minut“ znovu ničí přítomnost.
+6. Druhý refrén: čáp zvedne hlavu, přepne telefon do letadla a společně se skupinou vyjde do města a na střechu.
+7. Outro: teplé ranní světlo, žádné displeje, přímý pohled, skutečný kontakt a klidné potvrzení „Tady a teď“.
 
-STORY ARC
-The masked stork rapper moves from isolation and pressure through confrontation into controlled confidence and a clear victorious final image.
+VIZUÁLNÍ VÝVOJ
+První třetina používá studené modré a zelené světlo, uzavřené rámy, statickou kameru a odrazy displejů. Druhá třetina přidává oranžové světlo, ruční pohyb kamery a širší prostory. Závěr používá teplé zlaté světlo, otevřené lokace, širší hero záběry a přirozený pohyb.
+
+POSTAVA
+Ve všech scénách je stejný antropomorfní čáp s dlouhým oranžovým zobákem, černou čepicí MLK, konzistentní siluetou a proporcemi. Outfit se mění pouze podle dramaturgické fáze. Rap lipsync používá character-specific režim se zobákem, nikoli detekci lidských rtů.
+
+RAP LIPSYNC
+Použijí se pouze klíčové textové pasáže. Zobák musí být viditelný, klip musí mít přesně určenou délku, pre-roll 100 ms, post-roll 120 ms a maximální phoneme drift 35 ms. Zbytek songu pokryjí performance, dějové a atmosférické B-roll klipy.
+
+Podrobný scénář scén, vizuální návaznosti, pravidel pro generování a doporučeného pokrytí je v `video_treatment.md`.
