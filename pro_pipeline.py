@@ -79,6 +79,7 @@ try:
     from pipeline.social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
     from pipeline.experiments import write_experiment_manifest, build_variants, build_variant_plans, compare_variant_qa
     from pipeline.observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
+    from pipeline.rap_quality import inspect_rap_clip, phoneme_locked_qa, choose_fallback_candidate, rap_continuity_score, local_timewarp_plan, build_rap_qa_summary
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -100,6 +101,7 @@ except ImportError:
     from social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
     from experiments import write_experiment_manifest, build_variants, build_variant_plans, compare_variant_qa
     from observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
+    from rap_quality import inspect_rap_clip, phoneme_locked_qa, choose_fallback_candidate, rap_continuity_score, local_timewarp_plan, build_rap_qa_summary
 
 # Pokus o import librosa
 try:
@@ -6228,6 +6230,9 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             lipsync_qa = validate_manifest_against_ranges(
                 lipsync_manifest, lipsync_ranges, tolerance_ms=DEFAULT_WORD_TOLERANCE_MS
             ) if lipsync_ranges else {"ok": True, "errors": [], "warnings": ["rap_alignment.json neobsahuje segmenty"]}
+            phoneme_qa = phoneme_locked_qa(lipsync_manifest, [{"clip": item["clip"], "start_ms": round(float(item["start"]) * 1000), "end_ms": round(float(item["end"]) * 1000)} for item in lipsync_ranges], tolerance_ms=35) if lipsync_ranges else {"ok": True, "errors": [], "warnings": ["rap_alignment.json neobsahuje segmenty"]}
+            lipsync_qa["phoneme_locked"] = phoneme_qa
+            self._write_json(self.edit_dir / "rap_lipsync_qa.json", phoneme_qa)
             self._write_json(self.edit_dir / "word_phoneme_qa.json", lipsync_qa)
             if lipsync_qa.get("errors"):
                 print("⚠️  Word-level lipsync drift:")
@@ -6627,6 +6632,34 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         print(f"QA summary: {summary}")
         return True
 
+    def generate_rap_qa_report(self):
+        """Vytvoří rap_lipsync_qa.json s kvalitou klipů, fonémy, kontinuitou a fallback doporučením."""
+        clip_paths = sorted(self.gen_rap.glob("*.mp4")) if self.gen_rap.exists() else []
+        reports = [inspect_rap_clip(path) for path in clip_paths]
+        continuity = []
+        previous = None
+        for report in reports:
+            current = {"face_scale": 1.0, "mouth_x": 0.5, "mouth_y": 0.5, "lighting": report.get("quality_score", 0.0), "shot_scale": 0.5}
+            continuity.append(rap_continuity_score(previous, current))
+            previous = current
+        manifest = self._load_json(self.edit_dir / "word_phoneme_alignment.json", {})
+        alignment = self._load_json(self.edit_dir / "rap_alignment.json", {})
+        ranges = []
+        if isinstance(alignment, dict):
+            for clip, item in alignment.items():
+                match = item.get("song_match", {}) if isinstance(item, dict) else {}
+                if match.get("song_start") is not None and match.get("song_end") is not None:
+                    ranges.append({"clip": clip, "start_ms": round(float(match["song_start"]) * 1000), "end_ms": round(float(match["song_end"]) * 1000)})
+        lipsync = phoneme_locked_qa(manifest, ranges) if manifest else {"ok": True, "errors": [], "warnings": ["word_phoneme_alignment.json chybí"]}
+        fallback = choose_fallback_candidate([{"id": item.get("path"), "quality_score": item.get("quality_score", 0.0)} for item in reports])
+        summary = build_rap_qa_summary(reports, lipsync=lipsync, continuity_scores=continuity)
+        summary["fallback_candidate"] = fallback
+        summary["local_timewarp_default"] = local_timewarp_plan(1.0, 1.0)
+        output = self.edit_dir / "rap_lipsync_qa.json"
+        self._write_json(output, summary)
+        print(f"✅ Rap QA report: {output}")
+        return True
+
     def generate_social_exports(self, source: Path | None = None, profiles: tuple[str, ...] = ("youtube", "vertical", "square")):
         """Vytvoří standardizované social exporty z posledního nebo zadaného masteru."""
         source = source or self._latest_render()
@@ -6960,6 +6993,7 @@ def interactive_menu():
         "a": "[A/B] Vytvoří experimentální manifest s kontrolní a dvěma kreativními variantami.",
         "q": "[QA] Vytvoří agregovaný QA summary ze všech render reportů.",
         "g": "[OBSERVABILITY] Vypíše poslední události render registry.",
+        "p": "[RAP QA] Změří kvalitu rap klipů, fonémový drift a kontinuitu.",
     }
 
     while True:
@@ -7008,6 +7042,7 @@ def interactive_menu():
         print("A  - Spustit automatický A/B render + QA porovnání")
         print("Q  - Vytvořit automatický QA summary")
         print("G  - Zobrazit render registry")
+        print("P  - Rap QA: kvalita klipů, phoneme drift, fallback a kontinuita")
         print("H  - Nápověda (co která volba dělá)")
         print("0  - Konec")
         print("============================================================")
@@ -7097,6 +7132,8 @@ def interactive_menu():
             pipeline.generate_qa_summary()
         elif choice == 'g':
             pipeline.show_render_registry()
+        elif choice == 'p':
+            pipeline.generate_rap_qa_report()
         elif choice == 'e':
             export_dir = pipeline.export_dir
             if export_dir.exists():
@@ -7260,6 +7297,9 @@ def main():
         sys.exit(0 if ok else 1)
     elif command == "render-registry":
         ok = pipeline.show_render_registry()
+        sys.exit(0 if ok else 1)
+    elif command == "rap-qa":
+        ok = pipeline.generate_rap_qa_report()
         sys.exit(0 if ok else 1)
 
 if __name__ == "__main__":

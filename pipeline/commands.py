@@ -29,6 +29,7 @@ MAIN_COMMAND_ALIASES = {
     "ab-variants": "ab-variants", "ab": "ab-variants", "ab-render": "ab-variants",
     "qa-summary": "qa-summary", "qa": "qa-summary",
     "render-registry": "render-registry", "registry": "render-registry",
+    "rap-qa": "rap-qa", "rap-quality": "rap-qa",
 }
 
 KLIPY_COMMAND_ALIASES = {

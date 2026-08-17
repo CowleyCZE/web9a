@@ -458,3 +458,29 @@ class ABWorkflowTests(unittest.TestCase):
             self.assertEqual(result["recommended"], "cleaner_motion")
             self.assertTrue((project / "EDIT_PROJECT" / "ab_comparison.json").exists())
             self.assertEqual(len(outputs), 3)
+
+
+class RapQualityTests(unittest.TestCase):
+    def test_phoneme_locked_qa_reports_plosive_drift_and_rolls(self):
+        from pipeline import rap_quality
+        manifest = {"song_duration_ms": 5000, "phonemes": [{"phoneme": "p", "start_ms": 1000, "end_ms": 1040}, {"phoneme": "a", "start_ms": 1040, "end_ms": 1120}]}
+        report = rap_quality.phoneme_locked_qa(manifest, [{"clip": "rap_01", "start_ms": 1000, "end_ms": 1120}], tolerance_ms=35)
+        self.assertTrue(report["ok"])
+        self.assertEqual(report["pre_roll_ms"], 100)
+        self.assertIn("max_plosive_drift_ms", report)
+
+    def test_fallback_and_local_timewarp_are_bounded(self):
+        from pipeline import rap_quality
+        candidate = rap_quality.choose_fallback_candidate([{"id": "a", "quality_score": 0.9}, {"id": "b", "quality_score": 0.7}], used_ids={"a"})
+        self.assertEqual(candidate["id"], "b")
+        plan = rap_quality.local_timewarp_plan(0.5, 2.0)
+        self.assertGreaterEqual(plan["core_speed"], 0.85)
+        self.assertLessEqual(plan["core_speed"], 1.18)
+
+    def test_rap_continuity_and_summary(self):
+        from pipeline import rap_quality
+        score = rap_quality.rap_continuity_score({"face_scale": 1.0, "mouth_x": 0.5}, {"face_scale": 2.0, "mouth_x": 0.5})
+        self.assertLess(score, 1.0)
+        summary = rap_quality.build_rap_qa_summary([{"valid": True}], {"ok": True}, [score])
+        self.assertEqual(summary["status"], "PASS")
+        self.assertEqual(summary["clip_count"], 1)
