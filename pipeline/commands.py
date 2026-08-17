@@ -30,6 +30,7 @@ MAIN_COMMAND_ALIASES = {
     "qa-summary": "qa-summary", "qa": "qa-summary",
     "render-registry": "render-registry", "registry": "render-registry",
     "rap-qa": "rap-qa", "rap-quality": "rap-qa",
+    "beak-qa": "beak-qa", "character-lipsync": "beak-qa",
 }
 
 KLIPY_COMMAND_ALIASES = {

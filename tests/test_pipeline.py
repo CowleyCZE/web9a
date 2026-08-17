@@ -484,3 +484,24 @@ class RapQualityTests(unittest.TestCase):
         summary = rap_quality.build_rap_qa_summary([{"valid": True}], {"ok": True}, [score])
         self.assertEqual(summary["status"], "PASS")
         self.assertEqual(summary["clip_count"], 1)
+
+
+class CharacterMotionTests(unittest.TestCase):
+    def test_beak_motion_is_relative_to_root_and_phoneme_aligned(self):
+        from pipeline import character_motion
+        observations = [
+            {"time_ms": 0, "visible": True, "tip": [0.5, 0.4], "root": [0.4, 0.4], "aspect_ratio": 2.0},
+            {"time_ms": 100, "visible": True, "tip": [0.6, 0.4], "root": [0.4, 0.4], "aspect_ratio": 2.0},
+        ]
+        motion = character_motion.track_beak_motion(observations)
+        self.assertGreater(motion["motion_energy"][0]["motion_energy"], 0.0)
+        alignment = character_motion.align_beak_motion_to_phonemes(motion, [{"phoneme": "p", "start_ms": 100}])
+        self.assertTrue(alignment["ok"])
+
+    def test_beak_integrity_flags_low_visibility_and_builds_report(self):
+        from pipeline import character_motion
+        motion = {"visible_ratio": 0.2, "max_geometry_jump": 0.3, "motion_peaks": []}
+        integrity = character_motion.audit_beak_integrity(motion)
+        report = character_motion.build_character_lipsync_qa(motion, {"ok": True}, integrity)
+        self.assertFalse(integrity["ok"])
+        self.assertEqual(report["status"], "FAIL")

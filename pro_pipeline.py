@@ -80,6 +80,7 @@ try:
     from pipeline.experiments import write_experiment_manifest, build_variants, build_variant_plans, compare_variant_qa
     from pipeline.observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
     from pipeline.rap_quality import inspect_rap_clip, phoneme_locked_qa, choose_fallback_candidate, rap_continuity_score, local_timewarp_plan, build_rap_qa_summary
+    from pipeline.character_motion import extract_beak_observations, track_beak_motion, align_beak_motion_to_phonemes, audit_beak_integrity, build_character_lipsync_qa, DEFAULT_MASK_PROFILE
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -102,6 +103,7 @@ except ImportError:
     from experiments import write_experiment_manifest, build_variants, build_variant_plans, compare_variant_qa
     from observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
     from rap_quality import inspect_rap_clip, phoneme_locked_qa, choose_fallback_candidate, rap_continuity_score, local_timewarp_plan, build_rap_qa_summary
+    from character_motion import extract_beak_observations, track_beak_motion, align_beak_motion_to_phonemes, audit_beak_integrity, build_character_lipsync_qa, DEFAULT_MASK_PROFILE
 
 # Pokus o import librosa
 try:
@@ -6660,6 +6662,30 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         print(f"✅ Rap QA report: {output}")
         return True
 
+    def generate_character_lipsync_qa_report(self, sample_count: int = 16):
+        """Analyzuje pohyb zobáku maskované postavy a porovná jej s phoneme onsety."""
+        manifest = self._load_json(self.edit_dir / "word_phoneme_alignment.json", {})
+        phonemes = manifest.get("phonemes", []) if isinstance(manifest, dict) else []
+        reports = []
+        for path in sorted(self.gen_rap.glob("*.mp4")) if self.gen_rap.exists() else []:
+            duration = probe_duration(path)
+            if duration <= 0:
+                reports.append({"clip": path.name, "status": "FAIL", "errors": ["invalid_duration"]})
+                continue
+            times = [duration * index / max(1, sample_count - 1) for index in range(sample_count)]
+            observations = extract_beak_observations(path, DEFAULT_MASK_PROFILE, times)
+            motion = track_beak_motion(observations)
+            phoneme_report = align_beak_motion_to_phonemes(motion, phonemes) if phonemes else {"ok": True, "errors": [], "alignments": [], "max_drift_ms": 0}
+            integrity = audit_beak_integrity(motion)
+            report = build_character_lipsync_qa(motion, phoneme_report, integrity)
+            report["clip"] = path.name
+            reports.append(report)
+        summary = {"schema_version": 1, "character_type": "masked_bird", "clip_count": len(reports), "status": "FAIL" if any(item.get("status") == "FAIL" for item in reports) else ("PASS" if reports else "UNKNOWN"), "clips": reports, "manual_review_required": any(item.get("manual_review_required") for item in reports)}
+        output = self.edit_dir / "character_lipsync_qa.json"
+        self._write_json(output, summary)
+        print(f"✅ Character lipsync QA: {output}")
+        return True
+
     def generate_social_exports(self, source: Path | None = None, profiles: tuple[str, ...] = ("youtube", "vertical", "square")):
         """Vytvoří standardizované social exporty z posledního nebo zadaného masteru."""
         source = source or self._latest_render()
@@ -6994,6 +7020,7 @@ def interactive_menu():
         "q": "[QA] Vytvoří agregovaný QA summary ze všech render reportů.",
         "g": "[OBSERVABILITY] Vypíše poslední události render registry.",
         "p": "[RAP QA] Změří kvalitu rap klipů, fonémový drift a kontinuitu.",
+        "b": "[CHARACTER LIPSYNC] Zkontroluje pohyb a integritu zobáku maskované postavy.",
     }
 
     while True:
@@ -7043,6 +7070,7 @@ def interactive_menu():
         print("Q  - Vytvořit automatický QA summary")
         print("G  - Zobrazit render registry")
         print("P  - Rap QA: kvalita klipů, phoneme drift, fallback a kontinuita")
+        print("B  - Character lipsync QA: tracking zobáku a deformace")
         print("H  - Nápověda (co která volba dělá)")
         print("0  - Konec")
         print("============================================================")
@@ -7134,6 +7162,8 @@ def interactive_menu():
             pipeline.show_render_registry()
         elif choice == 'p':
             pipeline.generate_rap_qa_report()
+        elif choice == 'b':
+            pipeline.generate_character_lipsync_qa_report()
         elif choice == 'e':
             export_dir = pipeline.export_dir
             if export_dir.exists():
@@ -7300,6 +7330,9 @@ def main():
         sys.exit(0 if ok else 1)
     elif command == "rap-qa":
         ok = pipeline.generate_rap_qa_report()
+        sys.exit(0 if ok else 1)
+    elif command == "beak-qa":
+        ok = pipeline.generate_character_lipsync_qa_report()
         sys.exit(0 if ok else 1)
 
 if __name__ == "__main__":
