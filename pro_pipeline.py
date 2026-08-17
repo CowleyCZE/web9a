@@ -77,7 +77,7 @@ try:
     from pipeline.catalog_quality import write_catalog_quality_report
     from pipeline.motion import transition_plan, motion_filters
     from pipeline.social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
-    from pipeline.experiments import write_experiment_manifest, build_variant_plans, compare_variant_qa
+    from pipeline.experiments import write_experiment_manifest, build_variants, build_variant_plans, compare_variant_qa
     from pipeline.observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
 except ImportError:
     from models import StepResult, TimelineEntry
@@ -98,7 +98,7 @@ except ImportError:
     from catalog_quality import write_catalog_quality_report
     from motion import transition_plan, motion_filters
     from social import profile_for as social_profile_for, social_export_command, thumbnail_command, rank_thumbnail_candidates
-    from experiments import write_experiment_manifest, build_variant_plans, compare_variant_qa
+    from experiments import write_experiment_manifest, build_variants, build_variant_plans, compare_variant_qa
     from observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
 
 # Pokus o import librosa
@@ -6204,8 +6204,10 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         print(f"   Celkem {len(all_segments)} segmentů ({len(timeline_segments)} rap + {len(broll_segments)} B-roll)")
         print(f"   Nyní spusťte 'sync' pro načtení timeline a 'render' pro vykreslení.")
 
-    def render_video(self, mode="draft", hd_mode="draft", use_fades=False, use_beat_sync=False):
-        """Vyrenderuje finální hudební klip."""
+    def render_video(self, mode="draft", hd_mode="draft", use_fades=False, use_beat_sync=False, output_dir: Path | None = None, variant_name: str | None = None, variant_overrides: dict | None = None):
+        """Vyrenderuje finální klip; volitelně do izolovaného adresáře A/B varianty."""
+        variant_overrides = dict(variant_overrides or {})
+        output_dir = Path(output_dir) if output_dir else self.export_dir
         if mode == "final" and not self.validate_project(final=True, no_rap=False):
             print("❌ Final render zablokován: preflight validace projektu selhala.")
             return False
@@ -6281,10 +6283,11 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             except Exception:
                 pass
 
-        tmp_dir = self.export_dir / "_render_tmp"
+        tmp_dir = output_dir / "_render_tmp"
         if tmp_dir.exists():
             shutil.rmtree(tmp_dir, ignore_errors=True)
         tmp_dir.mkdir(exist_ok=True, parents=True)
+        output_dir.mkdir(exist_ok=True, parents=True)
 
         import re as _re
         raw_sections = []
@@ -6469,7 +6472,15 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             if is_image:
                 filters.append(f"zoompan=z='zoom+0.0018':x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s={width}x{height}")
 
-            filters.extend(motion_filters(seg.get("motion_style", "clean"), duration))
+            variant_intensity = float(variant_overrides.get("motion_intensity", 1.0) or 1.0)
+            variant_filters = motion_filters(seg.get("motion_style", "clean"), duration)
+            if variant_intensity < 1.0:
+                keep = max(0, min(len(variant_filters), round(len(variant_filters) * variant_intensity)))
+                variant_filters = variant_filters[:keep]
+            if float(variant_overrides.get("cut_density_multiplier", 1.0) or 1.0) > 1.0:
+                # Zachová délku a synchronizaci, ale zvýrazní variantní cut treatment.
+                variant_filters.append("eq=contrast=1.04:saturation=1.03")
+            filters.extend(variant_filters)
             vf_filter = ",".join(filters)
 
             cmd = video_segment_command(
@@ -6500,7 +6511,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         today_str = __import__('datetime').date.today().strftime("%Y-%m-%d")
         seq = 1
         while True:
-            candidate = self.export_dir / f"final_{mode}_{hd_mode}_{today_str}_{seq:02d}.mp4"
+            candidate = output_dir / f"final_{variant_name + '_' if variant_name else ''}{mode}_{hd_mode}_{today_str}_{seq:02d}.mp4"
             if not candidate.exists():
                 break
             seq += 1
@@ -6510,7 +6521,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         run_cmd(mux_audio_command(merged_video, audio_path, final_video, profile=profile), quiet=True)
 
         if use_fades:
-            fade_video = self.export_dir / f"final_{mode}_{hd_mode}_{today_str}_{seq:02d}_fades.mp4"
+            fade_video = output_dir / f"final_{variant_name + '_' if variant_name else ''}{mode}_{hd_mode}_{today_str}_{seq:02d}_fades.mp4"
             dur = probe_duration(final_video)
             run_cmd(fade_command(final_video, fade_video, dur, profile=profile), quiet=True)
             final_video = fade_video
@@ -6569,7 +6580,7 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         print(f"   Preview report: {preview_report}")
         if contact_sheet:
             print(f"   Kontaktní list: {contact_sheet}")
-        return True
+        return final_video
 
     def generate_preview_report(self):
         """Vytvoří souhrnný report bez nutnosti spouštět nový render."""
@@ -6683,6 +6694,42 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         print(f"✅ Experimentální manifest: {manifest_path}")
         print(f"✅ Variantní plány: {variant_dir}")
         return True
+
+    def run_ab_render_workflow(self, mode: str = "draft", hd_mode: str = "draft", use_fades: bool = False, use_beat_sync: bool = False, base_seed: int | None = None, stop_on_failure: bool = False):
+        """Vyrenderuje control a kreativní varianty do izolovaných adresářů a porovná jejich QA."""
+        if base_seed is None:
+            base_seed = int(self.load_settings().get("seed", 0) or 0)
+        variants = build_variants(base_seed)
+        reports = {}
+        outputs = {}
+        root = self.export_dir / "AB_VARIANTS"
+        root.mkdir(parents=True, exist_ok=True)
+        for variant in variants:
+            variant_dir = root / variant.name
+            print(f"\n===== A/B VARIANTA: {variant.name} =====")
+            try:
+                result = self.render_video(mode=mode, hd_mode=hd_mode, use_fades=use_fades, use_beat_sync=use_beat_sync, output_dir=variant_dir, variant_name=variant.name, variant_overrides=variant.overrides)
+                if isinstance(result, Path) and result.exists():
+                    outputs[variant.name] = str(result)
+                    qa_path = result.with_suffix(result.suffix + ".qa.json")
+                    reports[variant.name] = self._load_json(qa_path, {"ok": False, "errors": ["QA report chybí"], "warnings": []}) if qa_path.exists() else {"ok": False, "errors": ["QA report chybí"], "warnings": []}
+                else:
+                    reports[variant.name] = {"ok": False, "errors": ["Render varianty selhal nebo nevytvořil výstup"], "warnings": []}
+            except Exception as exc:
+                reports[variant.name] = {"ok": False, "errors": [f"{type(exc).__name__}: {exc}"], "warnings": []}
+            if stop_on_failure and not reports[variant.name].get("ok"):
+                break
+        comparison = compare_variant_qa(reports)
+        comparison["base_seed"] = base_seed
+        comparison["mode"] = mode
+        comparison["resolution"] = hd_mode
+        comparison["outputs"] = outputs
+        comparison["reports"] = reports
+        comparison_path = self.edit_dir / "ab_comparison.json"
+        self._write_json(comparison_path, comparison)
+        print(f"\n✅ A/B QA comparison: {comparison_path}")
+        print(f"   Doporučená varianta: {comparison.get('recommended') or 'žádná'}")
+        return comparison
 
     def clean_exports(self, keep_last: int = 5):
         """Smaže staré render soubory z EXPORT/, ponechá posledních N verzí.
@@ -6958,7 +7005,7 @@ def interactive_menu():
         print("E  - Spravovat staré rendery v EXPORT/")
         print("J  - Exportovat social formáty (YouTube / vertical / square)")
         print("K  - Vygenerovat thumbnail kandidáty")
-        print("A  - Vytvořit A/B experimentální manifest")
+        print("A  - Spustit automatický A/B render + QA porovnání")
         print("Q  - Vytvořit automatický QA summary")
         print("G  - Zobrazit render registry")
         print("H  - Nápověda (co která volba dělá)")
@@ -7045,7 +7092,7 @@ def interactive_menu():
         elif choice == 'k':
             pipeline.generate_thumbnail_candidates()
         elif choice == 'a':
-            pipeline.generate_ab_variants()
+            pipeline.run_ab_render_workflow(mode='draft', hd_mode='draft')
         elif choice == 'q':
             pipeline.generate_qa_summary()
         elif choice == 'g':
@@ -7205,8 +7252,9 @@ def main():
         ok = pipeline.generate_thumbnail_candidates()
         sys.exit(0 if ok else 1)
     elif command == "ab-variants":
-        ok = pipeline.generate_ab_variants()
-        sys.exit(0 if ok else 1)
+        pipeline.generate_ab_variants()
+        comparison = pipeline.run_ab_render_workflow(mode=args.mode, hd_mode=args.res, use_fades=args.fades, use_beat_sync=args.beat_sync)
+        sys.exit(0 if comparison.get("recommended") else 1)
     elif command == "qa-summary":
         ok = pipeline.generate_qa_summary()
         sys.exit(0 if ok else 1)

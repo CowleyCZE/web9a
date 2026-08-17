@@ -427,3 +427,34 @@ class SocialExperimentObservabilityTests(unittest.TestCase):
             records = observability.read_render_registry(project)
             self.assertEqual(records[0]["status"], "failed")
             self.assertEqual(observability.build_qa_summary(project)["status"], "FAIL")
+
+
+class ABWorkflowTests(unittest.TestCase):
+    def test_ab_comparison_prefers_passing_variant(self):
+        from pipeline.experiments import compare_variant_qa
+        result = compare_variant_qa({
+            "control": {"ok": False, "errors": ["black frame"], "warnings": []},
+            "faster_cuts": {"ok": True, "errors": [], "warnings": ["minor"]},
+            "cleaner_motion": {"ok": True, "errors": [], "warnings": []},
+        })
+        self.assertEqual(result["recommended"], "cleaner_motion")
+
+    def test_ab_workflow_isolates_outputs_and_writes_comparison(self):
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            pipeline = pro_pipeline.TemagenPipeline(project)
+            outputs = {}
+            def fake_render(**kwargs):
+                variant = kwargs["variant_name"]
+                target = kwargs["output_dir"] / f"{variant}.mp4"
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b"video")
+                target.with_suffix(target.suffix + ".qa.json").write_text('{"ok": true, "errors": [], "warnings": []}')
+                outputs[variant] = target
+                return target
+            with patch.object(pipeline, "render_video", side_effect=fake_render):
+                result = pipeline.run_ab_render_workflow(base_seed=11)
+            self.assertEqual(set(result["outputs"]), {"control", "faster_cuts", "cleaner_motion"})
+            self.assertEqual(result["recommended"], "cleaner_motion")
+            self.assertTrue((project / "EDIT_PROJECT" / "ab_comparison.json").exists())
+            self.assertEqual(len(outputs), 3)

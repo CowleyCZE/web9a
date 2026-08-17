@@ -26,7 +26,7 @@ MAIN_COMMAND_ALIASES = {
     "preview-report": "preview-report", "nahled-report": "preview-report",
     "social-export": "social-export", "social": "social-export",
     "thumbnails": "thumbnails", "thumbs": "thumbnails",
-    "ab-variants": "ab-variants", "ab": "ab-variants",
+    "ab-variants": "ab-variants", "ab": "ab-variants", "ab-render": "ab-variants",
     "qa-summary": "qa-summary", "qa": "qa-summary",
     "render-registry": "render-registry", "registry": "render-registry",
 }
