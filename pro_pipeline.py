@@ -7106,6 +7106,15 @@ def interactive_menu():
         "g": "[OBSERVABILITY] Vypíše poslední události render registry.",
         "p": "[RAP QA] Změří kvalitu rap klipů, fonémový drift a kontinuitu.",
         "b": "[CHARACTER LIPSYNC] Zkontroluje pohyb a integritu zobáku maskované postavy.",
+        "5a": "[RAP WORKFLOW 1/9] Přepíše rap klipy.",
+        "5b": "[RAP WORKFLOW 2/9] Najde textové kotvy rapu v songu.",
+        "5c": "[RAP WORKFLOW 3/9] Zarovná rap klipy podle skutečných song_match časů.",
+        "5d": "[RAP WORKFLOW 4/9] Spočítá rychlosti rap klipů podle cílových slotů.",
+        "5e": "[RAP WORKFLOW 5/9] Aplikuje rychlosti a vytvoří textově kotvenou timeline.",
+        "5f": "[RAP WORKFLOW 6/9] Spustí rap QA.",
+        "5g": "[RAP WORKFLOW 7/9] Spustí character/beak QA.",
+        "5h": "[RAP WORKFLOW 8/9] Validuje projekt v draft režimu.",
+        "5i": "[RAP WORKFLOW 9/9] Spustí ověřovací draft render s rapem.",
         "n": "[NOVÝ SONG] Vytvoří scénář, klíčové rap pasáže a prompty pro generování všech potřebných klipů.",
     }
 
@@ -7141,6 +7150,16 @@ def interactive_menu():
         print("T  - Přepočítat rychlosti podle timeline")
         print("P  - Rap QA: drift, kvalita, fallback a kontinuita")
         print("B  - Character lipsync QA: tracking a deformace zobáku")
+        print("\n   RAP WORKFLOW — SPOUŠTĚJ POSTUPNĚ 5a → 5i:")
+        print("5a - 1/9 Přepsat rap klipy")
+        print("5b - 2/9 Najít textové kotvy v songu")
+        print("5c - 3/9 Zarovnat rap klipy podle song_match")
+        print("5d - 4/9 Spočítat potřebné rychlosti")
+        print("5e - 5/9 Aplikovat rychlosti a aktualizovat timeline")
+        print("5f - 6/9 Rap QA")
+        print("5g - 7/9 Character/beak QA")
+        print("5h - 8/9 Draft validace")
+        print("5i - 9/9 Ověřovací draft render")
         print("\n── 5. B-ROLL A TIMELINE ────────────────────────────────────")
         print("V  - Doladit vid_xx klipy na délku timeline slotu")
         print("\n── 6. VALIDACE A RENDER ───────────────────────────────────")
@@ -7181,12 +7200,31 @@ def interactive_menu():
             pipeline.analyze_song()
         elif choice == '5':
             pipeline.transcribe_rap_clips()
+        elif choice == '5a':
+            pipeline.transcribe_rap_clips()
         elif choice == 'u':
+            pipeline.resync_rap_alignment_from_lyrics()
+        elif choice == '5b':
             pipeline.resync_rap_alignment_from_lyrics()
         elif choice == '6':
             pipeline.align_rap_clips()
+        elif choice == '5c':
+            pipeline.align_rap_clips()
+        elif choice == '5d':
+            pipeline.align_rap_clips()
+        elif choice == '5e':
+            pipeline.apply_speeds_from_timeline()
+            pipeline.update_timeline_from_alignment()
         elif choice == '7':
             pipeline.update_timeline_from_alignment()
+        elif choice == '5f':
+            pipeline.generate_rap_qa_report()
+        elif choice == '5g':
+            pipeline.generate_character_lipsync_qa_report()
+        elif choice == '5h':
+            pipeline.validate_project(final=False)
+        elif choice == '5i':
+            pipeline.run_render_flow(no_rap=False)
         elif choice == 'v':
             pipeline.align_vid_clips()
         elif choice == '8':
