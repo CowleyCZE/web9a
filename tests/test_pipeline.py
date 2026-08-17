@@ -505,3 +505,29 @@ class CharacterMotionTests(unittest.TestCase):
         report = character_motion.build_character_lipsync_qa(motion, {"ok": True}, integrity)
         self.assertFalse(integrity["ok"])
         self.assertEqual(report["status"], "FAIL")
+
+
+class GenerativePackageTests(unittest.TestCase):
+    def test_new_song_package_selects_limited_rap_and_writes_prompts(self):
+        from pipeline.generative import build_generation_package
+
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            (project / "INPUT").mkdir()
+            (project / "EDIT_PROJECT").mkdir()
+            (project / "INPUT" / "lyrics.txt").write_text(
+                "Tohle je signál z budoucnosti\n"
+                "Míň stresu víc vaty připravenej na ten fame\n"
+                "Každá ta prohra v prachu byla lístek na vrchol\n"
+                "Vidíme se na vrcholu signál ukončen\n",
+                encoding="utf-8",
+            )
+            package = build_generation_package(project, max_rap_passages=3)
+            self.assertEqual(package["character_type"], "masked_bird_stork_rapper")
+            self.assertEqual(len(package["rap_passages"]), 3)
+            self.assertTrue(all(2.5 <= item["duration"] <= 6.0 for item in package["rap_passages"]))
+            self.assertEqual(len([item for item in package["clips"] if item["type"] == "rap_lipsync"]), 3)
+            self.assertEqual(len([item for item in package["clips"] if item["type"] == "broll"]), 5)
+            self.assertTrue((project / "EDIT_PROJECT" / "generation_manifest.json").exists())
+            self.assertTrue((project / "Prompts" / "scenario.txt").exists())
+            self.assertTrue((project / "Prompts" / "generation_prompts.md").exists())

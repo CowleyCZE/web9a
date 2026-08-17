@@ -81,6 +81,7 @@ try:
     from pipeline.observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
     from pipeline.rap_quality import inspect_rap_clip, phoneme_locked_qa, choose_fallback_candidate, rap_continuity_score, local_timewarp_plan, build_rap_qa_summary
     from pipeline.character_motion import extract_beak_observations, track_beak_motion, align_beak_motion_to_phonemes, audit_beak_integrity, build_character_lipsync_qa, DEFAULT_MASK_PROFILE
+    from pipeline.generative import build_generation_package
 except ImportError:
     from models import StepResult, TimelineEntry
     from validation import validate_timeline
@@ -104,6 +105,7 @@ except ImportError:
     from observability import append_render_event, append_render_failure, write_qa_summary, read_render_registry
     from rap_quality import inspect_rap_clip, phoneme_locked_qa, choose_fallback_candidate, rap_continuity_score, local_timewarp_plan, build_rap_qa_summary
     from character_motion import extract_beak_observations, track_beak_motion, align_beak_motion_to_phonemes, audit_beak_integrity, build_character_lipsync_qa, DEFAULT_MASK_PROFILE
+    from generative import build_generation_package
 
 # Pokus o import librosa
 try:
@@ -5304,6 +5306,20 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             print("⚠️ Validace našla problémy. Oprav je a render spusť ručně.")
         return bool(validated)
 
+    def generate_new_song_package(self, max_rap_passages: int = 4) -> bool:
+        """Vytvoří generativní balíček pro nový song bez existujících klipů."""
+        try:
+            package = build_generation_package(self.project_dir, max_rap_passages=max_rap_passages)
+        except (OSError, ValueError) as exc:
+            print(f"❌ Generativní balíček se nepodařilo vytvořit: {exc}")
+            return False
+        print(f"✅ Generativní balíček vytvořen pro {self.project_dir.name}.")
+        print(f"   Vybrané klíčové rap pasáže: {package['rap_policy']['selected_count']}")
+        print(f"   Prompt manifest: {self.project_dir / 'EDIT_PROJECT' / 'generation_manifest.json'}")
+        print(f"   Scénář: {self.project_dir / 'Prompts' / 'scenario.txt'}")
+        print(f"   Prompty: {self.project_dir / 'Prompts' / 'generation_prompts.md'}")
+        return True
+
     def generate_scenario_ai(self) -> bool:
         """FÁZE A: Nechá lokální AI (Ollama) vymyslet scénář videoklipu na základě
         textu písně, volitelné nálady/žánru, textového popisu hlavní postavy a
@@ -7090,6 +7106,7 @@ def interactive_menu():
         "g": "[OBSERVABILITY] Vypíše poslední události render registry.",
         "p": "[RAP QA] Změří kvalitu rap klipů, fonémový drift a kontinuitu.",
         "b": "[CHARACTER LIPSYNC] Zkontroluje pohyb a integritu zobáku maskované postavy.",
+        "n": "[NOVÝ SONG] Vytvoří scénář, klíčové rap pasáže a prompty pro generování všech potřebných klipů.",
     }
 
     while True:
@@ -7140,6 +7157,7 @@ def interactive_menu():
         print("G  - Zobrazit render registry")
         print("P  - Rap QA: kvalita klipů, phoneme drift, fallback a kontinuita")
         print("B  - Character lipsync QA: tracking zobáku a deformace")
+        print("N  - Nový song bez klipů: scénář, rap výběr a generation prompty")
         print("H  - Nápověda (co která volba dělá)")
         print("0  - Konec")
         print("============================================================")
@@ -7233,6 +7251,8 @@ def interactive_menu():
             pipeline.generate_rap_qa_report()
         elif choice == 'b':
             pipeline.generate_character_lipsync_qa_report()
+        elif choice == 'n':
+            pipeline.generate_new_song_package()
         elif choice == 'e':
             export_dir = pipeline.export_dir
             if export_dir.exists():
@@ -7402,6 +7422,9 @@ def main():
         sys.exit(0 if ok else 1)
     elif command == "beak-qa":
         ok = pipeline.generate_character_lipsync_qa_report()
+        sys.exit(0 if ok else 1)
+    elif command == "generate-song":
+        ok = pipeline.generate_new_song_package()
         sys.exit(0 if ok else 1)
 
 if __name__ == "__main__":

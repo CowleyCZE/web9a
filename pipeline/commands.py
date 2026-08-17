@@ -31,6 +31,7 @@ MAIN_COMMAND_ALIASES = {
     "render-registry": "render-registry", "registry": "render-registry",
     "rap-qa": "rap-qa", "rap-quality": "rap-qa",
     "beak-qa": "beak-qa", "character-lipsync": "beak-qa",
+    "generate-song": "generate-song", "new-song": "generate-song", "novy-song": "generate-song",
 }
 
 KLIPY_COMMAND_ALIASES = {
