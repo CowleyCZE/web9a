@@ -4093,107 +4093,151 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         return corrections
 
     def update_timeline_from_alignment(self):
-        """Přepočítá timeline: ignoruje časy z plánu, ukotví rap_xx na pozice v songu, vyplní mezery B-rolly."""
-        corrections = self._load_json(self.edit_dir / "speed_corrections.json", {})
-        if not corrections:
-            print("❌ Chybí speed_corrections.json. Spusť align-rap."); return
-
-        # rap_start (offset uvnitř klipu, kde reálně začíná verš) a song_start (fallback
-        # pozice v songu ze song_match) se do speed_corrections.json NIKDY nezapisují —
-        # tato data žijí jen v rap_alignment.json. Bez něj by corr.get("rap_start"/"song_start")
-        # vždy spadl na default a "ukotvení podle rap_start" by fakticky nikdy neproběhlo.
-        rap_alignment = self._load_json(self.edit_dir / "rap_alignment.json", {})
-
+        """Rebuild timeline from text-anchored rap matches and fill gaps with B-roll."""
         if not self.timeline_file.exists():
-            if self.full_plan.exists(): self.parse_plan()
-            else: print("❌ Chybí timeline."); return
-
-        song_alignment = self._load_json(self.edit_dir / "song_alignment.json", {})
-        song_words = song_alignment.get("words", [])
-        audio_dur = probe_duration(self.find_audio()) if self.find_audio() else 180.0
-
-        clip_max_durations = {}
-        for folder, patterns in [(self.gen_rap, ["*.mp4"]), (self.gen_char, ["*.mp4"]), (self.gen_vid, ["*.mp4"]), (self.gen_pic, ["*.mp4", "*.png", "*.jpg", "*.jpeg"])]:
-            if folder.exists():
-                for p in patterns:
-                    for f in folder.glob(p):
-                        clip_max_durations[f.stem] = 5.0 if f.suffix.lower() in (".png", ".jpg", ".jpeg") else probe_duration(f)
-
-        entries = []
+            print("⚠️  Chybí timeline.txt — nejprve spusť sync_timeline().")
+            return
+        rap_alignment = self._load_json(self.edit_dir / "rap_alignment.json", {})
+        corrections = self._load_json(self.edit_dir / "speed_corrections.json", {})
+        audio_path = self.find_audio()
+        audio_dur = probe_duration(audio_path) if audio_path else 180.0
+        raw_entries = []
         for raw in self.timeline_file.read_text(encoding="utf-8").splitlines():
             line = raw.strip()
             if not line or line.startswith("#") or "|" not in line:
-                entries.append({"type": "text", "raw": raw}); continue
-            parts = [p.strip() for p in line.split("|")]
-            clip_name = clean_asset_id(parts[1])
-            try: old_start = parse_timecode(parts[0].split("-")[0].strip())
-            except: old_start = 0.0
-            entries.append({
-                "type": "clip", "clip": clip_name, "is_rap": clip_name.startswith("rap_"),
-                "note": " | ".join(parts[2:]), "old_start": old_start,
-                "max_dur": clip_max_durations.get(clip_name, 8.0), "new_start": None, "new_end": None
+                continue
+            parts = [part.strip() for part in line.split("|")]
+            if len(parts) < 2:
+                continue
+            try:
+                old_start = parse_timecode(parts[0].split("-", 1)[0].strip())
+                old_end = parse_timecode(parts[0].split("-", 1)[1].strip())
+            except Exception:
+                old_start, old_end = 0.0, 0.0
+            clip = clean_asset_id(parts[1])
+            raw_entries.append({
+                "clip": clip,
+                "is_rap": clip.startswith("rap_"),
+                "old_start": old_start,
+                "old_end": old_end,
+                "note": " | ".join(parts[2:]) if len(parts) > 2 else "",
             })
 
-        used_song_positions = set()
-        for entry in entries:
-            if entry["type"] != "clip" or not entry["is_rap"]: continue
+        rap_candidates = []
+        for entry in raw_entries:
+            if not entry["is_rap"]:
+                continue
+            data = rap_alignment.get(entry["clip"], {})
+            match = data.get("song_match") or {}
             corr = corrections.get(entry["clip"], {})
-            if corr.get("status") not in ("ok", "clamped"): continue
-            align_data = rap_alignment.get(entry["clip"], {})
-            rap_start_offset = float(align_data.get("rap_start", 0.0))
-            fallback_song_start = (align_data.get("song_match", {}) or {}).get("song_start")
-            note_text = re.sub(r"\[[^\]]+\]", " ", entry["note"])
-            song_start = self._find_unique_song_position(note_text, song_words, entry["old_start"], used_song_positions)
-            if song_start is None:
-                song_start = self._find_song_position_after(note_text, song_words, max(used_song_positions or [0]), used_song_positions)
-            if song_start is None:
-                song_start = float(fallback_song_start) if fallback_song_start is not None else entry["old_start"]
-            used_song_positions.add(round(song_start, 1))
-            entry["new_start"] = max(0.0, song_start - rap_start_offset)
-            entry["new_end"] = entry["new_start"] + float(corr.get("new_duration", entry["max_dur"]))
-            # Timeline už referencuje jen nový (fyzicky přepočítaný) klip — žádné
-            # [SPEED x] / [SPEED_APPLIED] tagy se do poznámky nezapisují.
-            entry["note"] = re.sub(r"\[SPEED.*?\]", "", entry["note"], flags=re.I).strip()
+            if match.get("song_start") is None or match.get("song_end") is None:
+                continue
+            start_time = max(0.0, float(match["song_start"]) - float(data.get("before_duration", 0.0)))
+            end_time = min(audio_dur, float(match["song_end"]) + float(data.get("after_duration", 0.0)))
+            if end_time <= start_time + 0.05:
+                continue
+            transcript = str(data.get("transcript_fixed") or data.get("transcript_raw") or "")
+            rap_candidates.append({
+                "entry": entry,
+                "start": start_time,
+                "end": end_time,
+                "score": float(match.get("score", 0.0) or 0.0),
+                "text_len": len(transcript),
+                "correction": corr,
+            })
 
-        current_time = 0.0; idx = 0
-        while idx < len(entries):
-            entry = entries[idx]
-            if entry["type"] != "clip": idx += 1; continue
-            if entry["is_rap"] and entry["new_start"] is not None:
-                if entry["new_start"] < current_time - 0.01:
-                    back = idx - 1
-                    while back >= 0:
-                        if entries[back]["type"] == "clip":
-                            entries[back]["new_end"] = entry["new_start"]
-                            if entries[back]["new_start"] is not None:
-                                entries[back]["new_start"] = min(entries[back]["new_start"], entries[back]["new_end"])
-                                if entries[back]["is_rap"] and entries[back]["new_end"] <= entries[back]["new_start"] + 0.01:
-                                    print(f"⚠️  Kolize: {entries[back]['clip']} byl kvůli překryvu s {entry['clip']} zkrácen na ~0s a bude z timeline VYNECHÁN.")
-                            if entries[back]["is_rap"]: break
-                        back -= 1
-                current_time = entry["new_end"]; idx += 1
+        selected = []
+        skipped = []
+        for candidate in sorted(rap_candidates, key=lambda item: (item["start"], -item["score"], -item["text_len"])):
+            conflicts = [other for other in selected if min(candidate["end"], other["end"]) - max(candidate["start"], other["start"]) > 0.25]
+            if not conflicts:
+                selected.append(candidate)
+                continue
+            winner = max(conflicts + [candidate], key=lambda item: (item["score"], item["text_len"], item["end"] - item["start"]))
+            for other in conflicts:
+                if other is not winner and other in selected:
+                    selected.remove(other)
+                    skipped.append(other["entry"]["clip"])
+            if winner is candidate:
+                selected.append(candidate)
             else:
-                block = []; j = idx; gap_end = audio_dur
-                while j < len(entries):
-                    if entries[j]["type"] == "clip" and entries[j]["new_start"] is not None and (entries[j]["is_rap"] or j > idx):
-                        gap_end = entries[j]["new_start"]; break
-                    if entries[j]["type"] == "clip": block.append(j)
-                    j += 1
-                gap_dur = max(0.0, gap_end - current_time)
-                if block:
-                    each = gap_dur / len(block); t = current_time
-                    for b_idx in block:
-                        entries[b_idx]["new_start"] = t; entries[b_idx]["new_end"] = t + each; t += each
-                current_time = gap_end; idx = j
+                skipped.append(candidate["entry"]["clip"])
+        selected.sort(key=lambda item: item["start"])
+
+        nonrap = [entry for entry in raw_entries if not entry["is_rap"]]
+        gaps = []
+        cursor = 0.0
+        for anchor in selected:
+            if anchor["start"] > cursor + 0.02:
+                gaps.append((cursor, anchor["start"]))
+            cursor = max(cursor, anchor["end"])
+        if cursor < audio_dur - 0.02:
+            gaps.append((cursor, audio_dur))
+
+        # Rozděl B-roll do mezer poměrně podle délky; tím zůstane zachováno
+        # pořadí z původního plánu bez kolizí s textově ukotvenými rapy.
+        assignments = [[] for _ in gaps]
+        if nonrap and gaps:
+            # Nejprve vyplň každý gap alespoň jedním B-rollem, aby nevzniklo
+            # ticho mezi dvěma textově ukotvenými rap pasážemi.
+            take = min(len(nonrap), len(gaps))
+            for gap_idx in range(take):
+                assignments[gap_idx].append(nonrap[gap_idx])
+            remaining_entries = nonrap[take:]
+            if remaining_entries:
+                total_gap = sum(end - start for start, end in gaps)
+                cursor = 0
+                for gap_idx, (gap_start, gap_end) in enumerate(gaps):
+                    if gap_idx == len(gaps) - 1:
+                        count = len(remaining_entries) - cursor
+                    else:
+                        count = round(len(remaining_entries) * (gap_end - gap_start) / max(total_gap, 0.01))
+                        count = min(count, len(remaining_entries) - cursor)
+                    if count > 0:
+                        assignments[gap_idx].extend(remaining_entries[cursor:cursor + count])
+                        cursor += count
+                if cursor < len(remaining_entries):
+                    assignments[-1].extend(remaining_entries[cursor:])
 
         rebuilt = []
-        for e in entries:
-            if e["type"] == "text": rebuilt.append(e["raw"])
-            elif e["new_start"] is not None and e["new_end"] > e["new_start"] + 0.01:
-                rebuilt.append(f"{format_timecode(e['new_start'])} - {format_timecode(e['new_end'])} | {e['clip']} | {e['note']}")
-        self.timeline_file.write_text("\n".join(rebuilt), encoding="utf-8")
-        print(f"✅ Timeline přepočítána (Sequential Reflow pass v3).")
-
+        for gap, group in zip(gaps, assignments):
+            gap_start, gap_end = gap
+            if not group:
+                continue
+            step = (gap_end - gap_start) / len(group)
+            for idx, entry in enumerate(group):
+                start_time = gap_start + idx * step
+                end_time = gap_start + (idx + 1) * step
+                rebuilt.append((start_time, end_time, entry["clip"], entry["note"]))
+        for anchor in selected:
+            entry = anchor["entry"]
+            note = re.sub(r"\[SPEED.*?\]", "", entry["note"], flags=re.I).strip()
+            rebuilt.append((anchor["start"], anchor["end"], entry["clip"], note))
+        rebuilt.sort(key=lambda item: (item[0], item[1], item[2]))
+        normalized = []
+        for item in rebuilt:
+            if normalized and item[0] < normalized[-1][1]:
+                prev = normalized[-1]
+                if prev[2].startswith("rap_") and item[2].startswith("rap_"):
+                    normalized[-1] = (prev[0], item[0], prev[2], prev[3])
+                elif item[0] < prev[1]:
+                    item = (prev[1], item[1], item[2], item[3])
+            if item[1] > item[0] + 0.01:
+                normalized.append(item)
+        rebuilt = normalized
+        lines = [f"{format_timecode(start)} - {format_timecode(end)} | {clip} | {note}" for start, end, clip, note in rebuilt]
+        self.timeline_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        self._write_json(self.edit_dir / "rap_timeline_mapping.json", {
+            "source": "rap_alignment.song_match",
+            "selected_rap": [item["entry"]["clip"] for item in selected],
+            "skipped_overlapping_takes": sorted(set(skipped)),
+            "rap_count": len(selected),
+            "b_roll_count": len(nonrap),
+            "timeline_segments": len(lines),
+        })
+        print(f"✅ Textově kotvená timeline vytvořena: {len(selected)} rap + {len(nonrap)} B-roll segmentů.")
+        if skipped:
+            print(f"ℹ️  Překrývající alternativní takes vynechány: {', '.join(sorted(set(skipped)))}")
     def apply_speeds_from_timeline(self):
         """
         Dopočítá rychlost rap klipů podle časových slotů, které už jsou napevno
@@ -4790,7 +4834,13 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                     if clip_name.startswith("rap_") and clip_name in ok_rap_clips:
                         timeline_rap_lines.setdefault(clip_name, []).append(raw)
 
+                mapping = self._load_json(self.edit_dir / "rap_timeline_mapping.json", {})
+                skipped_alternatives = set(mapping.get("skipped_overlapping_takes", []))
                 for clip_name in ok_rap_clips:
+                    # Alternativní takes stejné textové pasáže mohou být záměrně
+                    # vynechány; mapping je eviduje a validator je nehlásí jako chybu.
+                    if clip_name in skipped_alternatives:
+                        continue
                     # Validujeme JEN klipy, které jsou v plánu (shot_order)
                     if clip_name not in expected_clips:
                         continue
