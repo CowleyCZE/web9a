@@ -1,0 +1,2029 @@
+{
+  "source": "INPUT/transcription.json",
+  "lyrics_source": "INPUT/lyrics.txt",
+  "song_duration": 164.904,
+  "text_match_score": 0.9187,
+  "text": "Budík řve hned beru foun do dlaně yeah oči zalepený palec jede automaticky zas a znova Jsem ve svý bublině bezpečnej kryt ale život mi utíká Notifikace do palice hlava prázdná jak mý kapsy fakt že jo Feed mě táhne ke dnu je to propast dole projíždím ten shit a čumim do blba jak ocas Fake vibes na storýčkách samá levná maska fake všichni flexej cizí life až z toho realita praská Kód v pozadí mi hází přesně to co nechci shit srovnávám se s bludama ztrácím se v tý kleci Zavřenej v pokoji čas protejká skrz prsty všichni lověj signál ale vztahy jsou tu mrtvý mrtvý Už mám dost musím to seknout a dát off off Wi Fi sice plná ale srdce hlásí block Venku běží realita seru na tvůj preset nechci upload citů chci tě cítit tady hned hned Kde je ten dotek co tě rozseká na fleku kde Kde je ten smích co tě zboří až do základů řekni Chci slyšet tvůj hlas ne jen smajlíky v chatu žádný iluze na skle pojďme roztrhat tu vatu Tady a teď brácho žijeme tady a teď tady a teď tady a teď brácho žijeme tady a teď Sedíme na baru každej čumí do svý placky zombie trapný ticho dusí všichni lapený do pasti Prej jen pět minut a reálnej život hlásí logout šance mizí v dýmu dny letí nemůžeš je stopnout ne Furt jenom výmluvy zítra příště kecy v kleci promrdaný hodiny co nevrátíš to jsou věci facts Jsme propojený kabelem ale v reálu jsme sami vyměnili jsme svůj čas za tyhle svítící krámy trash Zvedni hlavu nahoru a vypni tenhle krám vypni to přepni to do letadla svět je venku nejsi sám Nepotřebuješ filtr a nepotřebuješ lajky stačí čistej pohled zahoď tyhle levný báchorky zahoď to Jsem tady stojím před tebou žádný data v cloudu živý maso kosti kámo jdeme proti proudu Kde je ten dotek co tě rozseká na fleku kde Kde je ten smích co tě zboří až do základů řekni Chci slyšet tvůj hlas ne jen smajlíky v chatu žádný iluze na skle pojďme roztrhat tu vatu Tady a teď brácho žijeme tady a teď tady a teď tady a teď brácho žijeme tady a teď Tady a teď Vypli jsme ten umělej svět konečně Swajpování je v hajzlu reál je jediná meta Tady a teď tady a teď Dej ten foun z ruky kámo Tady a teď mír",
+  "words": [
+    {
+      "word": "Budík",
+      "start": 4.14,
+      "end": 4.51
+    },
+    {
+      "word": "řve",
+      "start": 4.51,
+      "end": 4.88
+    },
+    {
+      "word": "hned",
+      "start": 4.88,
+      "end": 5.25
+    },
+    {
+      "word": "beru",
+      "start": 5.25,
+      "end": 5.62
+    },
+    {
+      "word": "foun",
+      "start": 5.62,
+      "end": 5.99
+    },
+    {
+      "word": "do",
+      "start": 5.99,
+      "end": 6.36
+    },
+    {
+      "word": "dlaně",
+      "start": 6.36,
+      "end": 6.73
+    },
+    {
+      "word": "yeah",
+      "start": 6.73,
+      "end": 7.1
+    },
+    {
+      "word": "oči",
+      "start": 7.1,
+      "end": 7.737
+    },
+    {
+      "word": "zalepený",
+      "start": 7.737,
+      "end": 8.374
+    },
+    {
+      "word": "palec",
+      "start": 8.374,
+      "end": 9.011
+    },
+    {
+      "word": "jede",
+      "start": 9.011,
+      "end": 9.649
+    },
+    {
+      "word": "automaticky",
+      "start": 9.649,
+      "end": 10.286
+    },
+    {
+      "word": "zas",
+      "start": 10.286,
+      "end": 10.604
+    },
+    {
+      "word": "a",
+      "start": 10.604,
+      "end": 10.923
+    },
+    {
+      "word": "znova",
+      "start": 10.923,
+      "end": 11.56
+    },
+    {
+      "word": "Jsem",
+      "start": 11.56,
+      "end": 12.048
+    },
+    {
+      "word": "ve",
+      "start": 12.048,
+      "end": 12.536
+    },
+    {
+      "word": "svý",
+      "start": 12.536,
+      "end": 13.024
+    },
+    {
+      "word": "bublině",
+      "start": 13.024,
+      "end": 13.512
+    },
+    {
+      "word": "bezpečnej",
+      "start": 13.512,
+      "end": 14.0
+    },
+    {
+      "word": "kryt",
+      "start": 14.0,
+      "end": 14.488
+    },
+    {
+      "word": "ale",
+      "start": 14.488,
+      "end": 14.976
+    },
+    {
+      "word": "život",
+      "start": 14.976,
+      "end": 15.464
+    },
+    {
+      "word": "mi",
+      "start": 15.464,
+      "end": 15.952
+    },
+    {
+      "word": "utíká",
+      "start": 15.952,
+      "end": 16.44
+    },
+    {
+      "word": "Notifikace",
+      "start": 16.44,
+      "end": 17.0
+    },
+    {
+      "word": "do",
+      "start": 17.0,
+      "end": 17.56
+    },
+    {
+      "word": "palice",
+      "start": 17.56,
+      "end": 18.12
+    },
+    {
+      "word": "hlava",
+      "start": 18.12,
+      "end": 18.68
+    },
+    {
+      "word": "prázdná",
+      "start": 18.68,
+      "end": 19.239
+    },
+    {
+      "word": "jak",
+      "start": 19.239,
+      "end": 19.799
+    },
+    {
+      "word": "mý",
+      "start": 19.799,
+      "end": 20.359
+    },
+    {
+      "word": "kapsy",
+      "start": 20.359,
+      "end": 20.919
+    },
+    {
+      "word": "fakt",
+      "start": 20.919,
+      "end": 21.166
+    },
+    {
+      "word": "že",
+      "start": 21.166,
+      "end": 21.413
+    },
+    {
+      "word": "jo",
+      "start": 21.413,
+      "end": 21.66
+    },
+    {
+      "word": "Feed",
+      "start": 21.66,
+      "end": 21.995
+    },
+    {
+      "word": "mě",
+      "start": 21.995,
+      "end": 22.33
+    },
+    {
+      "word": "táhne",
+      "start": 22.33,
+      "end": 22.665
+    },
+    {
+      "word": "ke",
+      "start": 22.665,
+      "end": 23.0
+    },
+    {
+      "word": "dnu",
+      "start": 23.0,
+      "end": 23.335
+    },
+    {
+      "word": "je",
+      "start": 23.335,
+      "end": 23.67
+    },
+    {
+      "word": "to",
+      "start": 23.67,
+      "end": 24.005
+    },
+    {
+      "word": "propast",
+      "start": 24.005,
+      "end": 24.34
+    },
+    {
+      "word": "dole",
+      "start": 24.34,
+      "end": 24.72
+    },
+    {
+      "word": "projíždím",
+      "start": 24.72,
+      "end": 25.038
+    },
+    {
+      "word": "ten",
+      "start": 25.038,
+      "end": 25.356
+    },
+    {
+      "word": "shit",
+      "start": 25.356,
+      "end": 25.673
+    },
+    {
+      "word": "a",
+      "start": 25.673,
+      "end": 25.991
+    },
+    {
+      "word": "čumim",
+      "start": 25.991,
+      "end": 26.309
+    },
+    {
+      "word": "do",
+      "start": 26.309,
+      "end": 26.627
+    },
+    {
+      "word": "blba",
+      "start": 26.627,
+      "end": 26.944
+    },
+    {
+      "word": "jak",
+      "start": 26.944,
+      "end": 27.262
+    },
+    {
+      "word": "ocas",
+      "start": 27.262,
+      "end": 27.58
+    },
+    {
+      "word": "Fake",
+      "start": 27.58,
+      "end": 27.911
+    },
+    {
+      "word": "vibes",
+      "start": 27.911,
+      "end": 28.243
+    },
+    {
+      "word": "na",
+      "start": 28.243,
+      "end": 28.574
+    },
+    {
+      "word": "storýčkách",
+      "start": 28.574,
+      "end": 28.906
+    },
+    {
+      "word": "samá",
+      "start": 28.906,
+      "end": 29.237
+    },
+    {
+      "word": "levná",
+      "start": 29.237,
+      "end": 29.569
+    },
+    {
+      "word": "maska",
+      "start": 29.569,
+      "end": 29.9
+    },
+    {
+      "word": "fake",
+      "start": 29.9,
+      "end": 29.901
+    },
+    {
+      "word": "všichni",
+      "start": 29.9,
+      "end": 30.24
+    },
+    {
+      "word": "flexej",
+      "start": 30.24,
+      "end": 30.58
+    },
+    {
+      "word": "cizí",
+      "start": 30.58,
+      "end": 30.92
+    },
+    {
+      "word": "life",
+      "start": 30.92,
+      "end": 31.26
+    },
+    {
+      "word": "až",
+      "start": 31.26,
+      "end": 31.6
+    },
+    {
+      "word": "z",
+      "start": 31.6,
+      "end": 31.94
+    },
+    {
+      "word": "toho",
+      "start": 31.94,
+      "end": 32.28
+    },
+    {
+      "word": "realita",
+      "start": 32.28,
+      "end": 32.62
+    },
+    {
+      "word": "praská",
+      "start": 32.62,
+      "end": 32.96
+    },
+    {
+      "word": "Kód",
+      "start": 32.96,
+      "end": 33.229
+    },
+    {
+      "word": "v",
+      "start": 33.229,
+      "end": 33.498
+    },
+    {
+      "word": "pozadí",
+      "start": 33.498,
+      "end": 33.767
+    },
+    {
+      "word": "mi",
+      "start": 33.767,
+      "end": 34.036
+    },
+    {
+      "word": "hází",
+      "start": 34.036,
+      "end": 34.304
+    },
+    {
+      "word": "přesně",
+      "start": 34.304,
+      "end": 34.573
+    },
+    {
+      "word": "to",
+      "start": 34.573,
+      "end": 34.842
+    },
+    {
+      "word": "co",
+      "start": 34.842,
+      "end": 35.111
+    },
+    {
+      "word": "nechci",
+      "start": 35.111,
+      "end": 35.38
+    },
+    {
+      "word": "shit",
+      "start": 35.38,
+      "end": 35.589
+    },
+    {
+      "word": "srovnávám",
+      "start": 35.589,
+      "end": 35.89
+    },
+    {
+      "word": "se",
+      "start": 35.89,
+      "end": 36.191
+    },
+    {
+      "word": "s",
+      "start": 36.191,
+      "end": 36.493
+    },
+    {
+      "word": "bludama",
+      "start": 36.493,
+      "end": 36.794
+    },
+    {
+      "word": "ztrácím",
+      "start": 36.794,
+      "end": 37.095
+    },
+    {
+      "word": "se",
+      "start": 37.095,
+      "end": 37.396
+    },
+    {
+      "word": "v",
+      "start": 37.396,
+      "end": 37.698
+    },
+    {
+      "word": "tý",
+      "start": 37.698,
+      "end": 37.999
+    },
+    {
+      "word": "kleci",
+      "start": 37.999,
+      "end": 38.3
+    },
+    {
+      "word": "Zavřenej",
+      "start": 38.3,
+      "end": 38.677
+    },
+    {
+      "word": "v",
+      "start": 38.677,
+      "end": 39.054
+    },
+    {
+      "word": "pokoji",
+      "start": 39.054,
+      "end": 39.431
+    },
+    {
+      "word": "čas",
+      "start": 39.431,
+      "end": 39.809
+    },
+    {
+      "word": "protejká",
+      "start": 39.809,
+      "end": 40.186
+    },
+    {
+      "word": "skrz",
+      "start": 40.186,
+      "end": 40.563
+    },
+    {
+      "word": "prsty",
+      "start": 40.563,
+      "end": 40.94
+    },
+    {
+      "word": "všichni",
+      "start": 40.94,
+      "end": 41.285
+    },
+    {
+      "word": "lověj",
+      "start": 41.285,
+      "end": 41.63
+    },
+    {
+      "word": "signál",
+      "start": 41.63,
+      "end": 41.975
+    },
+    {
+      "word": "ale",
+      "start": 41.975,
+      "end": 42.32
+    },
+    {
+      "word": "vztahy",
+      "start": 42.32,
+      "end": 42.665
+    },
+    {
+      "word": "jsou",
+      "start": 42.665,
+      "end": 43.01
+    },
+    {
+      "word": "tu",
+      "start": 43.01,
+      "end": 43.355
+    },
+    {
+      "word": "mrtvý",
+      "start": 43.355,
+      "end": 43.7
+    },
+    {
+      "word": "mrtvý",
+      "start": 43.7,
+      "end": 44.38
+    },
+    {
+      "word": "Už",
+      "start": 44.38,
+      "end": 44.652
+    },
+    {
+      "word": "mám",
+      "start": 44.652,
+      "end": 44.924
+    },
+    {
+      "word": "dost",
+      "start": 44.924,
+      "end": 45.197
+    },
+    {
+      "word": "musím",
+      "start": 45.197,
+      "end": 45.469
+    },
+    {
+      "word": "to",
+      "start": 45.469,
+      "end": 45.741
+    },
+    {
+      "word": "seknout",
+      "start": 45.741,
+      "end": 46.013
+    },
+    {
+      "word": "a",
+      "start": 46.013,
+      "end": 46.286
+    },
+    {
+      "word": "dát",
+      "start": 46.286,
+      "end": 46.558
+    },
+    {
+      "word": "off",
+      "start": 46.558,
+      "end": 46.83
+    },
+    {
+      "word": "off",
+      "start": 46.83,
+      "end": 47.32
+    },
+    {
+      "word": "Wi",
+      "start": 47.32,
+      "end": 47.583
+    },
+    {
+      "word": "Fi",
+      "start": 47.583,
+      "end": 47.845
+    },
+    {
+      "word": "sice",
+      "start": 47.845,
+      "end": 48.108
+    },
+    {
+      "word": "plná",
+      "start": 48.108,
+      "end": 48.37
+    },
+    {
+      "word": "ale",
+      "start": 48.37,
+      "end": 48.633
+    },
+    {
+      "word": "srdce",
+      "start": 48.633,
+      "end": 48.895
+    },
+    {
+      "word": "hlásí",
+      "start": 48.895,
+      "end": 49.157
+    },
+    {
+      "word": "block",
+      "start": 49.157,
+      "end": 49.42
+    },
+    {
+      "word": "Venku",
+      "start": 49.42,
+      "end": 49.786
+    },
+    {
+      "word": "běží",
+      "start": 49.786,
+      "end": 50.151
+    },
+    {
+      "word": "realita",
+      "start": 50.151,
+      "end": 50.517
+    },
+    {
+      "word": "seru",
+      "start": 50.517,
+      "end": 50.883
+    },
+    {
+      "word": "na",
+      "start": 50.883,
+      "end": 51.249
+    },
+    {
+      "word": "tvůj",
+      "start": 51.249,
+      "end": 51.614
+    },
+    {
+      "word": "preset",
+      "start": 51.614,
+      "end": 51.98
+    },
+    {
+      "word": "nechci",
+      "start": 51.98,
+      "end": 52.29
+    },
+    {
+      "word": "upload",
+      "start": 52.29,
+      "end": 52.6
+    },
+    {
+      "word": "citů",
+      "start": 52.6,
+      "end": 52.91
+    },
+    {
+      "word": "chci",
+      "start": 52.91,
+      "end": 53.22
+    },
+    {
+      "word": "tě",
+      "start": 53.22,
+      "end": 53.53
+    },
+    {
+      "word": "cítit",
+      "start": 53.53,
+      "end": 53.84
+    },
+    {
+      "word": "tady",
+      "start": 53.84,
+      "end": 54.15
+    },
+    {
+      "word": "hned",
+      "start": 54.15,
+      "end": 54.46
+    },
+    {
+      "word": "hned",
+      "start": 54.46,
+      "end": 54.67
+    },
+    {
+      "word": "Kde",
+      "start": 54.67,
+      "end": 54.922
+    },
+    {
+      "word": "je",
+      "start": 54.922,
+      "end": 55.174
+    },
+    {
+      "word": "ten",
+      "start": 55.174,
+      "end": 55.427
+    },
+    {
+      "word": "dotek",
+      "start": 55.427,
+      "end": 55.679
+    },
+    {
+      "word": "co",
+      "start": 55.679,
+      "end": 55.931
+    },
+    {
+      "word": "tě",
+      "start": 55.931,
+      "end": 56.183
+    },
+    {
+      "word": "rozseká",
+      "start": 56.183,
+      "end": 56.436
+    },
+    {
+      "word": "na",
+      "start": 56.436,
+      "end": 56.688
+    },
+    {
+      "word": "fleku",
+      "start": 56.688,
+      "end": 56.94
+    },
+    {
+      "word": "kde",
+      "start": 56.94,
+      "end": 57.26
+    },
+    {
+      "word": "Kde",
+      "start": 57.26,
+      "end": 57.512
+    },
+    {
+      "word": "je",
+      "start": 57.512,
+      "end": 57.764
+    },
+    {
+      "word": "ten",
+      "start": 57.764,
+      "end": 58.016
+    },
+    {
+      "word": "smích",
+      "start": 58.016,
+      "end": 58.268
+    },
+    {
+      "word": "co",
+      "start": 58.268,
+      "end": 58.52
+    },
+    {
+      "word": "tě",
+      "start": 58.52,
+      "end": 58.772
+    },
+    {
+      "word": "zboří",
+      "start": 58.772,
+      "end": 59.024
+    },
+    {
+      "word": "až",
+      "start": 59.024,
+      "end": 59.276
+    },
+    {
+      "word": "do",
+      "start": 59.276,
+      "end": 59.528
+    },
+    {
+      "word": "základů",
+      "start": 59.528,
+      "end": 59.78
+    },
+    {
+      "word": "řekni",
+      "start": 59.78,
+      "end": 60.26
+    },
+    {
+      "word": "Chci",
+      "start": 60.26,
+      "end": 60.533
+    },
+    {
+      "word": "slyšet",
+      "start": 60.533,
+      "end": 60.807
+    },
+    {
+      "word": "tvůj",
+      "start": 60.807,
+      "end": 61.08
+    },
+    {
+      "word": "hlas",
+      "start": 61.08,
+      "end": 61.353
+    },
+    {
+      "word": "ne",
+      "start": 61.353,
+      "end": 61.627
+    },
+    {
+      "word": "jen",
+      "start": 61.627,
+      "end": 61.9
+    },
+    {
+      "word": "smajlíky",
+      "start": 61.9,
+      "end": 62.173
+    },
+    {
+      "word": "v",
+      "start": 62.173,
+      "end": 62.447
+    },
+    {
+      "word": "chatu",
+      "start": 62.447,
+      "end": 62.72
+    },
+    {
+      "word": "žádný",
+      "start": 62.72,
+      "end": 63.097
+    },
+    {
+      "word": "iluze",
+      "start": 63.097,
+      "end": 63.475
+    },
+    {
+      "word": "na",
+      "start": 63.475,
+      "end": 63.852
+    },
+    {
+      "word": "skle",
+      "start": 63.852,
+      "end": 64.23
+    },
+    {
+      "word": "pojďme",
+      "start": 64.23,
+      "end": 64.608
+    },
+    {
+      "word": "roztrhat",
+      "start": 64.608,
+      "end": 64.985
+    },
+    {
+      "word": "tu",
+      "start": 64.985,
+      "end": 65.362
+    },
+    {
+      "word": "vatu",
+      "start": 65.362,
+      "end": 65.74
+    },
+    {
+      "word": "Tady",
+      "start": 65.74,
+      "end": 66.325
+    },
+    {
+      "word": "a",
+      "start": 66.325,
+      "end": 66.91
+    },
+    {
+      "word": "teď",
+      "start": 66.91,
+      "end": 67.495
+    },
+    {
+      "word": "brácho",
+      "start": 67.495,
+      "end": 68.08
+    },
+    {
+      "word": "žijeme",
+      "start": 68.08,
+      "end": 68.665
+    },
+    {
+      "word": "tady",
+      "start": 68.665,
+      "end": 69.25
+    },
+    {
+      "word": "a",
+      "start": 69.25,
+      "end": 69.835
+    },
+    {
+      "word": "teď",
+      "start": 69.835,
+      "end": 70.42
+    },
+    {
+      "word": "tady",
+      "start": 70.42,
+      "end": 70.82
+    },
+    {
+      "word": "a",
+      "start": 70.82,
+      "end": 71.22
+    },
+    {
+      "word": "teď",
+      "start": 71.22,
+      "end": 71.62
+    },
+    {
+      "word": "tady",
+      "start": 71.62,
+      "end": 72.115
+    },
+    {
+      "word": "a",
+      "start": 72.115,
+      "end": 72.61
+    },
+    {
+      "word": "teď",
+      "start": 72.61,
+      "end": 73.105
+    },
+    {
+      "word": "brácho",
+      "start": 73.105,
+      "end": 73.6
+    },
+    {
+      "word": "žijeme",
+      "start": 73.6,
+      "end": 74.095
+    },
+    {
+      "word": "tady",
+      "start": 74.095,
+      "end": 74.59
+    },
+    {
+      "word": "a",
+      "start": 74.59,
+      "end": 75.085
+    },
+    {
+      "word": "teď",
+      "start": 75.085,
+      "end": 75.58
+    },
+    {
+      "word": "Sedíme",
+      "start": 75.58,
+      "end": 75.918
+    },
+    {
+      "word": "na",
+      "start": 75.918,
+      "end": 76.255
+    },
+    {
+      "word": "baru",
+      "start": 76.255,
+      "end": 76.593
+    },
+    {
+      "word": "každej",
+      "start": 76.593,
+      "end": 76.93
+    },
+    {
+      "word": "čumí",
+      "start": 76.93,
+      "end": 77.267
+    },
+    {
+      "word": "do",
+      "start": 77.267,
+      "end": 77.605
+    },
+    {
+      "word": "svý",
+      "start": 77.605,
+      "end": 77.942
+    },
+    {
+      "word": "placky",
+      "start": 77.942,
+      "end": 78.28
+    },
+    {
+      "word": "zombie",
+      "start": 78.28,
+      "end": 78.76
+    },
+    {
+      "word": "trapný",
+      "start": 78.76,
+      "end": 79.123
+    },
+    {
+      "word": "ticho",
+      "start": 79.123,
+      "end": 79.486
+    },
+    {
+      "word": "dusí",
+      "start": 79.486,
+      "end": 79.849
+    },
+    {
+      "word": "všichni",
+      "start": 79.849,
+      "end": 80.211
+    },
+    {
+      "word": "lapený",
+      "start": 80.211,
+      "end": 80.574
+    },
+    {
+      "word": "do",
+      "start": 80.574,
+      "end": 80.937
+    },
+    {
+      "word": "pasti",
+      "start": 80.937,
+      "end": 81.3
+    },
+    {
+      "word": "Prej",
+      "start": 81.3,
+      "end": 81.534
+    },
+    {
+      "word": "jen",
+      "start": 81.534,
+      "end": 81.768
+    },
+    {
+      "word": "pět",
+      "start": 81.768,
+      "end": 82.002
+    },
+    {
+      "word": "minut",
+      "start": 82.002,
+      "end": 82.236
+    },
+    {
+      "word": "a",
+      "start": 82.236,
+      "end": 82.47
+    },
+    {
+      "word": "reálnej",
+      "start": 82.47,
+      "end": 82.86
+    },
+    {
+      "word": "život",
+      "start": 82.86,
+      "end": 83.25
+    },
+    {
+      "word": "hlásí",
+      "start": 83.25,
+      "end": 83.64
+    },
+    {
+      "word": "logout",
+      "start": 83.64,
+      "end": 84.42
+    },
+    {
+      "word": "šance",
+      "start": 84.42,
+      "end": 84.739
+    },
+    {
+      "word": "mizí",
+      "start": 84.739,
+      "end": 85.058
+    },
+    {
+      "word": "v",
+      "start": 85.058,
+      "end": 85.377
+    },
+    {
+      "word": "dýmu",
+      "start": 85.377,
+      "end": 85.696
+    },
+    {
+      "word": "dny",
+      "start": 85.696,
+      "end": 86.014
+    },
+    {
+      "word": "letí",
+      "start": 86.014,
+      "end": 86.333
+    },
+    {
+      "word": "nemůžeš",
+      "start": 86.333,
+      "end": 86.652
+    },
+    {
+      "word": "je",
+      "start": 86.652,
+      "end": 86.971
+    },
+    {
+      "word": "stopnout",
+      "start": 86.971,
+      "end": 87.29
+    },
+    {
+      "word": "ne",
+      "start": 87.29,
+      "end": 87.291
+    },
+    {
+      "word": "Furt",
+      "start": 87.29,
+      "end": 87.673
+    },
+    {
+      "word": "jenom",
+      "start": 87.673,
+      "end": 88.057
+    },
+    {
+      "word": "výmluvy",
+      "start": 88.057,
+      "end": 88.44
+    },
+    {
+      "word": "zítra",
+      "start": 88.44,
+      "end": 88.708
+    },
+    {
+      "word": "příště",
+      "start": 88.708,
+      "end": 88.976
+    },
+    {
+      "word": "kecy",
+      "start": 88.976,
+      "end": 89.244
+    },
+    {
+      "word": "v",
+      "start": 89.244,
+      "end": 89.512
+    },
+    {
+      "word": "kleci",
+      "start": 89.512,
+      "end": 89.78
+    },
+    {
+      "word": "promrdaný",
+      "start": 89.78,
+      "end": 90.16
+    },
+    {
+      "word": "hodiny",
+      "start": 90.16,
+      "end": 90.54
+    },
+    {
+      "word": "co",
+      "start": 90.54,
+      "end": 90.92
+    },
+    {
+      "word": "nevrátíš",
+      "start": 90.92,
+      "end": 91.3
+    },
+    {
+      "word": "to",
+      "start": 91.3,
+      "end": 91.68
+    },
+    {
+      "word": "jsou",
+      "start": 91.68,
+      "end": 92.06
+    },
+    {
+      "word": "věci",
+      "start": 92.06,
+      "end": 92.44
+    },
+    {
+      "word": "facts",
+      "start": 92.44,
+      "end": 92.66
+    },
+    {
+      "word": "Jsme",
+      "start": 92.66,
+      "end": 93.005
+    },
+    {
+      "word": "propojený",
+      "start": 93.005,
+      "end": 93.35
+    },
+    {
+      "word": "kabelem",
+      "start": 93.35,
+      "end": 93.695
+    },
+    {
+      "word": "ale",
+      "start": 93.695,
+      "end": 94.04
+    },
+    {
+      "word": "v",
+      "start": 94.04,
+      "end": 94.385
+    },
+    {
+      "word": "reálu",
+      "start": 94.385,
+      "end": 94.73
+    },
+    {
+      "word": "jsme",
+      "start": 94.73,
+      "end": 95.075
+    },
+    {
+      "word": "sami",
+      "start": 95.075,
+      "end": 95.42
+    },
+    {
+      "word": "vyměnili",
+      "start": 95.42,
+      "end": 95.78
+    },
+    {
+      "word": "jsme",
+      "start": 95.78,
+      "end": 96.14
+    },
+    {
+      "word": "svůj",
+      "start": 96.14,
+      "end": 96.5
+    },
+    {
+      "word": "čas",
+      "start": 96.5,
+      "end": 96.86
+    },
+    {
+      "word": "za",
+      "start": 96.86,
+      "end": 97.22
+    },
+    {
+      "word": "tyhle",
+      "start": 97.22,
+      "end": 97.58
+    },
+    {
+      "word": "svítící",
+      "start": 97.58,
+      "end": 97.94
+    },
+    {
+      "word": "krámy",
+      "start": 97.94,
+      "end": 98.3
+    },
+    {
+      "word": "trash",
+      "start": 98.3,
+      "end": 98.301
+    },
+    {
+      "word": "Zvedni",
+      "start": 98.3,
+      "end": 98.654
+    },
+    {
+      "word": "hlavu",
+      "start": 98.654,
+      "end": 99.009
+    },
+    {
+      "word": "nahoru",
+      "start": 99.009,
+      "end": 99.363
+    },
+    {
+      "word": "a",
+      "start": 99.363,
+      "end": 99.717
+    },
+    {
+      "word": "vypni",
+      "start": 99.717,
+      "end": 100.071
+    },
+    {
+      "word": "tenhle",
+      "start": 100.071,
+      "end": 100.426
+    },
+    {
+      "word": "krám",
+      "start": 100.426,
+      "end": 100.78
+    },
+    {
+      "word": "vypni",
+      "start": 100.78,
+      "end": 101.03
+    },
+    {
+      "word": "to",
+      "start": 101.03,
+      "end": 101.28
+    },
+    {
+      "word": "přepni",
+      "start": 101.28,
+      "end": 101.576
+    },
+    {
+      "word": "to",
+      "start": 101.576,
+      "end": 101.871
+    },
+    {
+      "word": "do",
+      "start": 101.871,
+      "end": 102.167
+    },
+    {
+      "word": "letadla",
+      "start": 102.167,
+      "end": 102.462
+    },
+    {
+      "word": "svět",
+      "start": 102.462,
+      "end": 102.758
+    },
+    {
+      "word": "je",
+      "start": 102.758,
+      "end": 103.053
+    },
+    {
+      "word": "venku",
+      "start": 103.053,
+      "end": 103.349
+    },
+    {
+      "word": "nejsi",
+      "start": 103.349,
+      "end": 103.644
+    },
+    {
+      "word": "sám",
+      "start": 103.644,
+      "end": 103.94
+    },
+    {
+      "word": "Nepotřebuješ",
+      "start": 103.94,
+      "end": 104.48
+    },
+    {
+      "word": "filtr",
+      "start": 104.48,
+      "end": 105.02
+    },
+    {
+      "word": "a",
+      "start": 105.02,
+      "end": 105.56
+    },
+    {
+      "word": "nepotřebuješ",
+      "start": 105.56,
+      "end": 106.1
+    },
+    {
+      "word": "lajky",
+      "start": 106.1,
+      "end": 106.64
+    },
+    {
+      "word": "stačí",
+      "start": 106.64,
+      "end": 107.086
+    },
+    {
+      "word": "čistej",
+      "start": 107.086,
+      "end": 107.531
+    },
+    {
+      "word": "pohled",
+      "start": 107.531,
+      "end": 107.977
+    },
+    {
+      "word": "zahoď",
+      "start": 107.977,
+      "end": 108.423
+    },
+    {
+      "word": "tyhle",
+      "start": 108.423,
+      "end": 108.869
+    },
+    {
+      "word": "levný",
+      "start": 108.869,
+      "end": 109.314
+    },
+    {
+      "word": "báchorky",
+      "start": 109.314,
+      "end": 109.76
+    },
+    {
+      "word": "zahoď",
+      "start": 109.76,
+      "end": 110.18
+    },
+    {
+      "word": "to",
+      "start": 110.18,
+      "end": 110.6
+    },
+    {
+      "word": "Jsem",
+      "start": 110.6,
+      "end": 110.913
+    },
+    {
+      "word": "tady",
+      "start": 110.913,
+      "end": 111.227
+    },
+    {
+      "word": "stojím",
+      "start": 111.227,
+      "end": 111.54
+    },
+    {
+      "word": "před",
+      "start": 111.54,
+      "end": 111.853
+    },
+    {
+      "word": "tebou",
+      "start": 111.853,
+      "end": 112.167
+    },
+    {
+      "word": "žádný",
+      "start": 112.167,
+      "end": 112.48
+    },
+    {
+      "word": "data",
+      "start": 112.48,
+      "end": 112.793
+    },
+    {
+      "word": "v",
+      "start": 112.793,
+      "end": 113.107
+    },
+    {
+      "word": "cloudu",
+      "start": 113.107,
+      "end": 113.42
+    },
+    {
+      "word": "živý",
+      "start": 113.42,
+      "end": 113.8
+    },
+    {
+      "word": "maso",
+      "start": 113.8,
+      "end": 114.18
+    },
+    {
+      "word": "kosti",
+      "start": 114.18,
+      "end": 114.56
+    },
+    {
+      "word": "kámo",
+      "start": 114.56,
+      "end": 114.94
+    },
+    {
+      "word": "jdeme",
+      "start": 114.94,
+      "end": 115.32
+    },
+    {
+      "word": "proti",
+      "start": 115.32,
+      "end": 115.7
+    },
+    {
+      "word": "proudu",
+      "start": 115.7,
+      "end": 116.08
+    },
+    {
+      "word": "Kde",
+      "start": 116.08,
+      "end": 116.338
+    },
+    {
+      "word": "je",
+      "start": 116.338,
+      "end": 116.596
+    },
+    {
+      "word": "ten",
+      "start": 116.596,
+      "end": 116.853
+    },
+    {
+      "word": "dotek",
+      "start": 116.853,
+      "end": 117.111
+    },
+    {
+      "word": "co",
+      "start": 117.111,
+      "end": 117.369
+    },
+    {
+      "word": "tě",
+      "start": 117.369,
+      "end": 117.627
+    },
+    {
+      "word": "rozseká",
+      "start": 117.627,
+      "end": 117.884
+    },
+    {
+      "word": "na",
+      "start": 117.884,
+      "end": 118.142
+    },
+    {
+      "word": "fleku",
+      "start": 118.142,
+      "end": 118.4
+    },
+    {
+      "word": "kde",
+      "start": 118.4,
+      "end": 118.64
+    },
+    {
+      "word": "Kde",
+      "start": 118.64,
+      "end": 118.886
+    },
+    {
+      "word": "je",
+      "start": 118.886,
+      "end": 119.132
+    },
+    {
+      "word": "ten",
+      "start": 119.132,
+      "end": 119.378
+    },
+    {
+      "word": "smích",
+      "start": 119.378,
+      "end": 119.624
+    },
+    {
+      "word": "co",
+      "start": 119.624,
+      "end": 119.87
+    },
+    {
+      "word": "tě",
+      "start": 119.87,
+      "end": 120.116
+    },
+    {
+      "word": "zboří",
+      "start": 120.116,
+      "end": 120.362
+    },
+    {
+      "word": "až",
+      "start": 120.362,
+      "end": 120.608
+    },
+    {
+      "word": "do",
+      "start": 120.608,
+      "end": 120.854
+    },
+    {
+      "word": "základů",
+      "start": 120.854,
+      "end": 121.1
+    },
+    {
+      "word": "řekni",
+      "start": 121.1,
+      "end": 121.54
+    },
+    {
+      "word": "Chci",
+      "start": 121.54,
+      "end": 121.82
+    },
+    {
+      "word": "slyšet",
+      "start": 121.82,
+      "end": 122.1
+    },
+    {
+      "word": "tvůj",
+      "start": 122.1,
+      "end": 122.38
+    },
+    {
+      "word": "hlas",
+      "start": 122.38,
+      "end": 122.66
+    },
+    {
+      "word": "ne",
+      "start": 122.66,
+      "end": 122.94
+    },
+    {
+      "word": "jen",
+      "start": 122.94,
+      "end": 123.22
+    },
+    {
+      "word": "smajlíky",
+      "start": 123.22,
+      "end": 123.5
+    },
+    {
+      "word": "v",
+      "start": 123.5,
+      "end": 123.78
+    },
+    {
+      "word": "chatu",
+      "start": 123.78,
+      "end": 124.06
+    },
+    {
+      "word": "žádný",
+      "start": 124.06,
+      "end": 124.435
+    },
+    {
+      "word": "iluze",
+      "start": 124.435,
+      "end": 124.81
+    },
+    {
+      "word": "na",
+      "start": 124.81,
+      "end": 125.185
+    },
+    {
+      "word": "skle",
+      "start": 125.185,
+      "end": 125.56
+    },
+    {
+      "word": "pojďme",
+      "start": 125.56,
+      "end": 125.935
+    },
+    {
+      "word": "roztrhat",
+      "start": 125.935,
+      "end": 126.31
+    },
+    {
+      "word": "tu",
+      "start": 126.31,
+      "end": 126.685
+    },
+    {
+      "word": "vatu",
+      "start": 126.685,
+      "end": 127.06
+    },
+    {
+      "word": "Tady",
+      "start": 127.06,
+      "end": 127.625
+    },
+    {
+      "word": "a",
+      "start": 127.625,
+      "end": 128.19
+    },
+    {
+      "word": "teď",
+      "start": 128.19,
+      "end": 128.755
+    },
+    {
+      "word": "brácho",
+      "start": 128.755,
+      "end": 129.32
+    },
+    {
+      "word": "žijeme",
+      "start": 129.32,
+      "end": 129.884
+    },
+    {
+      "word": "tady",
+      "start": 129.884,
+      "end": 130.449
+    },
+    {
+      "word": "a",
+      "start": 130.449,
+      "end": 131.014
+    },
+    {
+      "word": "teď",
+      "start": 131.014,
+      "end": 131.579
+    },
+    {
+      "word": "tady",
+      "start": 131.579,
+      "end": 132.026
+    },
+    {
+      "word": "a",
+      "start": 132.026,
+      "end": 132.473
+    },
+    {
+      "word": "teď",
+      "start": 132.473,
+      "end": 132.92
+    },
+    {
+      "word": "tady",
+      "start": 132.92,
+      "end": 133.427
+    },
+    {
+      "word": "a",
+      "start": 133.427,
+      "end": 133.935
+    },
+    {
+      "word": "teď",
+      "start": 133.935,
+      "end": 134.442
+    },
+    {
+      "word": "brácho",
+      "start": 134.442,
+      "end": 134.95
+    },
+    {
+      "word": "žijeme",
+      "start": 134.95,
+      "end": 135.457
+    },
+    {
+      "word": "tady",
+      "start": 135.457,
+      "end": 135.965
+    },
+    {
+      "word": "a",
+      "start": 135.965,
+      "end": 136.472
+    },
+    {
+      "word": "teď",
+      "start": 136.472,
+      "end": 136.98
+    },
+    {
+      "word": "Tady",
+      "start": 136.98,
+      "end": 137.533
+    },
+    {
+      "word": "a",
+      "start": 137.533,
+      "end": 138.087
+    },
+    {
+      "word": "teď",
+      "start": 138.087,
+      "end": 138.64
+    },
+    {
+      "word": "Vypli",
+      "start": 140.56,
+      "end": 140.88
+    },
+    {
+      "word": "jsme",
+      "start": 140.88,
+      "end": 141.2
+    },
+    {
+      "word": "ten",
+      "start": 141.2,
+      "end": 141.52
+    },
+    {
+      "word": "umělej",
+      "start": 141.52,
+      "end": 141.84
+    },
+    {
+      "word": "svět",
+      "start": 141.84,
+      "end": 142.16
+    },
+    {
+      "word": "konečně",
+      "start": 142.16,
+      "end": 143.04
+    },
+    {
+      "word": "Swajpování",
+      "start": 143.04,
+      "end": 143.695
+    },
+    {
+      "word": "je",
+      "start": 143.695,
+      "end": 144.35
+    },
+    {
+      "word": "v",
+      "start": 144.35,
+      "end": 145.005
+    },
+    {
+      "word": "hajzlu",
+      "start": 145.005,
+      "end": 145.66
+    },
+    {
+      "word": "reál",
+      "start": 145.66,
+      "end": 146.155
+    },
+    {
+      "word": "je",
+      "start": 146.155,
+      "end": 146.65
+    },
+    {
+      "word": "jediná",
+      "start": 146.65,
+      "end": 147.145
+    },
+    {
+      "word": "meta",
+      "start": 147.145,
+      "end": 147.64
+    },
+    {
+      "word": "Tady",
+      "start": 147.64,
+      "end": 148.193
+    },
+    {
+      "word": "a",
+      "start": 148.193,
+      "end": 148.746
+    },
+    {
+      "word": "teď",
+      "start": 148.746,
+      "end": 149.299
+    },
+    {
+      "word": "tady",
+      "start": 150.07,
+      "end": 150.326
+    },
+    {
+      "word": "a",
+      "start": 150.326,
+      "end": 150.583
+    },
+    {
+      "word": "teď",
+      "start": 150.583,
+      "end": 150.84
+    },
+    {
+      "word": "Dej",
+      "start": 150.84,
+      "end": 151.14
+    },
+    {
+      "word": "ten",
+      "start": 151.14,
+      "end": 151.44
+    },
+    {
+      "word": "foun",
+      "start": 151.44,
+      "end": 151.74
+    },
+    {
+      "word": "z",
+      "start": 151.74,
+      "end": 152.04
+    },
+    {
+      "word": "ruky",
+      "start": 152.04,
+      "end": 152.34
+    },
+    {
+      "word": "kámo",
+      "start": 152.34,
+      "end": 152.64
+    },
+    {
+      "word": "Tady",
+      "start": 152.64,
+      "end": 153.327
+    },
+    {
+      "word": "a",
+      "start": 153.327,
+      "end": 154.013
+    },
+    {
+      "word": "teď",
+      "start": 154.013,
+      "end": 154.7
+    },
+    {
+      "word": "mír",
+      "start": 154.7,
+      "end": 155.1
+    }
+  ]
+}
