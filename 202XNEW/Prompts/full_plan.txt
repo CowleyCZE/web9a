@@ -1,0 +1,79 @@
+### MUSIC_VIDEO_TIMELINE
+00:00.00 - 00:07.00 | vid_27 | Starý zaprášený metronom v temné dílně se sám od sebe rozhýbe a tiká.
+00:07.00 - 00:12.00 | vid_04 | Digitální hodiny 04:00, unavený čáp u počítače.
+00:12.00 - 00:17.00 | vid_19 | Detail rozsvícené stolní lampy, ze které stoupá jemný kouř.
+00:17.00 - 00:24.00 | rap_04 | Vstávám, rozhlížím se, v očích mám už jinej lesk. Konec lacinejch výmluv, teď já diktuju ten rap.
+00:24.00 - 00:31.00 | vid_14 | Pohled zezadu na čápa v potemnělém pokoji u stolu s hudebním softwarem.
+00:31.00 - 00:38.00 | vid_13 | Čáp sleduje, jak se z monitoru zhmotňuje holografická postava elegantního čápa.
+00:38.00 - 00:48.00 | rap_02 | Pamatuješ na ten moment, kdy jsi to chtěl celý vzdát? Právě ten tě naučil, jak strašně pevně stát. K…
+00:48.00 - 00:56.00 | vid_09 | Opeřená ruka listuje starým skicářem pod visící žárovkou.
+00:56.00 - 01:03.00 | rap_05 | Každej novej beat je cíl, každej text je statement. Potkal jsem svou budoucnost, mám finální testame…
+01:03.00 - 01:09.00 | rap_10 | A jestli mě slyšíš přes ty roky a tu zeď.
+01:09.00 - 01:15.00 | rap_07 | Tohle je signál z budoucnosti, zpráva na displej.
+01:15.00 - 01:22.00 | vid_06 | Abstraktní zářící modré a zlaté energetické linie na tmavém pozadí.
+01:22.00 - 01:29.00 | rap_09 | Budu to já, kdo tenhle byznys vezme do rukou.
+01:29.00 - 01:34.00 | rap_08 | Míň stresu, víc vaty, připravenej na ten fame.
+01:34.00 - 01:41.00 | vid_30 | Zlatý déšť a světelné jiskry dopadají na naleštěnou tmavou mramorovou podlahu.
+01:41.00 - 01:48.00 | rap_15 | Míň stresu, víc vaty, připravenej na ten fame. Tak přežij ty dny ve sračkách a braň si svoji game. J…
+01:48.00 - 01:53.00 | vid_16 | Pohled zevnitř skoro prázdné lednice na skleslého čápa v zelené mikině.
+01:53.00 - 02:01.00 | rap_06 | Dává mi fakta, detaily, co známe jenom my dva.
+02:01.00 - 02:09.00 | rap_16 | A všechny vize, co máš teďka načrtnutý v bloku, já v nich reálně žiju.
+02:09.00 - 02:16.00 | vid_18 | Pohled shora na hejno krys pobíhajících ve skladišti.
+02:16.00 - 02:23.00 | vid_10 | Černobílý záběr ruky píšící báseň tužkou na zmačkaný papír.
+02:23.00 - 02:27.00 | rap_03 | Mrazí mě na zádech, ale v hrudi se mi pálí krev, v zrcadle není troska, probouzí se ve mně lev.
+02:27.00 - 02:34.00 | vid_20 | Čáp v opuštěné hale stojí před zdí s graffiti, hledí na stín svého úspěšného já.
+02:34.00 - 02:41.00 | vid_23 | Čáp v továrně se dívá do zrcadla, v němž vidí sebe v obleku.
+02:41.00 - 02:48.00 | rap_17 | Konec lacinejch výmluv, teď já diktuju ten rap.
+02:48.00 - 02:56.00 | rap_12 | Budu to já, kdo tenhle byznys vezme do rukou. Bořím ty limity svázaný falešnou zárukou. Když padnu n…
+02:56.00 - 03:03.00 | vid_24 | Čáp ve skladu projde glitch přechodem přímo do luxusního neonového penthausu.
+03:03.00 - 03:10.00 | vid_02 | Černé auto STORIK TUNING projíždí neonovým tunelem.
+03:10.00 - 03:18.00 | rap_13 | Tohle je signál z budoucnosti, zpráva na displej. Nevzdávej to, šlapeš cestu, na jejímž konci je zla…
+03:18.00 - 03:25.00 | rap_14 | Každá ta prohra v prachu byla lístek na vrchol. Já jsem ty, ten samej zmrd, co všemu tlaku odolal.
+03:25.00 - 03:32.00 | rap_01 | Každá ta prohra v prachu byla lístek na vrchol, já jsem ten ferd, ten samej zmrd, co všemu tlaku odo…
+03:32.00 - 03:39.00 | rap_18 | Každá ta prohra v prachu byla lístek na vrchol, já jsem ten ferd, ten samej zmrd, co všemu tlaku odo…
+03:39.00 - 03:46.00 | vid_22 | Zlatá socha řvoucího lva tvořená tekutým kovem se dramaticky roztříští.
+03:46.00 - 03:53.00 | vid_05 | Zaplněný koncertní sál, lidé tleskají k osvětlenému pódiu.
+03:53.00 - 04:01.00 | rap_11 | Vidíme se na vrcholu. Signál ukončen.
+04:01.00 - 04:06.00 | vid_25 | Makro detail čápových slunečních brýlí, v nichž se odráží futuristický Mělník.
+04:06.00 - 04:12.00 | vid_07 | Starý CRT monitor, nápis SIGNÁL UKONČEN, glitch, šum.
+04:12.00 - 04:17.00 | vid_01 | Obrazovka DAW se stopami zvuku, okno EXPORT DOKONČEN - 202X.
+
+### SHOT_ORDER
+00:00.00 - 00:07.00 | vid_27 |
+00:07.00 - 00:12.00 | vid_04 |
+00:12.00 - 00:17.00 | vid_19 |
+00:17.00 - 00:24.00 | rap_04 |
+00:24.00 - 00:31.00 | vid_14 |
+00:31.00 - 00:38.00 | vid_13 |
+00:38.00 - 00:48.00 | rap_02 |
+00:48.00 - 00:56.00 | vid_09 |
+00:56.00 - 01:03.00 | rap_05 |
+01:03.00 - 01:09.00 | rap_10 |
+01:09.00 - 01:15.00 | rap_07 |
+01:15.00 - 01:22.00 | vid_06 |
+01:22.00 - 01:29.00 | rap_09 |
+01:29.00 - 01:34.00 | rap_08 |
+01:34.00 - 01:41.00 | vid_30 |
+01:41.00 - 01:48.00 | rap_15 |
+01:48.00 - 01:53.00 | vid_16 |
+01:53.00 - 02:01.00 | rap_06 |
+02:01.00 - 02:09.00 | rap_16 |
+02:09.00 - 02:16.00 | vid_18 |
+02:16.00 - 02:23.00 | vid_10 |
+02:23.00 - 02:27.00 | rap_03 |
+02:27.00 - 02:34.00 | vid_20 |
+02:34.00 - 02:41.00 | vid_23 |
+02:41.00 - 02:48.00 | rap_17 |
+02:48.00 - 02:56.00 | rap_12 |
+02:56.00 - 03:03.00 | vid_24 |
+03:03.00 - 03:10.00 | vid_02 |
+03:10.00 - 03:18.00 | rap_13 |
+03:18.00 - 03:25.00 | rap_14 |
+03:25.00 - 03:32.00 | rap_01 |
+03:32.00 - 03:39.00 | rap_18 |
+03:39.00 - 03:46.00 | vid_22 |
+03:46.00 - 03:53.00 | vid_05 |
+03:53.00 - 04:01.00 | rap_11 |
+04:01.00 - 04:06.00 | vid_25 |
+04:06.00 - 04:12.00 | vid_07 |
+04:12.00 - 04:17.00 | vid_01 |

@@ -1,0 +1,173 @@
+{
+  "song_length": 224.544,
+  "rap_clips": [
+    "rap_01",
+    "rap_02",
+    "rap_03",
+    "rap_04",
+    "rap_05",
+    "rap_06",
+    "rap_07",
+    "rap_08",
+    "rap_09",
+    "rap_10",
+    "rap_11",
+    "rap_12",
+    "rap_13",
+    "rap_14",
+    "rap_15",
+    "rap_16",
+    "rap_17",
+    "rap_18"
+  ],
+  "char_clips": [],
+  "broll_clips": [
+    "vid_01",
+    "vid_02",
+    "vid_03",
+    "vid_04",
+    "vid_05",
+    "vid_06",
+    "vid_07",
+    "vid_08",
+    "vid_09",
+    "vid_10",
+    "vid_11",
+    "vid_12",
+    "vid_13",
+    "vid_14",
+    "vid_15",
+    "vid_16",
+    "vid_17",
+    "vid_18",
+    "vid_19",
+    "vid_20",
+    "vid_21",
+    "vid_22",
+    "vid_23",
+    "vid_24",
+    "vid_25",
+    "vid_26",
+    "vid_27",
+    "vid_28",
+    "vid_29",
+    "vid_30",
+    "vid_31",
+    "vid_32"
+  ],
+  "images": [],
+  "shot_order": [
+    "vid_27",
+    "vid_04",
+    "vid_19",
+    "rap_04",
+    "vid_14",
+    "vid_13",
+    "rap_02",
+    "vid_09",
+    "rap_05",
+    "rap_10",
+    "rap_07",
+    "vid_06",
+    "rap_09",
+    "rap_08",
+    "vid_30",
+    "rap_15",
+    "vid_16",
+    "rap_06",
+    "rap_16",
+    "vid_18",
+    "vid_10",
+    "rap_03",
+    "vid_20",
+    "vid_23",
+    "rap_17",
+    "rap_12",
+    "vid_24",
+    "vid_02",
+    "rap_13",
+    "rap_14",
+    "rap_01",
+    "rap_18",
+    "vid_22",
+    "vid_05",
+    "rap_11",
+    "vid_25",
+    "vid_07",
+    "vid_01"
+  ],
+  "original_timestamps": {
+    "rap_04": {
+      "start": 17.0,
+      "end": 24.0
+    },
+    "rap_02": {
+      "start": 38.0,
+      "end": 48.0
+    },
+    "rap_05": {
+      "start": 56.0,
+      "end": 63.0
+    },
+    "rap_10": {
+      "start": 63.0,
+      "end": 69.0
+    },
+    "rap_07": {
+      "start": 69.0,
+      "end": 75.0
+    },
+    "rap_09": {
+      "start": 82.0,
+      "end": 89.0
+    },
+    "rap_08": {
+      "start": 89.0,
+      "end": 94.0
+    },
+    "rap_15": {
+      "start": 101.0,
+      "end": 108.0
+    },
+    "rap_06": {
+      "start": 113.0,
+      "end": 121.0
+    },
+    "rap_16": {
+      "start": 121.0,
+      "end": 129.0
+    },
+    "rap_03": {
+      "start": 143.0,
+      "end": 147.0
+    },
+    "rap_17": {
+      "start": 161.0,
+      "end": 168.0
+    },
+    "rap_12": {
+      "start": 168.0,
+      "end": 176.0
+    },
+    "rap_13": {
+      "start": 190.0,
+      "end": 198.0
+    },
+    "rap_14": {
+      "start": 198.0,
+      "end": 205.0
+    },
+    "rap_01": {
+      "start": 205.0,
+      "end": 212.0
+    },
+    "rap_18": {
+      "start": 212.0,
+      "end": 219.0
+    },
+    "rap_11": {
+      "start": 233.0,
+      "end": 241.0
+    }
+  }
+}

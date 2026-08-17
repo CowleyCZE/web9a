@@ -1,0 +1,3399 @@
+{
+  "rap_01": {
+    "clip": "rap_01.mp4",
+    "source": "gen_rap/rap_01.mp4",
+    "clip_duration": 5.2799,
+    "rap_start": 0.0,
+    "rap_end": 7.94,
+    "rap_duration": 5.2199,
+    "transcript_raw": "Každá ta prohra v prachu byla lístek na vrchol. Já jsem Tiffet, ten samej zmrt, co všemu tlaku odolal.",
+    "transcript_empty": false,
+    "lyrics_window": "Každá ta prohra v prachu byla lístek na vrchol já jsem ty ten samej zmrd co všemu tlaku odolal",
+    "lyrics_match_score": 0.8947,
+    "transcript_fixed": "Každá ta prohra v prachu byla lístek na vrchol já jsem ty ten samej zmrd co všemu tlaku odolal",
+    "words": [
+      {
+        "word": "Každá",
+        "start": 0.0,
+        "end": 0.447
+      },
+      {
+        "word": "ta",
+        "start": 0.447,
+        "end": 0.5128
+      },
+      {
+        "word": "prohra",
+        "start": 0.5128,
+        "end": 0.7626
+      },
+      {
+        "word": "v",
+        "start": 0.7626,
+        "end": 0.8941
+      },
+      {
+        "word": "prachu",
+        "start": 0.8941,
+        "end": 1.1045
+      },
+      {
+        "word": "byla",
+        "start": 1.1045,
+        "end": 1.3543
+      },
+      {
+        "word": "lístek",
+        "start": 1.3543,
+        "end": 1.6698
+      },
+      {
+        "word": "na",
+        "start": 1.6698,
+        "end": 1.8408
+      },
+      {
+        "word": "vrchol",
+        "start": 1.8408,
+        "end": 2.2615
+      },
+      {
+        "word": "já",
+        "start": 2.2089,
+        "end": 2.3667
+      },
+      {
+        "word": "jsem",
+        "start": 2.3667,
+        "end": 2.5113
+      },
+      {
+        "word": "ty",
+        "start": 2.5113,
+        "end": 3.103
+      },
+      {
+        "word": "ten",
+        "start": 3.103,
+        "end": 3.2608
+      },
+      {
+        "word": "samej",
+        "start": 3.2608,
+        "end": 3.5238
+      },
+      {
+        "word": "zmrd",
+        "start": 3.5238,
+        "end": 3.8919
+      },
+      {
+        "word": "co",
+        "start": 3.8919,
+        "end": 3.9577
+      },
+      {
+        "word": "všemu",
+        "start": 3.9577,
+        "end": 4.2075
+      },
+      {
+        "word": "tlaku",
+        "start": 4.2075,
+        "end": 4.4967
+      },
+      {
+        "word": "odolal",
+        "start": 4.4967,
+        "end": 5.2199
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Každá",
+        "start": 0.0,
+        "end": 0.68
+      },
+      {
+        "word": "ta",
+        "start": 0.68,
+        "end": 0.78
+      },
+      {
+        "word": "prohra",
+        "start": 0.78,
+        "end": 1.16
+      },
+      {
+        "word": "v",
+        "start": 1.16,
+        "end": 1.36
+      },
+      {
+        "word": "prachu",
+        "start": 1.36,
+        "end": 1.68
+      },
+      {
+        "word": "byla",
+        "start": 1.68,
+        "end": 2.06
+      },
+      {
+        "word": "lístek",
+        "start": 2.06,
+        "end": 2.54
+      },
+      {
+        "word": "na",
+        "start": 2.54,
+        "end": 2.8
+      },
+      {
+        "word": "vrchol.",
+        "start": 2.8,
+        "end": 3.44
+      },
+      {
+        "word": "Já",
+        "start": 3.36,
+        "end": 3.6
+      },
+      {
+        "word": "jsem",
+        "start": 3.6,
+        "end": 3.82
+      },
+      {
+        "word": "Tiffet,",
+        "start": 3.82,
+        "end": 4.72
+      },
+      {
+        "word": "ten",
+        "start": 4.72,
+        "end": 4.96
+      },
+      {
+        "word": "samej",
+        "start": 4.96,
+        "end": 5.36
+      },
+      {
+        "word": "zmrt,",
+        "start": 5.36,
+        "end": 5.92
+      },
+      {
+        "word": "co",
+        "start": 5.92,
+        "end": 6.02
+      },
+      {
+        "word": "všemu",
+        "start": 6.02,
+        "end": 6.4
+      },
+      {
+        "word": "tlaku",
+        "start": 6.4,
+        "end": 6.84
+      },
+      {
+        "word": "odolal.",
+        "start": 6.84,
+        "end": 7.94
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 186.072,
+      "song_end": 191.292,
+      "song_index": 450
+    },
+    "before_duration": 0.0,
+    "after_duration": 0.06,
+    "target_rap_duration": 5.22,
+    "speed_factor": 1.5211,
+    "new_clip_duration": 5.2799,
+    "output_hash": "c1925a4798732e41451ecb1f5df84aa8"
+  },
+  "rap_02": {
+    "clip": "rap_02.mp4",
+    "source": "gen_rap/rap_02.mp4",
+    "clip_duration": 10.6819,
+    "rap_start": 0.0,
+    "rap_end": 10.26,
+    "rap_duration": 10.6819,
+    "transcript_raw": "Pamatuješ na ten moment, kdy si to chtěl celý vzdát? Právě ten tě naučil, jak strašně pevně stát. Krysy, co tě dneska řeší, sypou jet za zádama? V mý době platí pálku, stojí frontu před bránama.",
+    "transcript_empty": false,
+    "lyrics_window": "Pamatuješ na ten moment kdy jsi to chtěl celý vzdát Právě ten tě naučil jak kurva pevně stát Krysy co tě dneska řeší sypou jed za zádama V mý době platí palku stojí frontu před bránama",
+    "lyrics_match_score": 0.8889,
+    "transcript_fixed": "Pamatuješ na ten moment kdy jsi to chtěl celý vzdát Právě ten tě naučil jak kurva pevně stát Krysy co tě dneska řeší sypou jed za zádama V mý době platí palku stojí frontu před bránama",
+    "words": [
+      {
+        "word": "Pamatuješ",
+        "start": 0.0,
+        "end": 0.6455
+      },
+      {
+        "word": "na",
+        "start": 0.6455,
+        "end": 0.7913
+      },
+      {
+        "word": "ten",
+        "start": 0.7913,
+        "end": 0.9162
+      },
+      {
+        "word": "moment",
+        "start": 0.9162,
+        "end": 1.3743
+      },
+      {
+        "word": "kdy",
+        "start": 1.3743,
+        "end": 1.4784
+      },
+      {
+        "word": "jsi",
+        "start": 1.4784,
+        "end": 1.5825
+      },
+      {
+        "word": "to",
+        "start": 1.5825,
+        "end": 1.7699
+      },
+      {
+        "word": "chtěl",
+        "start": 1.7699,
+        "end": 1.9781
+      },
+      {
+        "word": "celý",
+        "start": 1.9781,
+        "end": 2.228
+      },
+      {
+        "word": "vzdát",
+        "start": 2.228,
+        "end": 2.7694
+      },
+      {
+        "word": "Právě",
+        "start": 3.0609,
+        "end": 3.4982
+      },
+      {
+        "word": "ten",
+        "start": 3.4982,
+        "end": 3.6648
+      },
+      {
+        "word": "tě",
+        "start": 3.6648,
+        "end": 3.7897
+      },
+      {
+        "word": "naučil",
+        "start": 3.7897,
+        "end": 4.2686
+      },
+      {
+        "word": "jak",
+        "start": 4.2686,
+        "end": 4.3519
+      },
+      {
+        "word": "kurva",
+        "start": 4.3519,
+        "end": 4.7475
+      },
+      {
+        "word": "pevně",
+        "start": 4.7475,
+        "end": 5.0599
+      },
+      {
+        "word": "stát",
+        "start": 5.0599,
+        "end": 5.5388
+      },
+      {
+        "word": "Krysy",
+        "start": 5.518,
+        "end": 5.8719
+      },
+      {
+        "word": "co",
+        "start": 5.8719,
+        "end": 6.0385
+      },
+      {
+        "word": "tě",
+        "start": 6.0385,
+        "end": 6.1635
+      },
+      {
+        "word": "dneska",
+        "start": 6.1635,
+        "end": 6.5383
+      },
+      {
+        "word": "řeší",
+        "start": 6.5383,
+        "end": 6.8506
+      },
+      {
+        "word": "sypou",
+        "start": 6.8506,
+        "end": 7.1005
+      },
+      {
+        "word": "jed",
+        "start": 7.1005,
+        "end": 7.3087
+      },
+      {
+        "word": "za",
+        "start": 7.3087,
+        "end": 7.4545
+      },
+      {
+        "word": "zádama",
+        "start": 7.4545,
+        "end": 7.7876
+      },
+      {
+        "word": "V",
+        "start": 7.975,
+        "end": 8.1416
+      },
+      {
+        "word": "mý",
+        "start": 8.1416,
+        "end": 8.2457
+      },
+      {
+        "word": "době",
+        "start": 8.2457,
+        "end": 8.558
+      },
+      {
+        "word": "platí",
+        "start": 8.558,
+        "end": 8.8079
+      },
+      {
+        "word": "palku",
+        "start": 8.8079,
+        "end": 9.3285
+      },
+      {
+        "word": "stojí",
+        "start": 9.3285,
+        "end": 9.5159
+      },
+      {
+        "word": "frontu",
+        "start": 9.5159,
+        "end": 9.8699
+      },
+      {
+        "word": "před",
+        "start": 9.8699,
+        "end": 10.0573
+      },
+      {
+        "word": "bránama",
+        "start": 10.0573,
+        "end": 10.6819
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Pamatuješ",
+        "start": 0.0,
+        "end": 0.62
+      },
+      {
+        "word": "na",
+        "start": 0.62,
+        "end": 0.76
+      },
+      {
+        "word": "ten",
+        "start": 0.76,
+        "end": 0.88
+      },
+      {
+        "word": "moment,",
+        "start": 0.88,
+        "end": 1.32
+      },
+      {
+        "word": "kdy",
+        "start": 1.32,
+        "end": 1.42
+      },
+      {
+        "word": "si",
+        "start": 1.42,
+        "end": 1.52
+      },
+      {
+        "word": "to",
+        "start": 1.52,
+        "end": 1.7
+      },
+      {
+        "word": "chtěl",
+        "start": 1.7,
+        "end": 1.9
+      },
+      {
+        "word": "celý",
+        "start": 1.9,
+        "end": 2.14
+      },
+      {
+        "word": "vzdát?",
+        "start": 2.14,
+        "end": 2.66
+      },
+      {
+        "word": "Právě",
+        "start": 2.94,
+        "end": 3.36
+      },
+      {
+        "word": "ten",
+        "start": 3.36,
+        "end": 3.52
+      },
+      {
+        "word": "tě",
+        "start": 3.52,
+        "end": 3.64
+      },
+      {
+        "word": "naučil,",
+        "start": 3.64,
+        "end": 4.1
+      },
+      {
+        "word": "jak",
+        "start": 4.1,
+        "end": 4.18
+      },
+      {
+        "word": "strašně",
+        "start": 4.18,
+        "end": 4.56
+      },
+      {
+        "word": "pevně",
+        "start": 4.56,
+        "end": 4.86
+      },
+      {
+        "word": "stát.",
+        "start": 4.86,
+        "end": 5.32
+      },
+      {
+        "word": "Krysy,",
+        "start": 5.3,
+        "end": 5.64
+      },
+      {
+        "word": "co",
+        "start": 5.64,
+        "end": 5.8
+      },
+      {
+        "word": "tě",
+        "start": 5.8,
+        "end": 5.92
+      },
+      {
+        "word": "dneska",
+        "start": 5.92,
+        "end": 6.28
+      },
+      {
+        "word": "řeší,",
+        "start": 6.28,
+        "end": 6.58
+      },
+      {
+        "word": "sypou",
+        "start": 6.58,
+        "end": 6.82
+      },
+      {
+        "word": "jet",
+        "start": 6.82,
+        "end": 7.02
+      },
+      {
+        "word": "za",
+        "start": 7.02,
+        "end": 7.16
+      },
+      {
+        "word": "zádama?",
+        "start": 7.16,
+        "end": 7.48
+      },
+      {
+        "word": "V",
+        "start": 7.66,
+        "end": 7.82
+      },
+      {
+        "word": "mý",
+        "start": 7.82,
+        "end": 7.92
+      },
+      {
+        "word": "době",
+        "start": 7.92,
+        "end": 8.22
+      },
+      {
+        "word": "platí",
+        "start": 8.22,
+        "end": 8.46
+      },
+      {
+        "word": "pálku,",
+        "start": 8.46,
+        "end": 8.96
+      },
+      {
+        "word": "stojí",
+        "start": 8.96,
+        "end": 9.14
+      },
+      {
+        "word": "frontu",
+        "start": 9.14,
+        "end": 9.48
+      },
+      {
+        "word": "před",
+        "start": 9.48,
+        "end": 9.66
+      },
+      {
+        "word": "bránama.",
+        "start": 9.66,
+        "end": 10.26
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 111.52,
+      "song_end": 122.202,
+      "song_index": 254
+    },
+    "before_duration": 0.0,
+    "after_duration": 0.0,
+    "target_rap_duration": 10.682,
+    "speed_factor": 0.9605,
+    "new_clip_duration": 10.6819,
+    "output_hash": "638d57a9a64c23ca1e6e42d9bd15d8ba"
+  },
+  "rap_03": {
+    "clip": "rap_03.mp4",
+    "source": "gen_rap/rap_03.mp4",
+    "clip_duration": 9.7403,
+    "rap_start": 0.0,
+    "rap_end": 6.3,
+    "rap_duration": 9.7403,
+    "transcript_raw": "Mrazí mě na zádech, ale v hrudi se mi pálení troska, probouzí se ve mně lev.",
+    "transcript_empty": false,
+    "lyrics_window": "už několik roků Mrazí mě na zádech ale v hrudi se mi pálí krev v zrcadle není troska probouzí se ve mně lev",
+    "lyrics_match_score": 0.8333,
+    "transcript_fixed": "už několik roků Mrazí mě na zádech ale v hrudi se mi pálí krev v zrcadle není troska probouzí se ve mně lev",
+    "words": [
+      {
+        "word": "už",
+        "start": 0.0,
+        "end": 0.0015
+      },
+      {
+        "word": "několik",
+        "start": 0.0015,
+        "end": 0.0031
+      },
+      {
+        "word": "roků",
+        "start": 0.0031,
+        "end": 0.0046
+      },
+      {
+        "word": "Mrazí",
+        "start": 0.0,
+        "end": 3.4632
+      },
+      {
+        "word": "mě",
+        "start": 3.4632,
+        "end": 3.5869
+      },
+      {
+        "word": "na",
+        "start": 3.5869,
+        "end": 3.8652
+      },
+      {
+        "word": "zádech",
+        "start": 3.8652,
+        "end": 4.6073
+      },
+      {
+        "word": "ale",
+        "start": 4.6073,
+        "end": 4.731
+      },
+      {
+        "word": "v",
+        "start": 4.731,
+        "end": 4.9165
+      },
+      {
+        "word": "hrudi",
+        "start": 4.9165,
+        "end": 5.2566
+      },
+      {
+        "word": "se",
+        "start": 5.2566,
+        "end": 5.6277
+      },
+      {
+        "word": "mi",
+        "start": 5.6277,
+        "end": 5.7514
+      },
+      {
+        "word": "pálí",
+        "start": 5.7514,
+        "end": 5.8936
+      },
+      {
+        "word": "krev",
+        "start": 5.8936,
+        "end": 6.0359
+      },
+      {
+        "word": "v",
+        "start": 6.0359,
+        "end": 6.1781
+      },
+      {
+        "word": "zrcadle",
+        "start": 6.1781,
+        "end": 6.3203
+      },
+      {
+        "word": "není",
+        "start": 6.3203,
+        "end": 6.4626
+      },
+      {
+        "word": "troska",
+        "start": 6.4626,
+        "end": 7.2975
+      },
+      {
+        "word": "probouzí",
+        "start": 7.2975,
+        "end": 7.7922
+      },
+      {
+        "word": "se",
+        "start": 7.7922,
+        "end": 8.0396
+      },
+      {
+        "word": "ve",
+        "start": 8.0396,
+        "end": 8.256
+      },
+      {
+        "word": "mně",
+        "start": 8.256,
+        "end": 8.4416
+      },
+      {
+        "word": "lev",
+        "start": 8.4416,
+        "end": 9.7403
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Mrazí",
+        "start": 0.0,
+        "end": 2.24
+      },
+      {
+        "word": "mě",
+        "start": 2.24,
+        "end": 2.32
+      },
+      {
+        "word": "na",
+        "start": 2.32,
+        "end": 2.5
+      },
+      {
+        "word": "zádech,",
+        "start": 2.5,
+        "end": 2.98
+      },
+      {
+        "word": "ale",
+        "start": 2.98,
+        "end": 3.06
+      },
+      {
+        "word": "v",
+        "start": 3.06,
+        "end": 3.18
+      },
+      {
+        "word": "hrudi",
+        "start": 3.18,
+        "end": 3.4
+      },
+      {
+        "word": "se",
+        "start": 3.4,
+        "end": 3.64
+      },
+      {
+        "word": "mi",
+        "start": 3.64,
+        "end": 3.72
+      },
+      {
+        "word": "pálení",
+        "start": 3.72,
+        "end": 4.18
+      },
+      {
+        "word": "troska,",
+        "start": 4.18,
+        "end": 4.72
+      },
+      {
+        "word": "probouzí",
+        "start": 4.72,
+        "end": 5.04
+      },
+      {
+        "word": "se",
+        "start": 5.04,
+        "end": 5.2
+      },
+      {
+        "word": "ve",
+        "start": 5.2,
+        "end": 5.34
+      },
+      {
+        "word": "mně",
+        "start": 5.34,
+        "end": 5.46
+      },
+      {
+        "word": "lev.",
+        "start": 5.46,
+        "end": 6.3
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 126.932,
+      "song_end": 136.672,
+      "song_index": 304
+    },
+    "before_duration": 0.0,
+    "after_duration": 0.0,
+    "target_rap_duration": 9.74,
+    "speed_factor": 0.6468,
+    "new_clip_duration": 9.7403,
+    "output_hash": "b9696788efb6d3c6c9e1fa9ebde18aef"
+  },
+  "rap_04": {
+    "clip": "rap_04.mp4",
+    "source": "gen_rap/rap_04.mp4",
+    "clip_duration": 7.0002,
+    "rap_start": 2.32,
+    "rap_end": 8.02,
+    "rap_duration": 4.6802,
+    "transcript_raw": "Vstávám, rozlížím se, v očích mám už jinej lesk, konec lacinejch výmluv, teď já diktuju ten rap.",
+    "transcript_empty": false,
+    "lyrics_window": "se v očích mám už jinej lesk konec lacinejch výmluv teď já diktuju ten rap",
+    "lyrics_match_score": 0.9412,
+    "transcript_fixed": "se v očích mám už jinej lesk konec lacinejch výmluv teď já diktuju ten rap",
+    "words": [
+      {
+        "word": "se",
+        "start": 2.32,
+        "end": 2.8783
+      },
+      {
+        "word": "v",
+        "start": 2.8783,
+        "end": 2.944
+      },
+      {
+        "word": "očích",
+        "start": 2.944,
+        "end": 3.2068
+      },
+      {
+        "word": "mám",
+        "start": 3.2068,
+        "end": 3.4695
+      },
+      {
+        "word": "už",
+        "start": 3.4695,
+        "end": 3.6009
+      },
+      {
+        "word": "jinej",
+        "start": 3.6009,
+        "end": 3.8801
+      },
+      {
+        "word": "lesk",
+        "start": 3.8801,
+        "end": 4.4384
+      },
+      {
+        "word": "konec",
+        "start": 4.4384,
+        "end": 4.7011
+      },
+      {
+        "word": "lacinejch",
+        "start": 4.7011,
+        "end": 5.161
+      },
+      {
+        "word": "výmluv",
+        "start": 5.161,
+        "end": 5.5715
+      },
+      {
+        "word": "teď",
+        "start": 5.5715,
+        "end": 5.7029
+      },
+      {
+        "word": "já",
+        "start": 5.7029,
+        "end": 5.8835
+      },
+      {
+        "word": "diktuju",
+        "start": 5.8835,
+        "end": 6.2612
+      },
+      {
+        "word": "ten",
+        "start": 6.2612,
+        "end": 6.4911
+      },
+      {
+        "word": "rap",
+        "start": 6.4911,
+        "end": 7.0002
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Vstávám,",
+        "start": 0.0,
+        "end": 1.84
+      },
+      {
+        "word": "rozlížím",
+        "start": 1.84,
+        "end": 2.32
+      },
+      {
+        "word": "se,",
+        "start": 2.32,
+        "end": 3.0
+      },
+      {
+        "word": "v",
+        "start": 3.0,
+        "end": 3.08
+      },
+      {
+        "word": "očích",
+        "start": 3.08,
+        "end": 3.4
+      },
+      {
+        "word": "mám",
+        "start": 3.4,
+        "end": 3.72
+      },
+      {
+        "word": "už",
+        "start": 3.72,
+        "end": 3.88
+      },
+      {
+        "word": "jinej",
+        "start": 3.88,
+        "end": 4.22
+      },
+      {
+        "word": "lesk,",
+        "start": 4.22,
+        "end": 4.9
+      },
+      {
+        "word": "konec",
+        "start": 4.9,
+        "end": 5.22
+      },
+      {
+        "word": "lacinejch",
+        "start": 5.22,
+        "end": 5.78
+      },
+      {
+        "word": "výmluv,",
+        "start": 5.78,
+        "end": 6.28
+      },
+      {
+        "word": "teď",
+        "start": 6.28,
+        "end": 6.44
+      },
+      {
+        "word": "já",
+        "start": 6.44,
+        "end": 6.66
+      },
+      {
+        "word": "diktuju",
+        "start": 6.66,
+        "end": 7.12
+      },
+      {
+        "word": "ten",
+        "start": 7.12,
+        "end": 7.4
+      },
+      {
+        "word": "rap.",
+        "start": 7.4,
+        "end": 8.02
+      }
+    ],
+    "song_match": {
+      "score": 0.9677,
+      "song_start": 153.312,
+      "song_end": 157.992,
+      "song_index": 366
+    },
+    "before_duration": 2.32,
+    "after_duration": 0.0,
+    "target_rap_duration": 4.68,
+    "speed_factor": 1.2179,
+    "new_clip_duration": 7.0002,
+    "output_hash": "12f78620e0646a04420b0414dda784ec"
+  },
+  "rap_05": {
+    "clip": "rap_05.mp4",
+    "source": "gen_rap/rap_05.mp4",
+    "clip_duration": 7.6199,
+    "rap_start": 1.22,
+    "rap_end": 7.52,
+    "rap_duration": 5.9199,
+    "transcript_raw": "Každej novej beat je cíl, každej text je statement, potkal jsem svou budoucnost, mám finální testament.",
+    "transcript_empty": false,
+    "lyrics_window": "Každej novej beat je cíl každej text je statement potkal jsem svou budoucnost mám finální testament",
+    "lyrics_match_score": 1.0,
+    "transcript_fixed": "Každej novej beat je cíl každej text je statement potkal jsem svou budoucnost mám finální testament",
+    "words": [
+      {
+        "word": "Každej",
+        "start": 1.22,
+        "end": 1.5959
+      },
+      {
+        "word": "novej",
+        "start": 1.5959,
+        "end": 1.8778
+      },
+      {
+        "word": "beat",
+        "start": 1.8778,
+        "end": 2.0845
+      },
+      {
+        "word": "je",
+        "start": 2.0845,
+        "end": 2.2724
+      },
+      {
+        "word": "cíl",
+        "start": 2.2724,
+        "end": 2.855
+      },
+      {
+        "word": "každej",
+        "start": 2.855,
+        "end": 3.1181
+      },
+      {
+        "word": "text",
+        "start": 3.1181,
+        "end": 3.3625
+      },
+      {
+        "word": "je",
+        "start": 3.3625,
+        "end": 3.5504
+      },
+      {
+        "word": "statement",
+        "start": 3.5504,
+        "end": 4.2457
+      },
+      {
+        "word": "potkal",
+        "start": 4.227,
+        "end": 4.5089
+      },
+      {
+        "word": "jsem",
+        "start": 4.5089,
+        "end": 4.678
+      },
+      {
+        "word": "svou",
+        "start": 4.678,
+        "end": 4.9035
+      },
+      {
+        "word": "budoucnost",
+        "start": 4.9035,
+        "end": 5.6177
+      },
+      {
+        "word": "mám",
+        "start": 5.6177,
+        "end": 5.7868
+      },
+      {
+        "word": "finální",
+        "start": 5.7868,
+        "end": 6.2566
+      },
+      {
+        "word": "testament",
+        "start": 6.2566,
+        "end": 7.1399
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Každej",
+        "start": 1.22,
+        "end": 1.62
+      },
+      {
+        "word": "novej",
+        "start": 1.62,
+        "end": 1.92
+      },
+      {
+        "word": "beat",
+        "start": 1.92,
+        "end": 2.14
+      },
+      {
+        "word": "je",
+        "start": 2.14,
+        "end": 2.34
+      },
+      {
+        "word": "cíl,",
+        "start": 2.34,
+        "end": 2.96
+      },
+      {
+        "word": "každej",
+        "start": 2.96,
+        "end": 3.24
+      },
+      {
+        "word": "text",
+        "start": 3.24,
+        "end": 3.5
+      },
+      {
+        "word": "je",
+        "start": 3.5,
+        "end": 3.7
+      },
+      {
+        "word": "statement,",
+        "start": 3.7,
+        "end": 4.44
+      },
+      {
+        "word": "potkal",
+        "start": 4.42,
+        "end": 4.72
+      },
+      {
+        "word": "jsem",
+        "start": 4.72,
+        "end": 4.9
+      },
+      {
+        "word": "svou",
+        "start": 4.9,
+        "end": 5.14
+      },
+      {
+        "word": "budoucnost,",
+        "start": 5.14,
+        "end": 5.9
+      },
+      {
+        "word": "mám",
+        "start": 5.9,
+        "end": 6.08
+      },
+      {
+        "word": "finální",
+        "start": 6.08,
+        "end": 6.58
+      },
+      {
+        "word": "testament.",
+        "start": 6.58,
+        "end": 7.52
+      }
+    ],
+    "song_match": {
+      "score": 0.9697,
+      "song_start": 157.652,
+      "song_end": 163.572,
+      "song_index": 381
+    },
+    "before_duration": 1.22,
+    "after_duration": 0.48,
+    "target_rap_duration": 5.92,
+    "speed_factor": 1.0642,
+    "new_clip_duration": 7.6199,
+    "output_hash": "b27ae6fe2ca88e9eca564f5c823f97c1"
+  },
+  "rap_06": {
+    "clip": "rap_06.mp4",
+    "source": "gen_rap/rap_06.mp4",
+    "clip_duration": 6.3,
+    "rap_start": 2.48,
+    "rap_end": 7.02,
+    "rap_duration": 2.84,
+    "transcript_raw": "🎵🎵🎵 Dává mi fakta, detaily, co známe jenom my dva 🎵🎵🎵",
+    "transcript_empty": false,
+    "lyrics_window": "Dává mi fakta detaily co známe jenom my dva",
+    "lyrics_match_score": 1.0,
+    "transcript_fixed": "Dává mi fakta detaily co známe jenom my dva",
+    "words": [
+      {
+        "word": "Dává",
+        "start": 2.48,
+        "end": 2.8929
+      },
+      {
+        "word": "mi",
+        "start": 2.8929,
+        "end": 2.9554
+      },
+      {
+        "word": "fakta",
+        "start": 2.9554,
+        "end": 3.5184
+      },
+      {
+        "word": "detaily",
+        "start": 3.5184,
+        "end": 4.194
+      },
+      {
+        "word": "co",
+        "start": 4.194,
+        "end": 4.2566
+      },
+      {
+        "word": "známe",
+        "start": 4.2566,
+        "end": 4.6319
+      },
+      {
+        "word": "jenom",
+        "start": 4.6319,
+        "end": 4.9196
+      },
+      {
+        "word": "my",
+        "start": 4.9196,
+        "end": 5.0823
+      },
+      {
+        "word": "dva",
+        "start": 5.0823,
+        "end": 5.32
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "🎵🎵🎵",
+        "start": 0.0,
+        "end": 1.66
+      },
+      {
+        "word": "Dává",
+        "start": 2.48,
+        "end": 3.14
+      },
+      {
+        "word": "mi",
+        "start": 3.14,
+        "end": 3.24
+      },
+      {
+        "word": "fakta,",
+        "start": 3.24,
+        "end": 4.14
+      },
+      {
+        "word": "detaily,",
+        "start": 4.14,
+        "end": 5.22
+      },
+      {
+        "word": "co",
+        "start": 5.22,
+        "end": 5.32
+      },
+      {
+        "word": "známe",
+        "start": 5.32,
+        "end": 5.92
+      },
+      {
+        "word": "jenom",
+        "start": 5.92,
+        "end": 6.38
+      },
+      {
+        "word": "my",
+        "start": 6.38,
+        "end": 6.64
+      },
+      {
+        "word": "dva",
+        "start": 6.64,
+        "end": 7.02
+      },
+      {
+        "word": "🎵🎵🎵",
+        "start": 6.8,
+        "end": 7.66
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 106.0,
+      "song_end": 108.84,
+      "song_index": 235
+    },
+    "before_duration": 2.48,
+    "after_duration": 0.98,
+    "target_rap_duration": 2.84,
+    "speed_factor": 1.5986,
+    "new_clip_duration": 6.3,
+    "output_hash": "0a7c8195b9901ebc87dfd49dd9ddb817"
+  },
+  "rap_07": {
+    "clip": "rap_07.mp4",
+    "source": "gen_rap/rap_07.mp4",
+    "clip_duration": 8.72,
+    "rap_start": 1.68,
+    "rap_end": 4.98,
+    "rap_duration": 4.02,
+    "transcript_raw": "Tohle je signál z budoucnosti, zpráva na displej. 🎵🎵🎵",
+    "transcript_empty": false,
+    "lyrics_window": "Tohle je signál z budoucnosti zpráva na displej",
+    "lyrics_match_score": 1.0,
+    "transcript_fixed": "Tohle je signál z budoucnosti zpráva na displej",
+    "words": [
+      {
+        "word": "Tohle",
+        "start": 1.68,
+        "end": 1.9967
+      },
+      {
+        "word": "je",
+        "start": 1.9967,
+        "end": 2.1916
+      },
+      {
+        "word": "signál",
+        "start": 2.1916,
+        "end": 2.7033
+      },
+      {
+        "word": "z",
+        "start": 2.7033,
+        "end": 2.8982
+      },
+      {
+        "word": "budoucnosti",
+        "start": 2.8982,
+        "end": 4.1651
+      },
+      {
+        "word": "zpráva",
+        "start": 4.1651,
+        "end": 4.7498
+      },
+      {
+        "word": "na",
+        "start": 4.7498,
+        "end": 4.9203
+      },
+      {
+        "word": "displej",
+        "start": 4.9203,
+        "end": 5.7
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Tohle",
+        "start": 1.68,
+        "end": 1.94
+      },
+      {
+        "word": "je",
+        "start": 1.94,
+        "end": 2.1
+      },
+      {
+        "word": "signál",
+        "start": 2.1,
+        "end": 2.52
+      },
+      {
+        "word": "z",
+        "start": 2.52,
+        "end": 2.68
+      },
+      {
+        "word": "budoucnosti,",
+        "start": 2.68,
+        "end": 3.72
+      },
+      {
+        "word": "zpráva",
+        "start": 3.72,
+        "end": 4.2
+      },
+      {
+        "word": "na",
+        "start": 4.2,
+        "end": 4.34
+      },
+      {
+        "word": "displej.",
+        "start": 4.34,
+        "end": 4.98
+      },
+      {
+        "word": "🎵🎵🎵",
+        "start": 7.74,
+        "end": 7.76
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 75.46,
+      "song_end": 79.48,
+      "song_index": 161
+    },
+    "before_duration": 1.68,
+    "after_duration": 3.02,
+    "target_rap_duration": 4.02,
+    "speed_factor": 0.8209,
+    "new_clip_duration": 8.72,
+    "output_hash": "9150f1f637e6fb7f4832fe23019e0634"
+  },
+  "rap_08": {
+    "clip": "rap_08.mp4",
+    "source": "gen_rap/rap_08.mp4",
+    "clip_duration": 6.2,
+    "rap_start": 0.56,
+    "rap_end": 5.24,
+    "rap_duration": 2.88,
+    "transcript_raw": "Méně stresu, více vaty, připravený na ten fame.",
+    "transcript_empty": false,
+    "lyrics_window": "Míň stresu víc vaty připravenej na ten fame",
+    "lyrics_match_score": 0.6667,
+    "transcript_fixed": "Míň stresu víc vaty připravenej na ten fame",
+    "words": [
+      {
+        "word": "Míň",
+        "start": 0.56,
+        "end": 0.7938
+      },
+      {
+        "word": "stresu",
+        "start": 0.7938,
+        "end": 1.4954
+      },
+      {
+        "word": "víc",
+        "start": 1.4954,
+        "end": 1.6431
+      },
+      {
+        "word": "vaty",
+        "start": 1.6431,
+        "end": 2.32
+      },
+      {
+        "word": "připravenej",
+        "start": 2.32,
+        "end": 2.8123
+      },
+      {
+        "word": "na",
+        "start": 2.8123,
+        "end": 2.9846
+      },
+      {
+        "word": "ten",
+        "start": 2.9846,
+        "end": 3.1077
+      },
+      {
+        "word": "fame",
+        "start": 3.1077,
+        "end": 3.44
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Méně",
+        "start": 0.56,
+        "end": 0.94
+      },
+      {
+        "word": "stresu,",
+        "start": 0.94,
+        "end": 2.08
+      },
+      {
+        "word": "více",
+        "start": 2.08,
+        "end": 2.32
+      },
+      {
+        "word": "vaty,",
+        "start": 2.32,
+        "end": 3.42
+      },
+      {
+        "word": "připravený",
+        "start": 3.42,
+        "end": 4.22
+      },
+      {
+        "word": "na",
+        "start": 4.22,
+        "end": 4.5
+      },
+      {
+        "word": "ten",
+        "start": 4.5,
+        "end": 4.7
+      },
+      {
+        "word": "fame.",
+        "start": 4.7,
+        "end": 5.24
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 91.78,
+      "song_end": 94.66,
+      "song_index": 198
+    },
+    "before_duration": 0.56,
+    "after_duration": 2.76,
+    "target_rap_duration": 2.88,
+    "speed_factor": 1.625,
+    "new_clip_duration": 6.2,
+    "output_hash": "229379ed9192a4441db882f95004f9f2"
+  },
+  "rap_09": {
+    "clip": "rap_09.mp4",
+    "source": "gen_rap/rap_09.mp4",
+    "clip_duration": 6.6401,
+    "rap_start": 2.64,
+    "rap_end": 6.24,
+    "rap_duration": 2.2401,
+    "transcript_raw": "Budu to já, kdo tenhle biznis vesme do rukou.",
+    "transcript_empty": false,
+    "lyrics_window": "to já kdo tenhle byznys vezme do rukou",
+    "lyrics_match_score": 0.7778,
+    "transcript_fixed": "to já kdo tenhle byznys vezme do rukou",
+    "words": [
+      {
+        "word": "to",
+        "start": 2.64,
+        "end": 2.752
+      },
+      {
+        "word": "já",
+        "start": 2.752,
+        "end": 3.4738
+      },
+      {
+        "word": "kdo",
+        "start": 3.4738,
+        "end": 3.5609
+      },
+      {
+        "word": "tenhle",
+        "start": 3.5609,
+        "end": 3.8098
+      },
+      {
+        "word": "byznys",
+        "start": 3.8098,
+        "end": 4.1023
+      },
+      {
+        "word": "vezme",
+        "start": 4.1023,
+        "end": 4.3947
+      },
+      {
+        "word": "do",
+        "start": 4.3947,
+        "end": 4.5689
+      },
+      {
+        "word": "rukou",
+        "start": 4.5689,
+        "end": 4.8801
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Budu",
+        "start": 0.0,
+        "end": 2.64
+      },
+      {
+        "word": "to",
+        "start": 2.64,
+        "end": 2.82
+      },
+      {
+        "word": "já,",
+        "start": 2.82,
+        "end": 3.98
+      },
+      {
+        "word": "kdo",
+        "start": 3.98,
+        "end": 4.12
+      },
+      {
+        "word": "tenhle",
+        "start": 4.12,
+        "end": 4.52
+      },
+      {
+        "word": "biznis",
+        "start": 4.52,
+        "end": 5.04
+      },
+      {
+        "word": "vesme",
+        "start": 5.04,
+        "end": 5.46
+      },
+      {
+        "word": "do",
+        "start": 5.46,
+        "end": 5.74
+      },
+      {
+        "word": "rukou.",
+        "start": 5.74,
+        "end": 6.24
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 163.572,
+      "song_end": 165.812,
+      "song_index": 398
+    },
+    "before_duration": 2.64,
+    "after_duration": 1.76,
+    "target_rap_duration": 2.24,
+    "speed_factor": 1.6071,
+    "new_clip_duration": 6.6401,
+    "output_hash": "a3f9e53a45f05aed5a19bc15379936c5"
+  },
+  "rap_10": {
+    "clip": "rap_10.mp4",
+    "source": "gen_rap/rap_10.mp4",
+    "clip_duration": 6.8799,
+    "rap_start": 1.16,
+    "rap_end": 5.4,
+    "rap_duration": 3.1199,
+    "transcript_raw": "A jestli mě slyšíš, přes ty roky a tu zeď",
+    "transcript_empty": false,
+    "lyrics_window": "A jestli mě slyšíš přes ty roky a tu zeď",
+    "lyrics_match_score": 1.0,
+    "transcript_fixed": "A jestli mě slyšíš přes ty roky a tu zeď",
+    "words": [
+      {
+        "word": "A",
+        "start": 1.16,
+        "end": 1.2925
+      },
+      {
+        "word": "jestli",
+        "start": 1.2925,
+        "end": 1.6604
+      },
+      {
+        "word": "mě",
+        "start": 1.6604,
+        "end": 1.7928
+      },
+      {
+        "word": "slyšíš",
+        "start": 1.7928,
+        "end": 2.8819
+      },
+      {
+        "word": "přes",
+        "start": 2.8819,
+        "end": 3.0732
+      },
+      {
+        "word": "ty",
+        "start": 3.0732,
+        "end": 3.1762
+      },
+      {
+        "word": "roky",
+        "start": 3.1762,
+        "end": 3.4558
+      },
+      {
+        "word": "a",
+        "start": 3.4558,
+        "end": 3.7207
+      },
+      {
+        "word": "tu",
+        "start": 3.7207,
+        "end": 3.8237
+      },
+      {
+        "word": "zeď",
+        "start": 3.8237,
+        "end": 4.2799
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "A",
+        "start": 1.16,
+        "end": 1.34
+      },
+      {
+        "word": "jestli",
+        "start": 1.34,
+        "end": 1.84
+      },
+      {
+        "word": "mě",
+        "start": 1.84,
+        "end": 2.02
+      },
+      {
+        "word": "slyšíš,",
+        "start": 2.02,
+        "end": 3.5
+      },
+      {
+        "word": "přes",
+        "start": 3.5,
+        "end": 3.76
+      },
+      {
+        "word": "ty",
+        "start": 3.76,
+        "end": 3.9
+      },
+      {
+        "word": "roky",
+        "start": 3.9,
+        "end": 4.28
+      },
+      {
+        "word": "a",
+        "start": 4.28,
+        "end": 4.64
+      },
+      {
+        "word": "tu",
+        "start": 4.64,
+        "end": 4.78
+      },
+      {
+        "word": "zeď",
+        "start": 4.78,
+        "end": 5.4
+      }
+    ],
+    "song_match": {
+      "score": 0.9524,
+      "song_start": 138.192,
+      "song_end": 141.312,
+      "song_index": 327
+    },
+    "before_duration": 1.16,
+    "after_duration": 2.6,
+    "target_rap_duration": 3.12,
+    "speed_factor": 1.359,
+    "new_clip_duration": 6.8799,
+    "output_hash": "cbdd34647949d349d827ce1a1a86c90d"
+  },
+  "rap_11": {
+    "clip": "rap_11.mp4",
+    "source": "gen_rap/rap_11.mp4",
+    "clip_duration": 7.42,
+    "rap_start": 3.42,
+    "rap_end": 7.26,
+    "rap_duration": 3.26,
+    "transcript_raw": "Vidíme se na vrcholu. Signál ukončen.",
+    "transcript_empty": false,
+    "lyrics_window": "Vidíme se na vrcholu Signál ukončen",
+    "lyrics_match_score": 1.0,
+    "transcript_fixed": "Vidíme se na vrcholu Signál ukončen",
+    "words": [
+      {
+        "word": "Vidíme",
+        "start": 3.42,
+        "end": 3.7596
+      },
+      {
+        "word": "se",
+        "start": 3.7596,
+        "end": 3.8954
+      },
+      {
+        "word": "na",
+        "start": 3.8954,
+        "end": 4.0482
+      },
+      {
+        "word": "vrcholu",
+        "start": 4.0482,
+        "end": 4.8632
+      },
+      {
+        "word": "Signál",
+        "start": 5.3896,
+        "end": 5.6952
+      },
+      {
+        "word": "ukončen",
+        "start": 5.6952,
+        "end": 6.68
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Vidíme",
+        "start": 3.42,
+        "end": 3.82
+      },
+      {
+        "word": "se",
+        "start": 3.82,
+        "end": 3.98
+      },
+      {
+        "word": "na",
+        "start": 3.98,
+        "end": 4.16
+      },
+      {
+        "word": "vrcholu.",
+        "start": 4.16,
+        "end": 5.12
+      },
+      {
+        "word": "Signál",
+        "start": 5.74,
+        "end": 6.1
+      },
+      {
+        "word": "ukončen.",
+        "start": 6.1,
+        "end": 7.26
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 213.192,
+      "song_end": 216.452,
+      "song_index": 517
+    },
+    "before_duration": 3.42,
+    "after_duration": 0.74,
+    "target_rap_duration": 3.26,
+    "speed_factor": 1.1779,
+    "new_clip_duration": 7.42,
+    "output_hash": "5b8c96b504afe7fc9a015272844fc8cf"
+  },
+  "rap_12": {
+    "clip": "rap_12.mp4",
+    "source": "gen_rap/rap_12.mp4",
+    "clip_duration": 9.64,
+    "rap_start": 0.54,
+    "rap_end": 7.76,
+    "rap_duration": 8.86,
+    "transcript_raw": "Budu to já, kdo tenhle biznis vezme do rukou Bořím ty limity svázaný falešnou zárukou Když padnu na hubu, zvednu se do třech vteřin zpět",
+    "transcript_empty": false,
+    "lyrics_window": "já kdo tenhle byznys vezme do rukou bořím ty limity svázaný falešnou zárukou Když padnu na hubu Zvednu se do třech vteřin zpět",
+    "lyrics_match_score": 0.96,
+    "transcript_fixed": "já kdo tenhle byznys vezme do rukou bořím ty limity svázaný falešnou zárukou Když padnu na hubu Zvednu se do třech vteřin zpět",
+    "words": [
+      {
+        "word": "já",
+        "start": 0.54,
+        "end": 0.8591
+      },
+      {
+        "word": "kdo",
+        "start": 0.8591,
+        "end": 1.0554
+      },
+      {
+        "word": "tenhle",
+        "start": 1.0554,
+        "end": 1.4481
+      },
+      {
+        "word": "byznys",
+        "start": 1.4481,
+        "end": 1.8899
+      },
+      {
+        "word": "vezme",
+        "start": 1.8899,
+        "end": 2.2825
+      },
+      {
+        "word": "do",
+        "start": 2.2825,
+        "end": 2.528
+      },
+      {
+        "word": "rukou",
+        "start": 2.528,
+        "end": 2.9697
+      },
+      {
+        "word": "bořím",
+        "start": 2.9943,
+        "end": 3.4361
+      },
+      {
+        "word": "ty",
+        "start": 3.4361,
+        "end": 3.6324
+      },
+      {
+        "word": "limity",
+        "start": 3.6324,
+        "end": 4.0742
+      },
+      {
+        "word": "svázaný",
+        "start": 4.0742,
+        "end": 4.7368
+      },
+      {
+        "word": "falešnou",
+        "start": 4.7368,
+        "end": 5.424
+      },
+      {
+        "word": "zárukou",
+        "start": 5.424,
+        "end": 6.1849
+      },
+      {
+        "word": "Když",
+        "start": 5.9394,
+        "end": 6.5285
+      },
+      {
+        "word": "padnu",
+        "start": 6.5285,
+        "end": 6.8721
+      },
+      {
+        "word": "na",
+        "start": 6.8721,
+        "end": 7.1175
+      },
+      {
+        "word": "hubu",
+        "start": 7.1175,
+        "end": 7.5838
+      },
+      {
+        "word": "Zvednu",
+        "start": 7.5838,
+        "end": 7.9029
+      },
+      {
+        "word": "se",
+        "start": 7.9029,
+        "end": 8.0992
+      },
+      {
+        "word": "do",
+        "start": 8.0992,
+        "end": 8.2956
+      },
+      {
+        "word": "třech",
+        "start": 8.2956,
+        "end": 8.541
+      },
+      {
+        "word": "vteřin",
+        "start": 8.541,
+        "end": 8.9337
+      },
+      {
+        "word": "zpět",
+        "start": 8.9337,
+        "end": 9.4
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Budu",
+        "start": 0.0,
+        "end": 0.32
+      },
+      {
+        "word": "to",
+        "start": 0.32,
+        "end": 0.54
+      },
+      {
+        "word": "já,",
+        "start": 0.54,
+        "end": 0.8
+      },
+      {
+        "word": "kdo",
+        "start": 0.8,
+        "end": 0.96
+      },
+      {
+        "word": "tenhle",
+        "start": 0.96,
+        "end": 1.28
+      },
+      {
+        "word": "biznis",
+        "start": 1.28,
+        "end": 1.64
+      },
+      {
+        "word": "vezme",
+        "start": 1.64,
+        "end": 1.96
+      },
+      {
+        "word": "do",
+        "start": 1.96,
+        "end": 2.16
+      },
+      {
+        "word": "rukou",
+        "start": 2.16,
+        "end": 2.52
+      },
+      {
+        "word": "Bořím",
+        "start": 2.54,
+        "end": 2.9
+      },
+      {
+        "word": "ty",
+        "start": 2.9,
+        "end": 3.06
+      },
+      {
+        "word": "limity",
+        "start": 3.06,
+        "end": 3.42
+      },
+      {
+        "word": "svázaný",
+        "start": 3.42,
+        "end": 3.96
+      },
+      {
+        "word": "falešnou",
+        "start": 3.96,
+        "end": 4.52
+      },
+      {
+        "word": "zárukou",
+        "start": 4.52,
+        "end": 5.14
+      },
+      {
+        "word": "Když",
+        "start": 4.94,
+        "end": 5.42
+      },
+      {
+        "word": "padnu",
+        "start": 5.42,
+        "end": 5.7
+      },
+      {
+        "word": "na",
+        "start": 5.7,
+        "end": 5.9
+      },
+      {
+        "word": "hubu,",
+        "start": 5.9,
+        "end": 6.28
+      },
+      {
+        "word": "zvednu",
+        "start": 6.28,
+        "end": 6.54
+      },
+      {
+        "word": "se",
+        "start": 6.54,
+        "end": 6.7
+      },
+      {
+        "word": "do",
+        "start": 6.7,
+        "end": 6.86
+      },
+      {
+        "word": "třech",
+        "start": 6.86,
+        "end": 7.06
+      },
+      {
+        "word": "vteřin",
+        "start": 7.06,
+        "end": 7.38
+      },
+      {
+        "word": "zpět",
+        "start": 7.38,
+        "end": 7.76
+      }
+    ],
+    "song_match": {
+      "score": 0.9167,
+      "song_start": 162.392,
+      "song_end": 171.252,
+      "song_index": 396
+    },
+    "before_duration": 0.54,
+    "after_duration": 0.24,
+    "target_rap_duration": 8.86,
+    "speed_factor": 0.8149,
+    "new_clip_duration": 9.64,
+    "output_hash": "911a55d8990efa673f6713e09b37ac6f"
+  },
+  "rap_13": {
+    "clip": "rap_13.mp4",
+    "source": "gen_rap/rap_13.mp4",
+    "clip_duration": 12.881,
+    "rap_start": 0.0,
+    "rap_end": 7.58,
+    "rap_duration": 12.461,
+    "transcript_raw": "Tohle je signál z budoucnosti. Zpráva na displej, nevzdávej to, šlapeš cestu, na jejímž konci je zlatej déšť.",
+    "transcript_empty": false,
+    "lyrics_window": "Tohle je signál z budoucnosti zpráva na displej nevzdávej to šlapeš cestu na jejímž konci je zlatej déšť",
+    "lyrics_match_score": 1.0,
+    "transcript_fixed": "Tohle je signál z budoucnosti zpráva na displej nevzdávej to šlapeš cestu na jejímž konci je zlatej déšť",
+    "words": [
+      {
+        "word": "Tohle",
+        "start": 0.0,
+        "end": 1.348
+      },
+      {
+        "word": "je",
+        "start": 1.348,
+        "end": 1.6439
+      },
+      {
+        "word": "signál",
+        "start": 1.6439,
+        "end": 2.3673
+      },
+      {
+        "word": "z",
+        "start": 2.3673,
+        "end": 2.6303
+      },
+      {
+        "word": "budoucnosti",
+        "start": 2.6303,
+        "end": 4.0769
+      },
+      {
+        "word": "zpráva",
+        "start": 4.1098,
+        "end": 4.9318
+      },
+      {
+        "word": "na",
+        "start": 4.9318,
+        "end": 5.1619
+      },
+      {
+        "word": "displej",
+        "start": 5.1619,
+        "end": 6.1483
+      },
+      {
+        "word": "nevzdávej",
+        "start": 6.1483,
+        "end": 7.036
+      },
+      {
+        "word": "to",
+        "start": 7.036,
+        "end": 7.4963
+      },
+      {
+        "word": "šlapeš",
+        "start": 7.4963,
+        "end": 8.0552
+      },
+      {
+        "word": "cestu",
+        "start": 8.0552,
+        "end": 8.943
+      },
+      {
+        "word": "na",
+        "start": 8.943,
+        "end": 9.1073
+      },
+      {
+        "word": "jejímž",
+        "start": 9.1073,
+        "end": 9.7649
+      },
+      {
+        "word": "konci",
+        "start": 9.7649,
+        "end": 10.3567
+      },
+      {
+        "word": "je",
+        "start": 10.3567,
+        "end": 10.5869
+      },
+      {
+        "word": "zlatej",
+        "start": 10.5869,
+        "end": 11.3431
+      },
+      {
+        "word": "déšť",
+        "start": 11.3431,
+        "end": 12.461
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Tohle",
+        "start": 0.0,
+        "end": 0.82
+      },
+      {
+        "word": "je",
+        "start": 0.82,
+        "end": 1.0
+      },
+      {
+        "word": "signál",
+        "start": 1.0,
+        "end": 1.44
+      },
+      {
+        "word": "z",
+        "start": 1.44,
+        "end": 1.6
+      },
+      {
+        "word": "budoucnosti.",
+        "start": 1.6,
+        "end": 2.48
+      },
+      {
+        "word": "Zpráva",
+        "start": 2.5,
+        "end": 3.0
+      },
+      {
+        "word": "na",
+        "start": 3.0,
+        "end": 3.14
+      },
+      {
+        "word": "displej,",
+        "start": 3.14,
+        "end": 3.74
+      },
+      {
+        "word": "nevzdávej",
+        "start": 3.74,
+        "end": 4.28
+      },
+      {
+        "word": "to,",
+        "start": 4.28,
+        "end": 4.56
+      },
+      {
+        "word": "šlapeš",
+        "start": 4.56,
+        "end": 4.9
+      },
+      {
+        "word": "cestu,",
+        "start": 4.9,
+        "end": 5.44
+      },
+      {
+        "word": "na",
+        "start": 5.44,
+        "end": 5.54
+      },
+      {
+        "word": "jejímž",
+        "start": 5.54,
+        "end": 5.94
+      },
+      {
+        "word": "konci",
+        "start": 5.94,
+        "end": 6.3
+      },
+      {
+        "word": "je",
+        "start": 6.3,
+        "end": 6.44
+      },
+      {
+        "word": "zlatej",
+        "start": 6.44,
+        "end": 6.9
+      },
+      {
+        "word": "déšť.",
+        "start": 6.9,
+        "end": 7.58
+      }
+    ],
+    "song_match": {
+      "score": 0.973,
+      "song_start": 174.012,
+      "song_end": 186.472,
+      "song_index": 432
+    },
+    "before_duration": 0.0,
+    "after_duration": 0.42,
+    "target_rap_duration": 12.46,
+    "speed_factor": 0.6083,
+    "new_clip_duration": 12.881,
+    "output_hash": "b3ef237f9b9c78b3dbebfec30eceab54"
+  },
+  "rap_14": {
+    "clip": "rap_14.mp4",
+    "source": "gen_rap/rap_14.mp4",
+    "clip_duration": 6.62,
+    "rap_start": 0.0,
+    "rap_end": 7.98,
+    "rap_duration": 6.6,
+    "transcript_raw": "Každé ta prohra v prachu byla lístek na vrchol. Já jsem ty hork, ten samej zmrt, co všemu tlaku odolal.",
+    "transcript_empty": false,
+    "lyrics_window": "Každá ta prohra v prachu byla lístek na vrchol já jsem ty ten samej zmrd co všemu tlaku odolal",
+    "lyrics_match_score": 0.8947,
+    "transcript_fixed": "Každá ta prohra v prachu byla lístek na vrchol já jsem ty ten samej zmrd co všemu tlaku odolal",
+    "words": [
+      {
+        "word": "Každá",
+        "start": 0.0,
+        "end": 0.4797
+      },
+      {
+        "word": "ta",
+        "start": 0.4797,
+        "end": 0.612
+      },
+      {
+        "word": "prohra",
+        "start": 0.612,
+        "end": 0.9098
+      },
+      {
+        "word": "v",
+        "start": 0.9098,
+        "end": 1.0586
+      },
+      {
+        "word": "prachu",
+        "start": 1.0586,
+        "end": 1.3233
+      },
+      {
+        "word": "byla",
+        "start": 1.3233,
+        "end": 1.9188
+      },
+      {
+        "word": "lístek",
+        "start": 1.9188,
+        "end": 2.3489
+      },
+      {
+        "word": "na",
+        "start": 2.3489,
+        "end": 2.5473
+      },
+      {
+        "word": "vrchol",
+        "start": 2.5473,
+        "end": 3.1594
+      },
+      {
+        "word": "já",
+        "start": 3.1594,
+        "end": 3.2752
+      },
+      {
+        "word": "jsem",
+        "start": 3.2752,
+        "end": 3.4902
+      },
+      {
+        "word": "ty",
+        "start": 3.4902,
+        "end": 3.6391
+      },
+      {
+        "word": "ten",
+        "start": 4.1849,
+        "end": 4.3007
+      },
+      {
+        "word": "samej",
+        "start": 4.3007,
+        "end": 4.6646
+      },
+      {
+        "word": "zmrd",
+        "start": 4.6646,
+        "end": 4.9458
+      },
+      {
+        "word": "co",
+        "start": 4.9458,
+        "end": 5.0616
+      },
+      {
+        "word": "všemu",
+        "start": 5.0616,
+        "end": 5.3428
+      },
+      {
+        "word": "tlaku",
+        "start": 5.3428,
+        "end": 5.6571
+      },
+      {
+        "word": "odolal",
+        "start": 5.6571,
+        "end": 6.6
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Každé",
+        "start": 0.0,
+        "end": 0.58
+      },
+      {
+        "word": "ta",
+        "start": 0.58,
+        "end": 0.74
+      },
+      {
+        "word": "prohra",
+        "start": 0.74,
+        "end": 1.1
+      },
+      {
+        "word": "v",
+        "start": 1.1,
+        "end": 1.28
+      },
+      {
+        "word": "prachu",
+        "start": 1.28,
+        "end": 1.6
+      },
+      {
+        "word": "byla",
+        "start": 1.6,
+        "end": 2.32
+      },
+      {
+        "word": "lístek",
+        "start": 2.32,
+        "end": 2.84
+      },
+      {
+        "word": "na",
+        "start": 2.84,
+        "end": 3.08
+      },
+      {
+        "word": "vrchol.",
+        "start": 3.08,
+        "end": 3.82
+      },
+      {
+        "word": "Já",
+        "start": 3.82,
+        "end": 3.96
+      },
+      {
+        "word": "jsem",
+        "start": 3.96,
+        "end": 4.22
+      },
+      {
+        "word": "ty",
+        "start": 4.22,
+        "end": 4.4
+      },
+      {
+        "word": "hork,",
+        "start": 4.4,
+        "end": 5.06
+      },
+      {
+        "word": "ten",
+        "start": 5.06,
+        "end": 5.2
+      },
+      {
+        "word": "samej",
+        "start": 5.2,
+        "end": 5.64
+      },
+      {
+        "word": "zmrt,",
+        "start": 5.64,
+        "end": 5.98
+      },
+      {
+        "word": "co",
+        "start": 5.98,
+        "end": 6.12
+      },
+      {
+        "word": "všemu",
+        "start": 6.12,
+        "end": 6.46
+      },
+      {
+        "word": "tlaku",
+        "start": 6.46,
+        "end": 6.84
+      },
+      {
+        "word": "odolal.",
+        "start": 6.84,
+        "end": 7.98
+      }
+    ],
+    "song_match": {
+      "score": 0.9474,
+      "song_start": 184.052,
+      "song_end": 190.652,
+      "song_index": 449
+    },
+    "before_duration": 0.0,
+    "after_duration": 0.02,
+    "target_rap_duration": 6.6,
+    "speed_factor": 1.2091,
+    "new_clip_duration": 6.62,
+    "output_hash": "50a34d66d3882c8224cbdc7d105c2810"
+  },
+  "rap_15": {
+    "clip": "rap_15.mp4",
+    "source": "gen_rap/rap_15.mp4",
+    "clip_duration": 10.1006,
+    "rap_start": 0.0,
+    "rap_end": 7.78,
+    "rap_duration": 9.8806,
+    "transcript_raw": "Mín stresu, víc vaty, připravenej na ten fame. Tak přežij ty dny ve sračkách a braň si svojí game. Jednou se budeš jenom smát těm, co nás odepříjí.",
+    "transcript_empty": false,
+    "lyrics_window": "Míň stresu víc vaty připravenej na ten fame tak přežij ty dny ve sračkách a braň si svoji game Jednou se budeš jenom smát těm co nás",
+    "lyrics_match_score": 0.9259,
+    "transcript_fixed": "Míň stresu víc vaty připravenej na ten fame tak přežij ty dny ve sračkách a braň si svoji game Jednou se budeš jenom smát těm co nás",
+    "words": [
+      {
+        "word": "Míň",
+        "start": 0.0,
+        "end": 0.3048
+      },
+      {
+        "word": "stresu",
+        "start": 0.3048,
+        "end": 0.9906
+      },
+      {
+        "word": "víc",
+        "start": 0.9906,
+        "end": 1.27
+      },
+      {
+        "word": "vaty",
+        "start": 1.27,
+        "end": 2.032
+      },
+      {
+        "word": "připravenej",
+        "start": 2.032,
+        "end": 2.7686
+      },
+      {
+        "word": "na",
+        "start": 2.7686,
+        "end": 2.9972
+      },
+      {
+        "word": "ten",
+        "start": 2.9972,
+        "end": 3.2258
+      },
+      {
+        "word": "fame",
+        "start": 3.2258,
+        "end": 3.7338
+      },
+      {
+        "word": "tak",
+        "start": 3.7592,
+        "end": 3.937
+      },
+      {
+        "word": "přežij",
+        "start": 3.937,
+        "end": 4.3688
+      },
+      {
+        "word": "ty",
+        "start": 4.3688,
+        "end": 4.5974
+      },
+      {
+        "word": "dny",
+        "start": 4.5974,
+        "end": 4.8006
+      },
+      {
+        "word": "ve",
+        "start": 4.8006,
+        "end": 5.08
+      },
+      {
+        "word": "sračkách",
+        "start": 5.08,
+        "end": 5.6134
+      },
+      {
+        "word": "a",
+        "start": 5.6134,
+        "end": 5.7912
+      },
+      {
+        "word": "braň",
+        "start": 5.7912,
+        "end": 6.0198
+      },
+      {
+        "word": "si",
+        "start": 6.0198,
+        "end": 6.1722
+      },
+      {
+        "word": "svoji",
+        "start": 6.1722,
+        "end": 6.7056
+      },
+      {
+        "word": "game",
+        "start": 6.7056,
+        "end": 7.112
+      },
+      {
+        "word": "Jednou",
+        "start": 7.1628,
+        "end": 7.493
+      },
+      {
+        "word": "se",
+        "start": 7.493,
+        "end": 7.7724
+      },
+      {
+        "word": "budeš",
+        "start": 7.7724,
+        "end": 8.128
+      },
+      {
+        "word": "jenom",
+        "start": 8.128,
+        "end": 8.4582
+      },
+      {
+        "word": "smát",
+        "start": 8.4582,
+        "end": 8.8392
+      },
+      {
+        "word": "těm",
+        "start": 8.8392,
+        "end": 9.3218
+      },
+      {
+        "word": "co",
+        "start": 9.3218,
+        "end": 9.5504
+      },
+      {
+        "word": "nás",
+        "start": 9.5504,
+        "end": 9.8806
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Mín",
+        "start": 0.0,
+        "end": 0.24
+      },
+      {
+        "word": "stresu,",
+        "start": 0.24,
+        "end": 0.78
+      },
+      {
+        "word": "víc",
+        "start": 0.78,
+        "end": 1.0
+      },
+      {
+        "word": "vaty,",
+        "start": 1.0,
+        "end": 1.6
+      },
+      {
+        "word": "připravenej",
+        "start": 1.6,
+        "end": 2.18
+      },
+      {
+        "word": "na",
+        "start": 2.18,
+        "end": 2.36
+      },
+      {
+        "word": "ten",
+        "start": 2.36,
+        "end": 2.54
+      },
+      {
+        "word": "fame.",
+        "start": 2.54,
+        "end": 2.94
+      },
+      {
+        "word": "Tak",
+        "start": 2.96,
+        "end": 3.1
+      },
+      {
+        "word": "přežij",
+        "start": 3.1,
+        "end": 3.44
+      },
+      {
+        "word": "ty",
+        "start": 3.44,
+        "end": 3.62
+      },
+      {
+        "word": "dny",
+        "start": 3.62,
+        "end": 3.78
+      },
+      {
+        "word": "ve",
+        "start": 3.78,
+        "end": 4.0
+      },
+      {
+        "word": "sračkách",
+        "start": 4.0,
+        "end": 4.42
+      },
+      {
+        "word": "a",
+        "start": 4.42,
+        "end": 4.56
+      },
+      {
+        "word": "braň",
+        "start": 4.56,
+        "end": 4.74
+      },
+      {
+        "word": "si",
+        "start": 4.74,
+        "end": 4.86
+      },
+      {
+        "word": "svojí",
+        "start": 4.86,
+        "end": 5.28
+      },
+      {
+        "word": "game.",
+        "start": 5.28,
+        "end": 5.6
+      },
+      {
+        "word": "Jednou",
+        "start": 5.64,
+        "end": 5.9
+      },
+      {
+        "word": "se",
+        "start": 5.9,
+        "end": 6.12
+      },
+      {
+        "word": "budeš",
+        "start": 6.12,
+        "end": 6.4
+      },
+      {
+        "word": "jenom",
+        "start": 6.4,
+        "end": 6.66
+      },
+      {
+        "word": "smát",
+        "start": 6.66,
+        "end": 6.96
+      },
+      {
+        "word": "těm,",
+        "start": 6.96,
+        "end": 7.34
+      },
+      {
+        "word": "co",
+        "start": 7.34,
+        "end": 7.52
+      },
+      {
+        "word": "nás",
+        "start": 7.52,
+        "end": 7.78
+      },
+      {
+        "word": "odepříjí.",
+        "start": 7.78,
+        "end": 8.48
+      }
+    ],
+    "song_match": {
+      "score": 0.9474,
+      "song_start": 90.74,
+      "song_end": 100.62,
+      "song_index": 196
+    },
+    "before_duration": 0.0,
+    "after_duration": 0.22,
+    "target_rap_duration": 9.88,
+    "speed_factor": 0.7874,
+    "new_clip_duration": 10.1006,
+    "output_hash": "c92947ef42ad68df8d32bd75d193a222"
+  },
+  "rap_16": {
+    "clip": "rap_16.mp4",
+    "source": "gen_rap/rap_16.mp4",
+    "clip_duration": 7.7502,
+    "rap_start": 1.06,
+    "rap_end": 6.16,
+    "rap_duration": 4.8502,
+    "transcript_raw": "A všechny vize, co máš teďka načrtnutý v bloku, já v nich reálně žiju.",
+    "transcript_empty": false,
+    "lyrics_window": "A všechny vize co máš teďka načrtnutý v bloku Já v nich reálně žiju",
+    "lyrics_match_score": 1.0,
+    "transcript_fixed": "A všechny vize co máš teďka načrtnutý v bloku Já v nich reálně žiju",
+    "words": [
+      {
+        "word": "A",
+        "start": 1.06,
+        "end": 1.2502
+      },
+      {
+        "word": "všechny",
+        "start": 1.2502,
+        "end": 1.6116
+      },
+      {
+        "word": "vize",
+        "start": 1.6116,
+        "end": 1.973
+      },
+      {
+        "word": "co",
+        "start": 1.973,
+        "end": 2.0871
+      },
+      {
+        "word": "máš",
+        "start": 2.0871,
+        "end": 2.3153
+      },
+      {
+        "word": "teďka",
+        "start": 2.3153,
+        "end": 2.6958
+      },
+      {
+        "word": "načrtnutý",
+        "start": 2.6958,
+        "end": 3.2474
+      },
+      {
+        "word": "v",
+        "start": 3.2474,
+        "end": 3.4185
+      },
+      {
+        "word": "bloku",
+        "start": 3.4185,
+        "end": 4.3125
+      },
+      {
+        "word": "Já",
+        "start": 4.4837,
+        "end": 4.6739
+      },
+      {
+        "word": "v",
+        "start": 4.6739,
+        "end": 4.807
+      },
+      {
+        "word": "nich",
+        "start": 4.807,
+        "end": 4.9212
+      },
+      {
+        "word": "reálně",
+        "start": 4.9212,
+        "end": 5.4157
+      },
+      {
+        "word": "žiju",
+        "start": 5.4157,
+        "end": 5.9102
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "A",
+        "start": 1.06,
+        "end": 1.26
+      },
+      {
+        "word": "všechny",
+        "start": 1.26,
+        "end": 1.64
+      },
+      {
+        "word": "vize,",
+        "start": 1.64,
+        "end": 2.02
+      },
+      {
+        "word": "co",
+        "start": 2.02,
+        "end": 2.14
+      },
+      {
+        "word": "máš",
+        "start": 2.14,
+        "end": 2.38
+      },
+      {
+        "word": "teďka",
+        "start": 2.38,
+        "end": 2.78
+      },
+      {
+        "word": "načrtnutý",
+        "start": 2.78,
+        "end": 3.36
+      },
+      {
+        "word": "v",
+        "start": 3.36,
+        "end": 3.54
+      },
+      {
+        "word": "bloku,",
+        "start": 3.54,
+        "end": 4.48
+      },
+      {
+        "word": "já",
+        "start": 4.66,
+        "end": 4.86
+      },
+      {
+        "word": "v",
+        "start": 4.86,
+        "end": 5.0
+      },
+      {
+        "word": "nich",
+        "start": 5.0,
+        "end": 5.12
+      },
+      {
+        "word": "reálně",
+        "start": 5.12,
+        "end": 5.64
+      },
+      {
+        "word": "žiju.",
+        "start": 5.64,
+        "end": 6.16
+      }
+    ],
+    "song_match": {
+      "score": 0.9655,
+      "song_start": 122.202,
+      "song_end": 127.052,
+      "song_index": 290
+    },
+    "before_duration": 1.06,
+    "after_duration": 1.84,
+    "target_rap_duration": 4.85,
+    "speed_factor": 1.0515,
+    "new_clip_duration": 7.7502,
+    "output_hash": "cebd8d51d13b46553411a76ee1681353"
+  },
+  "rap_17": {
+    "clip": "rap_17.mp4",
+    "source": "gen_rap/rap_17.mp4",
+    "clip_duration": 7.0,
+    "rap_start": 0.1,
+    "rap_end": 3.68,
+    "rap_duration": 2.58,
+    "transcript_raw": "Konec lacinejch výmluv, teď já diktuju ten rap",
+    "transcript_empty": false,
+    "lyrics_window": "konec lacinejch výmluv teď já diktuju ten rap",
+    "lyrics_match_score": 1.0,
+    "transcript_fixed": "konec lacinejch výmluv teď já diktuju ten rap",
+    "words": [
+      {
+        "word": "konec",
+        "start": 0.1,
+        "end": 0.5901
+      },
+      {
+        "word": "lacinejch",
+        "start": 0.5901,
+        "end": 1.0513
+      },
+      {
+        "word": "výmluv",
+        "start": 1.0513,
+        "end": 1.4837
+      },
+      {
+        "word": "teď",
+        "start": 1.4837,
+        "end": 1.599
+      },
+      {
+        "word": "já",
+        "start": 1.599,
+        "end": 1.7287
+      },
+      {
+        "word": "diktuju",
+        "start": 1.7287,
+        "end": 2.1035
+      },
+      {
+        "word": "ten",
+        "start": 2.1035,
+        "end": 2.3485
+      },
+      {
+        "word": "rap",
+        "start": 2.3485,
+        "end": 2.68
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Konec",
+        "start": 0.1,
+        "end": 0.78
+      },
+      {
+        "word": "lacinejch",
+        "start": 0.78,
+        "end": 1.42
+      },
+      {
+        "word": "výmluv,",
+        "start": 1.42,
+        "end": 2.02
+      },
+      {
+        "word": "teď",
+        "start": 2.02,
+        "end": 2.18
+      },
+      {
+        "word": "já",
+        "start": 2.18,
+        "end": 2.36
+      },
+      {
+        "word": "diktuju",
+        "start": 2.36,
+        "end": 2.88
+      },
+      {
+        "word": "ten",
+        "start": 2.88,
+        "end": 3.22
+      },
+      {
+        "word": "rap",
+        "start": 3.22,
+        "end": 3.68
+      }
+    ],
+    "song_match": {
+      "score": 1.0,
+      "song_start": 155.072,
+      "song_end": 157.652,
+      "song_index": 373
+    },
+    "before_duration": 0.1,
+    "after_duration": 4.32,
+    "target_rap_duration": 2.58,
+    "speed_factor": 1.3876,
+    "new_clip_duration": 7.0,
+    "output_hash": "6db00bf546f32208c57b6926cbc305c1"
+  },
+  "rap_18": {
+    "clip": "rap_18.mp4",
+    "source": "gen_rap/rap_18.mp4",
+    "clip_duration": 8.52,
+    "rap_start": 0.0,
+    "rap_end": 7.48,
+    "rap_duration": 8.0,
+    "transcript_raw": "Každá ta prohra v prachu byla lístek na vrchol. Já jsem Tiffet, ten samej zmrt, co všemu tlaku odolal.",
+    "transcript_empty": false,
+    "lyrics_window": "Každá ta prohra v prachu byla lístek na vrchol já jsem ty ten samej zmrd co všemu tlaku odolal",
+    "lyrics_match_score": 0.8947,
+    "transcript_fixed": "Každá ta prohra v prachu byla lístek na vrchol já jsem ty ten samej zmrd co všemu tlaku odolal",
+    "words": [
+      {
+        "word": "Každá",
+        "start": 0.0,
+        "end": 0.7273
+      },
+      {
+        "word": "ta",
+        "start": 0.7273,
+        "end": 0.8342
+      },
+      {
+        "word": "prohra",
+        "start": 0.8342,
+        "end": 1.2406
+      },
+      {
+        "word": "v",
+        "start": 1.2406,
+        "end": 1.4545
+      },
+      {
+        "word": "prachu",
+        "start": 1.4545,
+        "end": 1.7968
+      },
+      {
+        "word": "byla",
+        "start": 1.7968,
+        "end": 2.2032
+      },
+      {
+        "word": "lístek",
+        "start": 2.2032,
+        "end": 2.7166
+      },
+      {
+        "word": "na",
+        "start": 2.7166,
+        "end": 2.9947
+      },
+      {
+        "word": "vrchol",
+        "start": 2.9947,
+        "end": 3.6791
+      },
+      {
+        "word": "já",
+        "start": 3.6791,
+        "end": 3.8503
+      },
+      {
+        "word": "jsem",
+        "start": 3.8503,
+        "end": 4.0856
+      },
+      {
+        "word": "ty",
+        "start": 4.0856,
+        "end": 5.0909
+      },
+      {
+        "word": "ten",
+        "start": 5.0909,
+        "end": 5.262
+      },
+      {
+        "word": "samej",
+        "start": 5.262,
+        "end": 5.7112
+      },
+      {
+        "word": "zmrd",
+        "start": 5.7112,
+        "end": 6.3743
+      },
+      {
+        "word": "co",
+        "start": 6.3743,
+        "end": 6.4385
+      },
+      {
+        "word": "všemu",
+        "start": 6.4385,
+        "end": 6.8449
+      },
+      {
+        "word": "tlaku",
+        "start": 6.8449,
+        "end": 7.3155
+      },
+      {
+        "word": "odolal",
+        "start": 7.3155,
+        "end": 8.0
+      }
+    ],
+    "words_raw": [
+      {
+        "word": "Každá",
+        "start": 0.0,
+        "end": 0.68
+      },
+      {
+        "word": "ta",
+        "start": 0.68,
+        "end": 0.78
+      },
+      {
+        "word": "prohra",
+        "start": 0.78,
+        "end": 1.16
+      },
+      {
+        "word": "v",
+        "start": 1.16,
+        "end": 1.36
+      },
+      {
+        "word": "prachu",
+        "start": 1.36,
+        "end": 1.68
+      },
+      {
+        "word": "byla",
+        "start": 1.68,
+        "end": 2.06
+      },
+      {
+        "word": "lístek",
+        "start": 2.06,
+        "end": 2.54
+      },
+      {
+        "word": "na",
+        "start": 2.54,
+        "end": 2.8
+      },
+      {
+        "word": "vrchol.",
+        "start": 2.8,
+        "end": 3.44
+      },
+      {
+        "word": "Já",
+        "start": 3.44,
+        "end": 3.6
+      },
+      {
+        "word": "jsem",
+        "start": 3.6,
+        "end": 3.82
+      },
+      {
+        "word": "Tiffet,",
+        "start": 3.82,
+        "end": 4.76
+      },
+      {
+        "word": "ten",
+        "start": 4.76,
+        "end": 4.92
+      },
+      {
+        "word": "samej",
+        "start": 4.92,
+        "end": 5.34
+      },
+      {
+        "word": "zmrt,",
+        "start": 5.34,
+        "end": 5.96
+      },
+      {
+        "word": "co",
+        "start": 5.96,
+        "end": 6.02
+      },
+      {
+        "word": "všemu",
+        "start": 6.02,
+        "end": 6.4
+      },
+      {
+        "word": "tlaku",
+        "start": 6.4,
+        "end": 6.84
+      },
+      {
+        "word": "odolal.",
+        "start": 6.84,
+        "end": 7.48
+      }
+    ],
+    "song_match": {
+      "score": 0.878,
+      "song_start": 182.652,
+      "song_end": 190.652,
+      "song_index": 446
+    },
+    "before_duration": 0.0,
+    "after_duration": 0.52,
+    "target_rap_duration": 8.0,
+    "speed_factor": 0.935,
+    "new_clip_duration": 8.52,
+    "output_hash": "74cc52f07caf45c222e8129420ab7120"
+  }
+}

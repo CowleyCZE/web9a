@@ -1,0 +1,14 @@
+{
+  "critical_issues": [
+    "Dílčí části videa nejsou propojeny s rapsy, což může vést k nerozumění a nesrovnalostem v videoklipu.",
+    "Některé fragmenty videa jsou příliš dlouhé a mohou způsobit frustraci u téměř nekoncovaných hudebních videoklipoch."
+  ],
+  "suspicious_clips": [
+    "01:24.22 - 01:30.74 | vid_06",
+    "02:02.20 - 02:06.93 | rap_16"
+  ],
+  "priority_fixes": [
+    "Vytvořte více spojovacích fragmentů mezi videomateriálem a rapsy, aby bylo jasné, jak se jedná o souvislost.",
+    "Zkrátit délku některých videofragmentů pro vylepšení čitelnosti a efektivity."
+  ]
+}

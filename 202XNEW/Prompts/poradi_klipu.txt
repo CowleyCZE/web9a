@@ -1,0 +1,42 @@
+# POŘADÍ KLIPŮ — sestaveno AI (Antigravity) podle narativu písně 202X
+# Bez výpočtu časování/timeline — jen pořadí existujících klipů.
+# Zkontroluj/uprav ručně podle potřeby.
+
+vid_27
+vid_04
+vid_19
+rap_04
+vid_14
+vid_13
+rap_02
+vid_09
+rap_05
+rap_10
+rap_07
+vid_06
+rap_09
+rap_08
+vid_30
+rap_15
+vid_16
+rap_06
+rap_16
+vid_18
+vid_10
+rap_03
+vid_20
+vid_23
+rap_17
+rap_12
+vid_24
+vid_02
+rap_13
+rap_14
+rap_01
+rap_18
+vid_22
+vid_05
+rap_11
+vid_25
+vid_07
+vid_01

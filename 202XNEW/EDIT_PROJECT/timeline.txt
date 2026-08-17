@@ -1,0 +1,34 @@
+00:00.00 - 00:15.00 | vid_27 | Zaprášený metronom se v temné dílně rozhýbe.
+00:15.00 - 00:20.00 | vid_04 | Detail LED hodin 04:00, nájezd na čápa.
+00:20.00 - 00:30.00 | vid_04 | Vyčerpaný čáp u PC si tiskne zobák do dlaní.
+00:30.00 - 00:42.00 | vid_19 | Zkrácený detail lampy se stoupajícím dýmem.
+00:42.00 - 00:47.00 | vid_31 | Tajemný čáp v šeru skladu.
+00:47.00 - 00:55.00 | vid_14 | Záběr zezadu na čápa u DAW a okna.
+00:55.00 - 01:00.00 | vid_12 | Detail psaní poznámek do bloku.
+01:00.00 - 01:14.00 | vid_13 | Zhmotnění holografického mentora z monitoru.
+01:14.00 - 01:27.00 | rap_07 | 1. Refrén: Čáp na heliportu rozpažuje křídla.
+01:27.00 - 01:33.00 | rap_19 | Rap v sále pod lustrem ve zlatém dešti.
+01:33.00 - 01:40.00 | rap_15 | Dva čápi na střeše, konfety a ohňostroje.
+01:40.00 - 01:46.00 | vid_16 | Kontrastní pohled zevnitř prázdné lednice.
+01:46.00 - 01:50.00 | rap_06 | Čáp v zeleném bomberu v luxusním penthouse.
+01:50.00 - 02:01.00 | rap_02 | Retro kuchyně: rozhovor mentora s mladším já.
+02:01.00 - 02:07.00 | rap_16 | Čáp u prosklené stěny mrakodrapu.
+02:07.00 - 02:16.00 | rap_03 | Prasklé zrcadlo, oči se rozhoří plameny.
+02:16.00 - 02:18.00 | vid_21 | Uhoření a exploze staré fotografie.
+02:18.00 - 02:24.00 | rap_10 | Čáp ve studiu gestikuluje do kamery.
+02:24.00 - 02:28.00 | vid_20 | Čáp v hale hledí na svůj úspěšný stín na zdi.
+02:28.00 - 02:32.00 | vid_23 | Dotyk zrcadla v polorozpadlé továrně.
+02:32.00 - 02:37.00 | rap_04 | Vstávání od stolu, smetení plechovek.
+02:37.00 - 02:42.00 | rap_05 | Zpěv zblízka do studiového mikrofonu.
+02:42.00 - 02:48.00 | rap_12 | Agresivní čelní rap do kamery u stolu.
+02:48.00 - 02:51.00 | rap_21 | Dynamický nájezd na střešní terase.
+02:51.00 - 02:55.00 | vid_24 | Prostorový glitch portál ze skladu do penthausu.
+02:55.00 - 03:01.00 | rap_13 | 2. Refrén: Dva čápi na můstku nad řekou.
+03:01.00 - 03:10.00 | rap_18 | Čáp na koncertním pódiu v mlze.
+03:10.00 - 03:17.00 | vid_22 | Exploze zlaté tekuté sochy lva.
+03:17.00 - 03:25.00 | vid_05 | Zaplněný tleskající sál před pódiem.
+03:25.00 - 03:32.00 | vid_09 | Otáčení stránek starého skicáře s plány.
+03:32.00 - 03:39.00 | rap_11 | Čáp v penthausu snímá brýle.
+03:39.00 - 03:41.00 | vid_25 | Makro detail brýlí s odrazem zámku Mělník.
+03:41.00 - 03:43.00 | vid_07 | CRT obrazovka s glitch nápisem SIGNÁL UKONČEN.
+03:43.00 - 03:44.54 | vid_01 | DAW dialog: EXPORT DOKONČEN - 202X.
