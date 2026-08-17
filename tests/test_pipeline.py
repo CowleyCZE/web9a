@@ -531,3 +531,23 @@ class GenerativePackageTests(unittest.TestCase):
             self.assertTrue((project / "EDIT_PROJECT" / "generation_manifest.json").exists())
             self.assertTrue((project / "Prompts" / "scenario.txt").exists())
             self.assertTrue((project / "Prompts" / "generation_prompts.md").exists())
+
+
+class RapTranscriptionGuardTests(unittest.TestCase):
+    def test_completed_rap_transcription_is_skipped(self):
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            pipeline = pro_pipeline.TemagenPipeline(project)
+            (project / "gen_rap").mkdir(parents=True, exist_ok=True)
+            (project / "gen_rap" / "rap_01.mp4").write_bytes(b"placeholder")
+            (pipeline.edit_dir / "rap_alignment.json").write_text(
+                '{"rap_01": {"transcript_raw": "test phrase", '
+                '"transcript_fixed": "test phrase", '
+                '"words_raw": [{"word": "test", "start": 0.0, "end": 0.2}], '
+                '"transcript_empty": false}}',
+                encoding="utf-8",
+            )
+            with mock.patch.object(
+                pipeline, "_groq_ready", side_effect=AssertionError("provider check should be skipped")
+            ):
+                pipeline.transcribe_rap_clips()

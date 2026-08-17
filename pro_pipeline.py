@@ -3460,8 +3460,35 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         best.pop("rank", None)
         return best
 
-    def transcribe_rap_clips(self):
-        """Transkribuje rap klipy a vytvoří EDIT_PROJECT/rap_alignment.json."""
+    def transcribe_rap_clips(self, force: bool = False):
+        """Transkribuje rap klipy a vytvoří EDIT_PROJECT/rap_alignment.json.
+
+        Pokud už existuje úplný a použitelný alignment pro všechny dostupné
+        rap klipy, transkripce se přeskočí. Opakování lze vědomě vynutit
+        parametrem ``force=True``.
+        """
+        rap_clips = sorted(self.gen_rap.glob("rap_*.mp4"))
+        alignment_path = self.edit_dir / "rap_alignment.json"
+        existing = self._load_json(alignment_path, {})
+        if not force and rap_clips and isinstance(existing, dict):
+            expected = {clip.stem for clip in rap_clips}
+            completed = set()
+            for clip_id, entry in existing.items():
+                if not isinstance(entry, dict):
+                    continue
+                has_words = bool(entry.get("words_raw") or entry.get("words"))
+                has_transcript = bool(str(entry.get("transcript_raw") or entry.get("transcript_fixed") or "").strip())
+                if has_words and has_transcript and not entry.get("transcript_empty", False):
+                    completed.add(str(clip_id))
+            missing = sorted(expected - completed)
+            if not missing:
+                print(f"⏭️  Transkripce rap klipů už existuje: {alignment_path.relative_to(self.project_dir)}")
+                print(f"   Hotovo pro {len(expected)} klipů. Novou transkripci nespouštím.")
+                print("   Pro vynucení použij CLI přepínač --force.")
+                return
+            print(f"ℹ️  Existující rap alignment je neúplný — chybí {len(missing)} klipů: {', '.join(missing)}")
+        elif force and rap_clips and alignment_path.exists():
+            print("⚠️  Transkripce rap klipů je vynucena přes --force.")
         settings = self.load_settings()
         provider = str(settings.get("transcription_provider", "local")).lower()
         whisper_bin = None
@@ -3487,7 +3514,6 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         lyrics_text = self._load_lyrics_text()
         timeline_ranges = self._load_timeline_rap_ranges()
         song_segments = self._load_song_segments()
-        rap_clips = sorted(self.gen_rap.glob("rap_*.mp4"))
         if not rap_clips:
             print("❌ Ve složce gen_rap nebyly nalezeny žádné rap_*.mp4 klipy.")
             return
@@ -7398,7 +7424,7 @@ def main():
     elif command == "sync":
         pipeline.sync_timeline()
     elif command == "transcribe-rap":
-        pipeline.transcribe_rap_clips()
+        pipeline.transcribe_rap_clips(force=args.force)
     elif command == "resync-rap":
         if not pipeline.resync_rap_alignment_from_lyrics():
             sys.exit(1)
