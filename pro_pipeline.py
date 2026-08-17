@@ -4541,8 +4541,8 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             time_range = parts[0]
             source_asset = clean_asset_id(parts[1])
 
-            # Pouze původní rapové položky: rap01, rap02, rap10...
-            if not re.fullmatch(r"rap\d{2}", source_asset, flags=re.IGNORECASE):
+            # Podporujeme oba historické formáty assetů: rap01 i rap_01.
+            if not re.fullmatch(r"rap_?\d{2}", source_asset, flags=re.IGNORECASE):
                 continue
 
             try:
@@ -4603,8 +4603,60 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
             })
 
         if not manifest:
-            print("V timeline nebyly nalezeny žádné rapové položky.")
-            return False
+            # Textově kotvený fallback pro timeline, která ještě neobsahuje
+            # explicitní rap řádky. Rap alignment je v tomto případě zdrojem
+            # pravdy, protože obsahuje song_match.song_start/song_end.
+            alignment = self._load_json(self.edit_dir / "rap_alignment.json", {})
+            fallback_rows = []
+            if isinstance(alignment, dict):
+                for clip_id, entry in alignment.items():
+                    if not isinstance(entry, dict):
+                        continue
+                    match = entry.get("song_match") or {}
+                    start = match.get("song_start")
+                    end = match.get("song_end")
+                    if start is None or end is None or float(end) <= float(start):
+                        continue
+                    source_asset = clean_asset_id(str(clip_id))
+                    if not re.fullmatch(r"rap_?\d{2}", source_asset, flags=re.IGNORECASE):
+                        continue
+                    fallback_rows.append((float(start), float(end), source_asset, entry))
+            for start, end, source_asset, entry in sorted(fallback_rows):
+                occurrences[source_asset] = occurrences.get(source_asset, 0) + 1
+                occurrence = occurrences[source_asset]
+                asset = f"{source_asset}_{occurrence:02d}"
+                output_audio = output_dir / f"{asset}.wav"
+                cmd = [
+                    "ffmpeg", "-y", "-ss", f"{start:.3f}", "-to", f"{end:.3f}",
+                    "-i", str(audio_path), "-ac", "1", "-ar", "48000",
+                    "-c:a", "pcm_s16le", str(output_audio),
+                ]
+                if not run_ffmpeg(cmd):
+                    print(f"Nepodařilo se vytvořit: {output_audio.name}")
+                    continue
+                manifest.append({
+                    "asset": asset,
+                    "source_asset": source_asset,
+                    "occurrence": occurrence,
+                    "start": round(start, 3),
+                    "end": round(end, 3),
+                    "duration": round(end - start, 3),
+                    "start_ms": round(start * 1000),
+                    "end_ms": round(end * 1000),
+                    "duration_ms": round((end - start) * 1000),
+                    "audio": str(output_audio.relative_to(self.project_dir)),
+                    "lyrics": str(entry.get("transcript_fixed") or entry.get("lyrics_window") or "").strip(),
+                    "source": "rap_alignment.song_match",
+                    "generation_rule": (
+                        "Use this exact attached audio. Do not invent, replace, "
+                        "translate, speed-change or paraphrase the spoken lyric."
+                    ),
+                })
+            if manifest:
+                print(f"ℹ️ Timeline neobsahuje rap řádky — použity textové kotvy z rap_alignment.json ({len(manifest)} segmentů).")
+            else:
+                print("V timeline ani rap_alignment.json nebyly nalezeny žádné platné rapové položky.")
+                return False
 
         self._write_json(output_dir / "manifest.json", {
             "source_audio": str(audio_path.relative_to(self.project_dir)),

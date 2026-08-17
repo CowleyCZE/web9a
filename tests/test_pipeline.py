@@ -1,3 +1,4 @@
+import json
 import tempfile
 import unittest
 from unittest import mock
@@ -551,3 +552,36 @@ class RapTranscriptionGuardTests(unittest.TestCase):
                 pipeline, "_groq_ready", side_effect=AssertionError("provider check should be skipped")
             ):
                 pipeline.transcribe_rap_clips()
+
+
+class LipsyncExportTests(unittest.TestCase):
+    def test_lipsync_export_falls_back_to_text_anchored_alignment(self):
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            pipeline = pro_pipeline.TemagenPipeline(project)
+            pipeline.timeline_file.parent.mkdir(parents=True, exist_ok=True)
+            pipeline.timeline_file.write_text(
+                "00:00.000 - 00:02.000 | vid_01 | broll\n", encoding="utf-8"
+            )
+            audio = project / "song.mp3"
+            audio.write_bytes(b"audio")
+            (pipeline.edit_dir / "rap_alignment.json").write_text(
+                '{"rap_01": {"transcript_fixed": "Tohle je test", '
+                '"song_match": {"song_start": 12.5, "song_end": 15.2}}}',
+                encoding="utf-8",
+            )
+
+            def fake_ffmpeg(command):
+                Path(command[-1]).write_bytes(b"wav")
+                return True
+
+            with mock.patch.object(pipeline, "validate_transcription_integrity", return_value=True), \
+                 mock.patch.object(pipeline, "find_audio", return_value=audio), \
+                 mock.patch("pro_pipeline.run_ffmpeg", side_effect=fake_ffmpeg):
+                self.assertTrue(pipeline.export_lipsync_audio_segments())
+            manifest = json.loads(
+                (project / "LIPSYNC_AUDIO" / "manifest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(manifest["segments"][0]["source"], "rap_alignment.song_match")
+            self.assertEqual(manifest["segments"][0]["start"], 12.5)
+            self.assertEqual(manifest["segments"][0]["end"], 15.2)
