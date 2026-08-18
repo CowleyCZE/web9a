@@ -1,0 +1,98 @@
+name: Apply run_all analyze guard
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Patch run_all_flow analyze-song guard
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import ast
+
+          path = Path('pro_pipeline.py')
+          text = path.read_text(encoding='utf-8')
+          tree = ast.parse(text)
+
+          target = None
+          for node in ast.walk(tree):
+              if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name in {'run_all_flow', 'run_all'}:
+                  target = node
+                  break
+          if target is None:
+              raise SystemExit('run_all_flow/run_all not found')
+
+          lines = text.splitlines(keepends=True)
+          start = target.lineno - 1
+          end = target.end_lineno
+          block = ''.join(lines[start:end])
+
+          if 'ANALYZE_SONG_FAILED_GUARD' in block:
+              print('guard already present')
+              raise SystemExit(0)
+
+          # Guard every direct self.analyze_song() call in this orchestration method.
+          # Only calls without arguments are targeted; this avoids changing unrelated APIs.
+          old = 'self.analyze_song()'
+          if old not in block:
+              raise SystemExit('No self.analyze_song() call found inside run_all_flow/run_all')
+
+          replacement = '''self.analyze_song()'''
+          # Preserve indentation of the original call and replace it with an explicit
+          # boolean gate. The marker makes the patch idempotent.
+          out = []
+          for line in block.splitlines(keepends=True):
+              if 'self.analyze_song()' in line and 'ANALYZE_SONG_FAILED_GUARD' not in line:
+                  indent = line[:len(line) - len(line.lstrip())]
+                  out.append(indent + '# ANALYZE_SONG_FAILED_GUARD: stop orchestration on failed song analysis\n')
+                  out.append(indent + 'if not self.analyze_song():\n')
+                  out.append(indent + '    print("❌ run_all_flow zastaven: analyze_song() selhala.")\n')
+                  out.append(indent + '    return False\n')
+              else:
+                  out.append(line)
+          new_block = ''.join(out)
+
+          text = ''.join(lines[:start]) + new_block + ''.join(lines[end:])
+          path.write_text(text, encoding='utf-8')
+          print('run_all analyze-song guard inserted')
+          PY
+
+      - name: Verify syntax and guard
+        run: |
+          python -m py_compile pro_pipeline.py
+          python - <<'PY'
+          from pathlib import Path
+          import ast
+          text = Path('pro_pipeline.py').read_text(encoding='utf-8')
+          tree = ast.parse(text)
+          found = False
+          for node in ast.walk(tree):
+              if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name in {'run_all_flow', 'run_all'}:
+                  block = ast.get_source_segment(text, node) or ''
+                  assert 'ANALYZE_SONG_FAILED_GUARD' in block
+                  assert 'if not self.analyze_song():' in block
+                  found = True
+                  break
+          assert found, 'run_all_flow/run_all not found after patch'
+          print('run_all analyze guard verified')
+          PY
+
+      - name: Remove one-time workflow and commit
+        run: |
+          rm -f .github/workflows/_apply_run_all_guard.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add pro_pipeline.py .github/workflows/_apply_run_all_guard.yml
+          git commit -m 'Stop pipeline when song analysis fails'
+          git push
