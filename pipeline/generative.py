@@ -6,14 +6,15 @@ from pathlib import Path
 from typing import Any
 
 DEFAULT_STORK_ANCHOR = (
-    "same recurring anthropomorphic stork rapper character, long orange beak, "
-    "black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, "
-    "consistent proportions, cinematic music-video character design"
+    "a constantly recurring anthropomorphic rapper character in the form of a stork, "
+    "with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, "
+    "expressive body language, a recognizable silhouette, consistent proportions, "
+    "and a music video-style character design"
 )
 DEFAULT_NEGATIVE = (
-    "different character, human face, visible human mouth, extra beak, deformed beak, "
-    "duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, "
-    "flicker, morphing, low resolution, watermark, subtitles"
+    "another character, a human face, a visible human mouth, another beak, a deformed beak, "
+    "duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, "
+    "flickering, morphing, low resolution, watermark, subtitles"
 )
 
 
@@ -121,6 +122,32 @@ def select_key_rap_passages(
     return sorted(chosen, key=lambda item: item["line_index"])
 
 
+def _escape_prompt_lyrics(text: str) -> str:
+    """Keep the lyric payload readable inside the prompt's quoted lyric clause."""
+    return re.sub(r"\s+", " ", text).strip().replace('"', "'")
+
+
+def _build_rap_prompt(
+    *,
+    clip_id: str,
+    duration: float,
+    lyric_text: str,
+    mood_text: str,
+) -> str:
+    """Build the canonical stork rap prompt with lyrics in the lipsync anchor."""
+    safe_lyrics = _escape_prompt_lyrics(lyric_text)
+    duration_text = f"{duration:.2f} seconds"
+    return (
+        f"{DEFAULT_STORK_ANCHOR}, wearing a dark olive functional jacket over a distinctive "
+        f"hooded sweatshirt, a close medium shot, the beak clearly visible in a three-quarter view, "
+        f"subtle and controlled articulation of the beak matching the Czech-rapped lyrics: "
+        f'"{safe_lyrics}", a confident gaze, {mood_text}, '
+        f"The stork rapper breaks free from the pressure and achieves self-confidence and victory., "
+        f"cinematic practical lighting, steady camera, realistic movement, a single continuous shot, "
+        f"duration {duration_text}"
+    )
+
+
 def _outfit_for_section(section: str, index: int) -> str:
     outfits = {
         "intro": "black technical hoodie with subtle reflective trim",
@@ -150,7 +177,6 @@ def build_generation_package(
     prompts = []
     for index, passage in enumerate(rap_passages, 1):
         section = "chorus" if index == 2 else "verse"
-        outfit = _outfit_for_section(section, index)
         prompts.append({
             "clip_id": f"rap_{index:02d}",
             "type": "rap_lipsync",
@@ -158,11 +184,11 @@ def build_generation_package(
             "text": passage["text"],
             "section": section,
             "character_anchor": anchor,
-            "prompt": (
-                f"{anchor}, wearing {outfit}, close medium shot, beak clearly visible in three-quarter view, "
-                f"subtle controlled beak articulation matching the provided Czech rap line, confident eye direction, "
-                f"{mood_text}, {brief}, cinematic practical lighting, stable camera, realistic motion, "
-                f"single continuous shot, duration {passage['duration']:.2f} seconds"
+            "prompt": _build_rap_prompt(
+                clip_id=f"rap_{index:02d}",
+                duration=passage["duration"],
+                lyric_text=passage["text"],
+                mood_text=mood_text,
             ),
             "negative_prompt": DEFAULT_NEGATIVE,
             "lipsync_constraints": {

@@ -31,6 +31,31 @@ from pipeline import visual_qa
 from pipeline import lipsync
 from pipeline import catalog_quality
 from pipeline import motion
+from pipeline import generative
+
+
+class GenerativePromptTests(unittest.TestCase):
+    def test_rap_prompt_places_exact_lyrics_in_lipsync_clause(self):
+        lyric = "Tady a teď, brácho, žijeme tady a teď, (tady a teď!)"
+        prompt = generative._build_rap_prompt(
+            clip_id="rap_03",
+            duration=3.25,
+            lyric_text=lyric,
+            mood_text="cinematic Czech rap, determined, nocturnal, urban",
+        )
+        self.assertIn('matching the Czech-rapped lyrics: "' + lyric + '"', prompt)
+        self.assertIn("wearing a dark olive functional jacket over a distinctive hooded sweatshirt", prompt)
+        self.assertIn("duration 3.25 seconds", prompt)
+        self.assertNotIn("provided Czech rap line", prompt)
+
+    def test_rap_prompt_sanitizes_nested_double_quotes(self):
+        prompt = generative._build_rap_prompt(
+            clip_id="rap_01",
+            duration=2.50,
+            lyric_text='Řekni "teď" a běž',
+            mood_text="cinematic Czech rap",
+        )
+        self.assertIn('matching the Czech-rapped lyrics: "Řekni \'teď\' a běž"', prompt)
 
 
 class ParserTests(unittest.TestCase):

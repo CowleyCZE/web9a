@@ -1,77 +1,60 @@
 # Generation prompts — TADY_A_TED
 
-**Character anchor:** same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design
+**Character anchor:** a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design
 
 **Mood:** cinematic Czech rap, determined, nocturnal, urban
 
-## Global production directives
-
-Use the same recurring masked anthropomorphic stork rapper in every clip. Preserve the long orange beak, black MLK cap, recognizable silhouette, proportions, wardrobe logic and character identity. The story moves from cold digital isolation and phone addiction to warm real-world contact and presence. Keep clips visually continuous with the treatment in `video_treatment.md`. Do not invent readable UI text, logos, subtitles or random signage. Rap clips must articulate only the exact Czech text written below; keep the beak visible in a three-quarter or frontal angle and avoid human lips.
-
-
 ## rap_01 — rap_lipsync (3.35s)
 
-**Text line:** „Kde je ten smích, co tě zboří až do základů? (řekni!)“
-**Story function:** First direct demand for real human contact after digital isolation.
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, wearing a dark olive functional jacket over a distinctive hooded sweatshirt, a close medium shot, the beak clearly visible in a three-quarter view, subtle and controlled articulation of the beak matching the Czech-rapped lyrics: "Kde je ten smích, co tě zboří až do základů? (řekni!)", a confident gaze, cinematic Czech rap, determined, nocturnal, urban, The stork rapper breaks free from the pressure and achieves self-confidence and victory., cinematic practical lighting, steady camera, realistic movement, a single continuous shot, duration 3.35 seconds
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, wearing dark olive utility jacket over the signature hoodie, close medium shot, beak clearly visible in three-quarter view, subtle controlled beak articulation matching the provided Czech rap line, confident eye direction, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic practical lighting, stable camera, realistic motion, single continuous shot, duration 3.35 seconds
-
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 
 ## rap_02 — rap_lipsync (6.00s)
 
-**Text line:** „Tady a teď, brácho, žijeme tady a teď, (tady a teď!)“
-**Story function:** First chorus release; the character and group choose presence over screens.
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, wearing a dark olive functional jacket over a distinctive hooded sweatshirt, a close medium shot, the beak clearly visible in a three-quarter view, subtle and controlled articulation of the beak matching the Czech-rapped lyrics: "Tady a teď, brácho, žijeme tady a teď, (tady a teď!)", a confident gaze, cinematic Czech rap, determined, nocturnal, urban, The stork rapper breaks free from the pressure and achieves self-confidence and victory., cinematic practical lighting, steady camera, realistic movement, a single continuous shot, duration 6.00 seconds
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, wearing black and gold performance bomber jacket, close medium shot, beak clearly visible in three-quarter view, subtle controlled beak articulation matching the provided Czech rap line, confident eye direction, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic practical lighting, stable camera, realistic motion, single continuous shot, duration 6.00 seconds
-
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 
 ## rap_03 — rap_lipsync (3.25s)
 
-**Text line:** „Kde je ten smích, co tě zboří až do základů? (řekni!)“
-**Story function:** The message returns after the relapse into phone distraction.
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, wearing a dark olive functional jacket over a distinctive hooded sweatshirt, a close medium shot, the beak clearly visible in a three-quarter view, subtle and controlled articulation of the beak matching the Czech-rapped lyrics: "Kde je ten smích, co tě zboří až do základů? (řekni!)", a confident gaze, cinematic Czech rap, determined, nocturnal, urban, The stork rapper breaks free from the pressure and achieves self-confidence and victory., cinematic practical lighting, steady camera, realistic movement, a single continuous shot, duration 3.25 seconds
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, wearing dark olive utility jacket over the signature hoodie, close medium shot, beak clearly visible in three-quarter view, subtle controlled beak articulation matching the provided Czech rap line, confident eye direction, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic practical lighting, stable camera, realistic motion, single continuous shot, duration 3.25 seconds
-
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 
 ## rap_04 — rap_lipsync (6.00s)
 
-**Text line:** „Tady a teď, brácho, žijeme tady a teď, (tady a teď!)“
-**Story function:** Final chorus release on an open rooftop or city location.
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, wearing a dark olive functional jacket over a distinctive hooded sweatshirt, a close medium shot, the beak clearly visible in a three-quarter view, subtle and controlled articulation of the beak matching the Czech-rapped lyrics: "Tady a teď, brácho, žijeme tady a teď, (tady a teď!)", a confident gaze, cinematic Czech rap, determined, nocturnal, urban, The stork rapper breaks free from the pressure and achieves self-confidence and victory., cinematic practical lighting, steady camera, realistic movement, a single continuous shot, duration 6.00 seconds
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, wearing dark olive utility jacket over the signature hoodie, close medium shot, beak clearly visible in three-quarter view, subtle controlled beak articulation matching the provided Czech rap line, confident eye direction, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic practical lighting, stable camera, realistic motion, single continuous shot, duration 6.00 seconds
-
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 
 ## broll_01 — broll (4.00s)
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, black technical hoodie with subtle reflective trim, empty wet city under sodium lights, distant silhouette, slow push-in, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black technical hoodie with subtle reflective trim, empty wet city under sodium lights, distant silhouette, slow push-in, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
 
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 
 ## broll_02 — broll (4.00s)
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, dark olive utility jacket over the signature hoodie, the stork rapper walking through an industrial corridor, reflections and smoke, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, the stork rapper walking through an industrial corridor, reflections and smoke, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
 
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 
 ## broll_03 — broll (4.00s)
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, black and gold performance bomber jacket, the stork rapper on a rooftop above the city, wind moving the jacket, wide hero shot, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, the stork rapper on a rooftop above the city, wind moving the jacket, wide hero shot, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
 
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 
 ## broll_04 — broll (4.00s)
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, charcoal long coat with metallic details, close detail of boots crossing a puddle, reflected lights, rhythmic camera movement, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, charcoal long coat with metallic details, close detail of boots crossing a puddle, reflected lights, rhythmic camera movement, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
 
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 
 ## broll_05 — broll (4.00s)
 
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design, the signature dark hooded streetwear, slightly weathered, the stork rapper facing the sunrise from a rooftop, calm victorious silhouette, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, the signature dark hooded streetwear, slightly weathered, the stork rapper facing the sunrise from a rooftop, calm victorious silhouette, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds
 
-**Negative prompt:** different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+**Negative prompt:** another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
 

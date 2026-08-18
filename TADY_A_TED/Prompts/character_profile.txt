@@ -1,4 +1,4 @@
-same recurring anthropomorphic stork rapper character, long orange beak, black MLK cap, dark hooded streetwear, expressive body language, recognizable silhouette, consistent proportions, cinematic music-video character design
+a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design
 
 Negative prompt:
-different character, human face, visible human mouth, extra beak, deformed beak, duplicate limbs, extra fingers, warped hoodie logo, unreadable text, unstable identity, flicker, morphing, low resolution, watermark, subtitles
+another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles
