@@ -1378,7 +1378,8 @@ class TemagenPipeline:
         print(f"\n🚀 Spouštím renderování{label} (režim: {opts['mode']}, rozlišení: {opts['hd_mode']})...")
         if self.validate_project(final=(opts["mode"] == "final"), no_rap=no_rap):
             self.render_video(mode=opts["mode"], hd_mode=opts["hd_mode"],
-                               use_fades=opts["fades"], use_beat_sync=opts["beat_sync"])
+                               use_fades=opts["fades"], use_beat_sync=opts["beat_sync"],
+        no_rap=no_rap)
         elif opts["mode"] == "draft":
             force_choice = input("\n⚠️  Validace našla problémy (viz výše). "
                                   "Pokračovat v DRAFT renderu i přesto? (a/N): ").strip().lower()
@@ -6368,11 +6369,11 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         print(f"   Celkem {len(all_segments)} segmentů ({len(timeline_segments)} rap + {len(broll_segments)} B-roll)")
         print(f"   Nyní spusťte 'sync' pro načtení timeline a 'render' pro vykreslení.")
 
-    def render_video(self, mode="draft", hd_mode="draft", use_fades=False, use_beat_sync=False, output_dir: Path | None = None, variant_name: str | None = None, variant_overrides: dict | None = None):
+    def render_video(self, mode="draft", hd_mode="draft", use_fades=False, use_beat_sync=False, output_dir: Path | None = None, variant_name: str | None = None, variant_overrides: dict | None = None, no_rap: bool = False):
         """Vyrenderuje finální klip; volitelně do izolovaného adresáře A/B varianty."""
         variant_overrides = dict(variant_overrides or {})
         output_dir = Path(output_dir) if output_dir else self.export_dir
-        if mode == "final" and not self.validate_project(final=True, no_rap=False):
+        if mode == "final" and not self.validate_project(final=True, no_rap=no_rap):
             print("❌ Final render zablokován: preflight validace projektu selhala.")
             return False
         lipsync_manifest_path = self.edit_dir / "word_phoneme_alignment.json"
