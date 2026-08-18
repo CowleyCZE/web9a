@@ -1,0 +1,153 @@
+name: Apply pipeline hardening
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Patch pipeline error propagation and audio selection
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('pro_pipeline.py')
+          text = path.read_text(encoding='utf-8')
+          original = text
+
+          old_audio = '''    def find_audio(self) -> Path:
+          """Najde audio soubor v INPUT složce (deterministicky první dle názvu)."""
+          if not self.input_dir.exists():
+              return None
+          found_all = []
+          for ext in ("*.mp3", "*.wav", "*.ogg", "*.m4a"):
+              found_all.extend(self.input_dir.glob(ext))
+          if not found_all:
+              return None
+          found_all = sorted(set(found_all), key=lambda p: p.name.lower())
+          if len(found_all) > 1:
+              names = ", ".join(p.name for p in found_all)
+              print(f"⚠️ V INPUT/ je více audio souborů ({names}). Použiji: {found_all[0].name}")
+          return found_all[0]
+'''
+          new_audio = '''    def find_audio(self) -> Path:
+          """Najde jednoznačně zvolené audio v INPUT/.
+
+          Priorita: PIPELINE_AUDIO_FILE -> settings.json/audio_file -> jediný
+          nalezený audio soubor. Pokud je souborů více a není explicitní volba,
+          vrátí None místo tichého výběru prvního podle abecedy.
+          """
+          if not self.input_dir.exists():
+              return None
+
+          candidates = []
+          for ext in ("*.mp3", "*.wav", "*.ogg", "*.m4a"):
+              candidates.extend(self.input_dir.glob(ext))
+          candidates = sorted({p.resolve() for p in candidates}, key=lambda p: p.name.lower())
+          if not candidates:
+              return None
+
+          explicit = os.environ.get("PIPELINE_AUDIO_FILE", "").strip()
+          if not explicit:
+              settings_path = self.project_dir / "settings.json"
+              if settings_path.exists():
+                  try:
+                      settings = json.loads(settings_path.read_text(encoding="utf-8"))
+                      explicit = str(settings.get("audio_file", "") or "").strip()
+                  except (OSError, json.JSONDecodeError):
+                      explicit = ""
+
+          if explicit:
+              selected = Path(explicit)
+              if not selected.is_absolute():
+                  selected = self.input_dir / selected
+              selected = selected.resolve()
+              if selected in candidates and selected.is_file():
+                  return selected
+              print(f"❌ Explicitně zvolené audio neexistuje v INPUT/: {explicit}")
+              return None
+
+          if len(candidates) == 1:
+              return candidates[0]
+
+          names = ", ".join(p.name for p in candidates)
+          print(f"❌ V INPUT/ je více audio souborů ({names}).")
+          print("   Nastav konkrétní soubor přes settings.json → audio_file nebo proměnnou PIPELINE_AUDIO_FILE.")
+          return None
+'''
+          if old_audio not in text:
+              raise SystemExit('find_audio() exact block not found')
+          text = text.replace(old_audio, new_audio, 1)
+
+          replacements = [
+              (
+                '        run_cmd(concat_command(concat_list_file, merged_video), quiet=True)\n',
+                '''        if not run_cmd(concat_command(concat_list_file, merged_video), quiet=True):\n            print("❌ Spojení renderovaných segmentů selhalo.")\n            append_render_failure(self.project_dir, mode=mode, resolution=hd_mode, error="concat selhal", seed=seed, output=merged_video)\n            return False\n        if not merged_video.exists() or not is_valid_media(merged_video):\n            print("❌ FFmpeg concat nevytvořil platné merged_no_audio.mp4.")\n            return False\n'''
+              ),
+              (
+                '        run_cmd(mux_audio_command(merged_video, audio_path, final_video, profile=profile), quiet=True)\n',
+                '''        if not run_cmd(mux_audio_command(merged_video, audio_path, final_video, profile=profile), quiet=True):\n            print("❌ Připojení audia selhalo.")\n            append_render_failure(self.project_dir, mode=mode, resolution=hd_mode, error="mux audio selhal", seed=seed, output=final_video)\n            return False\n        if not final_video.exists() or not is_valid_media(final_video):\n            print("❌ Výsledný render po muxování není platné médium.")\n            return False\n'''
+              ),
+              (
+                '            run_cmd(fade_command(final_video, fade_video, dur, profile=profile), quiet=True)\n            final_video = fade_video\n',
+                '''            if not run_cmd(fade_command(final_video, fade_video, dur, profile=profile), quiet=True):\n                print("❌ Aplikace fade efektů selhala.")\n                return False\n            if not fade_video.exists() or not is_valid_media(fade_video):\n                print("❌ Fade render nevytvořil platné médium.")\n                return False\n            final_video = fade_video\n'''
+              ),
+              (
+                '        pipeline.run_all(mode=args.mode, hd_mode=args.res, no_rap=args.no_rap, force=args.force)\n',
+                '''        ok = pipeline.run_all(mode=args.mode, hd_mode=args.res, no_rap=args.no_rap, force=args.force)\n        sys.exit(0 if ok else 1)\n'''
+              ),
+              (
+                '        pipeline.render_video(mode=args.mode, hd_mode=args.res, use_fades=args.fades, use_beat_sync=args.beat_sync)\n',
+                '''        result = pipeline.render_video(mode=args.mode, hd_mode=args.res, use_fades=args.fades, use_beat_sync=args.beat_sync, no_rap=args.no_rap)\n        sys.exit(0 if isinstance(result, Path) and result.exists() else 1)\n'''
+              ),
+          ]
+
+          for old, new in replacements:
+              if old not in text:
+                  raise SystemExit(f'Expected block not found: {old[:100]!r}')
+              text = text.replace(old, new, 1)
+
+          if text == original:
+              raise SystemExit('No changes made')
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Verify
+        run: |
+          python -m py_compile pro_pipeline.py
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('pro_pipeline.py').read_text(encoding='utf-8')
+          checks = [
+              'PIPELINE_AUDIO_FILE',
+              'settings.json',
+              'concat selhal',
+              'mux audio selhal',
+              'ok = pipeline.run_all(mode=args.mode',
+              'sys.exit(0 if ok else 1)',
+              'result = pipeline.render_video(',
+              'no_rap=args.no_rap',
+          ]
+          for item in checks:
+              assert item in text, item
+          print('Pipeline hardening checks passed')
+          PY
+
+      - name: Remove one-time workflow and commit
+        run: |
+          rm -f .github/workflows/_apply_pipeline_hardening.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pro_pipeline.py .github/workflows/_apply_pipeline_hardening.yml
+          git commit -m "Harden audio selection and render error propagation"
+          git push
