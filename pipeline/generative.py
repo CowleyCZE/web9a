@@ -200,21 +200,49 @@ def build_generation_package(
             },
         })
     broll_prompts = []
+    # B-roll IDs intentionally use the convention consumed by pro_pipeline.py and
+    # klipy.py: vid_XX.mp4 files live in the project's gen_vid/ directory.
+    # Keep these prompts lyric-free; only rap_lipsync prompts carry rap text.
     scenes = [
-        ("broll_01", "intro", "empty wet city under sodium lights, distant silhouette, slow push-in"),
-        ("broll_02", "verse", "the stork rapper walking through an industrial corridor, reflections and smoke"),
-        ("broll_03", "chorus", "the stork rapper on a rooftop above the city, wind moving the jacket, wide hero shot"),
-        ("broll_04", "bridge", "close detail of boots crossing a puddle, reflected lights, rhythmic camera movement"),
-        ("broll_05", "outro", "the stork rapper facing the sunrise from a rooftop, calm victorious silhouette"),
+        ("vid_01", "intro", 5.0, "a cold blue bedroom before sunrise, the stork rapper sitting on the edge of the bed while a phone illuminates the orange beak, slow locked-off push-in"),
+        ("vid_02", "intro", 5.0, "extreme close-up of a phone screen glow reflected in the stork rapper's eye and orange beak, notifications remain abstract and unreadable, shallow depth of field"),
+        ("vid_03", "intro", 4.0, "the stork rapper alone at a small kitchen table, untouched coffee, blue screen light, empty chair opposite, restrained static composition"),
+        ("vid_04", "intro", 5.0, "overhead view of the stork rapper lying awake in a dark room, phone held above the black MLK cap, the room feels like a digital cage"),
+        ("vid_05", "verse", 5.0, "the stork rapper walking through a narrow apartment corridor lined with cold phone reflections, shoulders tense, slow tracking shot"),
+        ("vid_06", "verse", 4.0, "macro detail of a thumb endlessly scrolling on a phone while the stork rapper's orange beak appears blurred in the background, no readable interface text"),
+        ("vid_07", "verse", 5.0, "the stork rapper framed behind translucent glass covered with abstract reflections, trapped urban mood, gradual lateral camera move"),
+        ("vid_08", "verse", 5.0, "a crowded subway platform where every passenger is represented only by soft silhouettes and phone light, the stork rapper stands isolated in the center"),
+        ("vid_09", "verse", 4.0, "the stork rapper passes a shop window showing fragmented reflections of the same silhouette, controlled handheld movement, cold green and blue palette"),
+        ("vid_10", "verse", 5.0, "close shot of the stork rapper's hand hovering over the phone power button, hesitation and pressure, practical screen light on the dark hoodie"),
+        ("vid_11", "bridge", 4.0, "the stork rapper places the phone face down on a concrete table, screen light disappears, a warm practical light begins to enter the frame"),
+        ("vid_12", "bridge", 5.0, "the stork rapper unplugs a glowing charging cable and steps away from it, subtle dust in the air, symbolic release, steady camera"),
+        ("vid_13", "bridge", 5.0, "the stork rapper opens a heavy industrial door from darkness into an orange-lit night street, silhouette transition, single smooth camera move"),
+        ("vid_14", "chorus", 5.0, "the stork rapper enters a small late-night bar, warm amber practical lights, a few background silhouettes turn toward the character, welcoming atmosphere"),
+        ("vid_15", "chorus", 4.0, "a group at a bar table gradually places their phones face down, hands and glasses in frame, warm light, no readable logos or text"),
+        ("vid_16", "chorus", 5.0, "the stork rapper and a small group walk together through a neon side street, jackets moving in the wind, confident forward tracking shot"),
+        ("vid_17", "chorus", 4.0, "low angle of synchronized footsteps crossing a rain-wet street, reflections of amber and cyan lights, rhythmic but realistic camera motion"),
+        ("vid_18", "chorus", 5.0, "wide shot of the stork rapper and friends under an urban overpass, practical sodium lights, collective energy, slow circular camera move"),
+        ("vid_19", "verse", 5.0, "the stork rapper alone again in the bedroom, the phone lights up on the table, the character reaches toward it despite knowing better"),
+        ("vid_20", "verse", 4.0, "rapid but controlled montage-like shot of phone reflections passing over the stork rapper's hoodie and orange beak, abstract unreadable interface shapes"),
+        ("vid_21", "verse", 5.0, "the stork rapper sits on a bus at night while city lights streak across the window, phone glow isolates the character from the moving world"),
+        ("vid_22", "verse", 4.0, "a wall clock and phone on a dark table share the same cold light, the stork rapper's silhouette moves out of focus behind them, visual time pressure"),
+        ("vid_23", "bridge", 5.0, "the stork rapper notices the phone reflection in a puddle, then steps through the reflection and breaks its symmetry, symbolic return to reality"),
+        ("vid_24", "bridge", 5.0, "the stork rapper switches the phone to airplane mode and places it inside a jacket pocket, close detail, warm light growing stronger"),
+        ("vid_25", "chorus", 5.0, "the stork rapper raises the head toward an open city skyline, wind moving the dark olive jacket, rooftop hero composition"),
+        ("vid_26", "chorus", 4.0, "a small group leaves their phones in a row on a rooftop ledge and faces the city together, wide practical night lighting"),
+        ("vid_27", "chorus", 5.0, "the stork rapper moves through an open rooftop gathering, expressive shoulders and arms, confident body language, smooth gimbal shot"),
+        ("vid_28", "outro", 5.0, "the stork rapper stands at the edge of a rooftop before dawn, deep blue sky shifting toward gold, calm victorious silhouette"),
+        ("vid_29", "outro", 5.0, "close detail of the stork rapper lowering the phone and looking directly toward the real world, orange beak and MLK cap clearly readable, warm sunrise light"),
+        ("vid_30", "outro", 6.0, "final wide shot of the stork rapper and friends walking into warm morning light through an open city street, no screens, peaceful victorious ending"),
     ]
-    for clip_id, section, visual in scenes:
+    for clip_id, section, duration, visual in scenes:
         prompts.append({
             "clip_id": clip_id,
             "type": "broll",
-            "duration_sec": 4.0,
+            "duration_sec": duration,
             "section": section,
             "character_anchor": anchor,
-            "prompt": f"{anchor}, {_outfit_for_section(section, 0)}, {visual}, {mood_text}, {brief}, cinematic music video, stable identity, duration 4 seconds",
+            "prompt": f"{anchor}, {_outfit_for_section(section, 0)}, {visual}, {mood_text}, {brief}, cinematic music video, stable identity, duration {duration:.2f} seconds",
             "negative_prompt": DEFAULT_NEGATIVE,
         })
     package = {

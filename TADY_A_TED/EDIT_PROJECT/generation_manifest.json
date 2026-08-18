@@ -115,48 +115,273 @@
       }
     },
     {
-      "clip_id": "broll_01",
+      "clip_id": "vid_01",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "intro",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black technical hoodie with subtle reflective trim, a cold blue bedroom before sunrise, the stork rapper sitting on the edge of the bed while a phone illuminates the orange beak, slow locked-off push-in, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_02",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "intro",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black technical hoodie with subtle reflective trim, extreme close-up of a phone screen glow reflected in the stork rapper's eye and orange beak, notifications remain abstract and unreadable, shallow depth of field, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_03",
       "type": "broll",
       "duration_sec": 4.0,
       "section": "intro",
       "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
-      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black technical hoodie with subtle reflective trim, empty wet city under sodium lights, distant silhouette, slow push-in, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black technical hoodie with subtle reflective trim, the stork rapper alone at a small kitchen table, untouched coffee, blue screen light, empty chair opposite, restrained static composition, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
       "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
     },
     {
-      "clip_id": "broll_02",
+      "clip_id": "vid_04",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "intro",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black technical hoodie with subtle reflective trim, overhead view of the stork rapper lying awake in a dark room, phone held above the black MLK cap, the room feels like a digital cage, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_05",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "verse",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, the stork rapper walking through a narrow apartment corridor lined with cold phone reflections, shoulders tense, slow tracking shot, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_06",
       "type": "broll",
       "duration_sec": 4.0,
       "section": "verse",
       "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
-      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, the stork rapper walking through an industrial corridor, reflections and smoke, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, macro detail of a thumb endlessly scrolling on a phone while the stork rapper's orange beak appears blurred in the background, no readable interface text, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
       "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
     },
     {
-      "clip_id": "broll_03",
+      "clip_id": "vid_07",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "verse",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, the stork rapper framed behind translucent glass covered with abstract reflections, trapped urban mood, gradual lateral camera move, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_08",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "verse",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, a crowded subway platform where every passenger is represented only by soft silhouettes and phone light, the stork rapper stands isolated in the center, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_09",
       "type": "broll",
       "duration_sec": 4.0,
-      "section": "chorus",
+      "section": "verse",
       "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
-      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, the stork rapper on a rooftop above the city, wind moving the jacket, wide hero shot, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, the stork rapper passes a shop window showing fragmented reflections of the same silhouette, controlled handheld movement, cold green and blue palette, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
       "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
     },
     {
-      "clip_id": "broll_04",
+      "clip_id": "vid_10",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "verse",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, close shot of the stork rapper's hand hovering over the phone power button, hesitation and pressure, practical screen light on the dark hoodie, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_11",
       "type": "broll",
       "duration_sec": 4.0,
       "section": "bridge",
       "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
-      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, charcoal long coat with metallic details, close detail of boots crossing a puddle, reflected lights, rhythmic camera movement, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, charcoal long coat with metallic details, the stork rapper places the phone face down on a concrete table, screen light disappears, a warm practical light begins to enter the frame, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
       "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
     },
     {
-      "clip_id": "broll_05",
+      "clip_id": "vid_12",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "bridge",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, charcoal long coat with metallic details, the stork rapper unplugs a glowing charging cable and steps away from it, subtle dust in the air, symbolic release, steady camera, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_13",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "bridge",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, charcoal long coat with metallic details, the stork rapper opens a heavy industrial door from darkness into an orange-lit night street, silhouette transition, single smooth camera move, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_14",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "chorus",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, the stork rapper enters a small late-night bar, warm amber practical lights, a few background silhouettes turn toward the character, welcoming atmosphere, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_15",
       "type": "broll",
       "duration_sec": 4.0,
+      "section": "chorus",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, a group at a bar table gradually places their phones face down, hands and glasses in frame, warm light, no readable logos or text, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_16",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "chorus",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, the stork rapper and a small group walk together through a neon side street, jackets moving in the wind, confident forward tracking shot, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_17",
+      "type": "broll",
+      "duration_sec": 4.0,
+      "section": "chorus",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, low angle of synchronized footsteps crossing a rain-wet street, reflections of amber and cyan lights, rhythmic but realistic camera motion, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_18",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "chorus",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, wide shot of the stork rapper and friends under an urban overpass, practical sodium lights, collective energy, slow circular camera move, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_19",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "verse",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, the stork rapper alone again in the bedroom, the phone lights up on the table, the character reaches toward it despite knowing better, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_20",
+      "type": "broll",
+      "duration_sec": 4.0,
+      "section": "verse",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, rapid but controlled montage-like shot of phone reflections passing over the stork rapper's hoodie and orange beak, abstract unreadable interface shapes, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_21",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "verse",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, the stork rapper sits on a bus at night while city lights streak across the window, phone glow isolates the character from the moving world, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_22",
+      "type": "broll",
+      "duration_sec": 4.0,
+      "section": "verse",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, dark olive utility jacket over the signature hoodie, a wall clock and phone on a dark table share the same cold light, the stork rapper's silhouette moves out of focus behind them, visual time pressure, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_23",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "bridge",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, charcoal long coat with metallic details, the stork rapper notices the phone reflection in a puddle, then steps through the reflection and breaks its symmetry, symbolic return to reality, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_24",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "bridge",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, charcoal long coat with metallic details, the stork rapper switches the phone to airplane mode and places it inside a jacket pocket, close detail, warm light growing stronger, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_25",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "chorus",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, the stork rapper raises the head toward an open city skyline, wind moving the dark olive jacket, rooftop hero composition, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_26",
+      "type": "broll",
+      "duration_sec": 4.0,
+      "section": "chorus",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, a small group leaves their phones in a row on a rooftop ledge and faces the city together, wide practical night lighting, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_27",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "chorus",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, black and gold performance bomber jacket, the stork rapper moves through an open rooftop gathering, expressive shoulders and arms, confident body language, smooth gimbal shot, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_28",
+      "type": "broll",
+      "duration_sec": 5.0,
       "section": "outro",
       "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
-      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, the signature dark hooded streetwear, slightly weathered, the stork rapper facing the sunrise from a rooftop, calm victorious silhouette, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 4 seconds",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, the signature dark hooded streetwear, slightly weathered, the stork rapper stands at the edge of a rooftop before dawn, deep blue sky shifting toward gold, calm victorious silhouette, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_29",
+      "type": "broll",
+      "duration_sec": 5.0,
+      "section": "outro",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, the signature dark hooded streetwear, slightly weathered, close detail of the stork rapper lowering the phone and looking directly toward the real world, orange beak and MLK cap clearly readable, warm sunrise light, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 5.00 seconds",
+      "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
+    },
+    {
+      "clip_id": "vid_30",
+      "type": "broll",
+      "duration_sec": 6.0,
+      "section": "outro",
+      "character_anchor": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design",
+      "prompt": "a constantly recurring anthropomorphic rapper character in the form of a stork, with a long orange beak, a black cap featuring an MLK motif, dark hooded streetwear, expressive body language, a recognizable silhouette, consistent proportions, and a music video-style character design, the signature dark hooded streetwear, slightly weathered, final wide shot of the stork rapper and friends walking into warm morning light through an open city street, no screens, peaceful victorious ending, cinematic Czech rap, determined, nocturnal, urban, A stork rapper moves from pressure to self-belief and victory., cinematic music video, stable identity, duration 6.00 seconds",
       "negative_prompt": "another character, a human face, a visible human mouth, another beak, a deformed beak, duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, flickering, morphing, low resolution, watermark, subtitles"
     }
   ]

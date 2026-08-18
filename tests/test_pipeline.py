@@ -552,8 +552,13 @@ class GenerativePackageTests(unittest.TestCase):
             self.assertEqual(package["character_type"], "masked_bird_stork_rapper")
             self.assertEqual(len(package["rap_passages"]), 3)
             self.assertTrue(all(2.5 <= item["duration"] <= 6.0 for item in package["rap_passages"]))
-            self.assertEqual(len([item for item in package["clips"] if item["type"] == "rap_lipsync"]), 3)
-            self.assertEqual(len([item for item in package["clips"] if item["type"] == "broll"]), 5)
+            rap_clips = [item for item in package["clips"] if item["type"] == "rap_lipsync"]
+            broll_clips = [item for item in package["clips"] if item["type"] == "broll"]
+            self.assertEqual(len(rap_clips), 3)
+            self.assertEqual(len(broll_clips), 30)
+            self.assertEqual([item["clip_id"] for item in broll_clips], [f"vid_{index:02d}" for index in range(1, 31)])
+            for item in rap_clips:
+                self.assertIn(f'matching the Czech-rapped lyrics: "{item["text"]}"', item["prompt"])
             self.assertTrue((project / "EDIT_PROJECT" / "generation_manifest.json").exists())
             self.assertTrue((project / "Prompts" / "scenario.txt").exists())
             self.assertTrue((project / "Prompts" / "generation_prompts.md").exists())
