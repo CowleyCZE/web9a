@@ -3497,29 +3497,31 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
         whisper_bin = None
         if provider == "groq":
             if not self._groq_ready():
-                return
+                print("❌ Rap transkripce zastavena: Groq není připravený.")
+                return False
             print(f"🗣️  Transkripce rap klipů přes Groq Cloud API (model: {settings.get('groq_model', 'whisper-large-v3-turbo')})...")
         else:
             whisper_bin = shutil.which("whisper") or shutil.which("whisper-cli")
             if not whisper_bin:
                 print("❌ Nebyl nalezen příkaz `whisper` ani `whisper-cli` v PATH.")
                 print("   Nebo přepni v Nastavení na Groq Cloud API.")
-                return
+                return False
             if Path(whisper_bin).name == "whisper-cli":
                 print("❌ Nalezen jen `whisper-cli` (whisper.cpp) — ten používá jinou syntaxi CLI")
                 print("   argumentů než tento pipeline očekává (openai-whisper), takže by transkripce")
                 print("   tiše selhala u každého klipu. Nainstaluj `pip install openai-whisper")
                 print("   --break-system-packages`, nebo přepni v Nastavení transcription_provider na 'groq'.")
-                return
+                return False
 
         song_alignment = self._load_json(self.edit_dir / "song_alignment.json", {})
         song_words = song_alignment.get("words", [])
         lyrics_text = self._load_lyrics_text()
         timeline_ranges = self._load_timeline_rap_ranges()
         song_segments = self._load_song_segments()
+        # RAP_TRANSCRIPTION_STRICT_GUARD: missing rap assets are a hard step failure.
         if not rap_clips:
             print("❌ Ve složce gen_rap nebyly nalezeny žádné rap_*.mp4 klipy.")
-            return
+            return False
         if not force and missing_ids is not None:
             rap_clips = [clip for clip in rap_clips if clip.stem in missing_ids]
             print(f"🔁 Spouštím transkripci pouze pro {len(rap_clips)} chybějících klipů.")
@@ -3599,6 +3601,18 @@ Odpověz VÝHRADNĚ jedním JSON objektem, bez dalšího textu:
                 print(f"✅ Rap alignment je nyní úplný pro všech {len(results)} klipů.")
         if failed_clips:
             print(f"⚠️  {len(failed_clips)} klip(ů) bez validní transkripce (viz 'transcript_empty' v reportu): {', '.join(failed_clips)}")
+            print("❌ RAP_TRANSCRIPTION_STRICT_GUARD: transkripce rapu je neúplná — další kroky nesmí pokračovat jako by byla hotová.")
+            return False
+
+        expected_ids = {clip.stem for clip in self.gen_rap.glob("rap_*.mp4")}
+        completed_ids = {str(k) for k, v in results.items() if isinstance(v, dict) and not v.get("transcript_empty", False) and (v.get("words_raw") or v.get("words"))}
+        missing_after_run = sorted(expected_ids - completed_ids)
+        if missing_after_run:
+            print(f"❌ RAP_TRANSCRIPTION_STRICT_GUARD: po dokončení stále chybí {len(missing_after_run)} klipů: {', '.join(missing_after_run)}")
+            return False
+
+        print("✅ RAP_TRANSCRIPTION_STRICT_GUARD: všechny rap klipy mají validní word-level transkripci.")
+        return True
 
     def _reconcile_raw_words_for_resync(self, entry: dict) -> list[dict]:
         """Pomocná funkce pro resync_rap_alignment_from_lyrics().
