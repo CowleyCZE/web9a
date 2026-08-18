@@ -559,6 +559,10 @@ class GenerativePackageTests(unittest.TestCase):
             self.assertEqual([item["clip_id"] for item in broll_clips], [f"vid_{index:02d}" for index in range(1, 31)])
             for item in rap_clips:
                 self.assertIn(f'matching the Czech-rapped lyrics: "{item["text"]}"', item["prompt"])
+                self.assertNotIn("no speaking, no singing, no rapping", item["prompt"])
+            for item in broll_clips:
+                self.assertIn("no speaking, no singing, no rapping, no lip-sync", item["prompt"])
+                self.assertIn("speech, spoken words, singing, rapping, lip-sync", item["negative_prompt"])
             self.assertTrue((project / "EDIT_PROJECT" / "generation_manifest.json").exists())
             self.assertTrue((project / "Prompts" / "scenario.txt").exists())
             self.assertTrue((project / "Prompts" / "generation_prompts.md").exists())

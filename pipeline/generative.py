@@ -16,6 +16,14 @@ DEFAULT_NEGATIVE = (
     "duplicate limbs, extra fingers, a distorted logo on a hoodie, illegible text, unstable identity, "
     "flickering, morphing, low resolution, watermark, subtitles"
 )
+BROLL_SILENT_DIRECTIVE = (
+    "silent non-vocal performance, no speaking, no singing, no rapping, no lip-sync, "
+    "no mouth or beak articulation, beak closed and still"
+)
+BROLL_NEGATIVE = (
+    DEFAULT_NEGATIVE + ", speech, spoken words, singing, rapping, lip-sync, vocal performance, "
+    "talking mouth, open beak, exaggerated beak movement"
+)
 
 
 def _read(path: Path) -> str:
@@ -242,8 +250,12 @@ def build_generation_package(
             "duration_sec": duration,
             "section": section,
             "character_anchor": anchor,
-            "prompt": f"{anchor}, {_outfit_for_section(section, 0)}, {visual}, {mood_text}, {brief}, cinematic music video, stable identity, duration {duration:.2f} seconds",
-            "negative_prompt": DEFAULT_NEGATIVE,
+            "prompt": (
+                f"{anchor}, {_outfit_for_section(section, 0)}, {visual}, {mood_text}, {brief}, "
+                f"{BROLL_SILENT_DIRECTIVE}, cinematic music video, stable identity, "
+                f"duration {duration:.2f} seconds"
+            ),
+            "negative_prompt": BROLL_NEGATIVE,
         })
     package = {
         "schema_version": 1,
