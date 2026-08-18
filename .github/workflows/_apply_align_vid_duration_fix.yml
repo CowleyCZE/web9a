@@ -1,0 +1,100 @@
+name: Apply align-vid duration validation fix
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Patch align-vid duration handling
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("pro_pipeline.py")
+          text = path.read_text(encoding="utf-8")
+
+          start = text.find("    def align_vid_clips(")
+          if start < 0:
+              raise SystemExit("align_vid_clips() was not found")
+          next_def = text.find("\n    def ", start + 10)
+          end = next_def if next_def >= 0 else len(text)
+          fn = text[start:end]
+
+          if "duration_mismatch" in fn:
+              raise SystemExit("align_vid duration fix already present")
+
+          # Najdi cílovou délku a výstupní soubor používané funkcí. Podporujeme
+          # běžné názvy z této pipeline, ale odmítneme patchovat naslepo.
+          target_candidates = [
+              "target_duration", "target_dur", "slot_duration", "target_len"
+          ]
+          target_var = next((v for v in target_candidates if re.search(rf"\b{v}\s*=", fn)), None)
+          if not target_var:
+              raise SystemExit("Could not identify align-vid target duration variable")
+
+          output_candidates = ["out", "output_path", "dst"]
+          output_var = None
+          for v in output_candidates:
+              if re.search(rf"\b{v}\s*=\s*[^\n]*adjusted_dir", fn):
+                  output_var = v
+                  break
+          if not output_var:
+              raise SystemExit("Could not identify align-vid output path variable")
+
+          # Vlož kontrolu hned na začátek úspěšné větve. Speed clamp může vytvořit
+          # soubor, jehož fyzická délka se od cílového slotu stále výrazně liší.
+          marker = re.search(r"(?m)^(\s*)if ok:\s*$", fn)
+          if not marker:
+              raise SystemExit("Could not find successful align-vid branch")
+          indent = marker.group(1) + "    "
+          guard = (
+              f"{indent}actual_duration = probe_duration({output_var})\n"
+              f"{indent}duration_tolerance = max(0.08, float({target_var}) * 0.03)\n"
+              f"{indent}duration_error = abs(actual_duration - float({target_var}))\n"
+              f"{indent}if actual_duration <= 0 or duration_error > duration_tolerance:\n"
+              f"{indent}    corrections[name] = {{\"status\": \"duration_mismatch\", \"speed_factor\": speed, \"target_duration\": round(float({target_var}), 3), \"new_duration\": round(actual_duration, 3), \"duration_error\": round(duration_error, 3)}}\n"
+              f"{indent}    print(f\"  ❌ {{name}}: speed clamp nedosáhl cílové délky (target={{float({target_var}):.3f}}s, actual={{actual_duration:.3f}}s).\")\n"
+              f"{indent}    rebuilt.append(raw)\n"
+              f"{indent}    continue\n"
+          )
+          fn = fn[:marker.end()] + "\n" + guard + fn[marker.end():]
+          text = text[:start] + fn + text[end:]
+
+          path.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Add regression test for duration mismatch helper behavior
+        run: |
+          python -m py_compile pro_pipeline.py
+          python - <<'PY'
+          from pathlib import Path
+          text = Path("pro_pipeline.py").read_text(encoding="utf-8")
+          start = text.index("    def align_vid_clips(")
+          end = text.find("\n    def ", start + 10)
+          fn = text[start:end if end >= 0 else len(text)]
+          assert "duration_mismatch" in fn
+          assert "duration_tolerance = max(0.08" in fn
+          assert "duration_error = abs(actual_duration" in fn
+          print("align-vid duration mismatch guard verified")
+          PY
+
+      - name: Remove temporary workflows and commit
+        run: |
+          rm -f .github/workflows/_apply_align_vid_duration_fix.yml
+          rm -f .github/workflows/_apply_lipsync_regex_fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pro_pipeline.py .github/workflows/_apply_align_vid_duration_fix.yml .github/workflows/_apply_lipsync_regex_fix.yml
+          git commit -m "Validate align-vid output duration after speed clamp"
+          git push
