@@ -1,0 +1,258 @@
+name: Apply robust rap alignment patch
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Patch align_rap_clips and validator
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import ast
+
+          path = Path('pro_pipeline.py')
+          text = path.read_text(encoding='utf-8')
+          tree = ast.parse(text)
+          lines = text.splitlines(keepends=True)
+
+          target = None
+          for node in ast.walk(tree):
+              if isinstance(node, ast.FunctionDef) and node.name == 'align_rap_clips':
+                  target = node
+                  break
+          if target is None:
+              raise SystemExit('align_rap_clips not found')
+
+          new_func = '''    def align_rap_clips(self) -> bool:
+        """Synchronizuje pouze rapovou část každého rap klipu s odpovídajícím úsekem songu.
+
+        Zdroj je vždy nezměněný soubor v gen_rap_original_backup/. Výpočet je tedy
+        idempotentní a opakované spuštění nekumuluje rychlostní chybu.
+        """
+        rap_alignment = self._load_json(self.edit_dir / "rap_alignment.json", {})
+        if not isinstance(rap_alignment, dict) or not rap_alignment:
+            print("❌ Chybí EDIT_PROJECT/rap_alignment.json. Nejprve spusť transcribe-rap.")
+            return False
+
+        backup_dir = self.project_dir / "gen_rap_original_backup"
+        adjusted_dir = self.project_dir / "gen_rap_adjusted"
+        backup_dir.mkdir(parents=True, exist_ok=True)
+        adjusted_dir.mkdir(parents=True, exist_ok=True)
+
+        settings = self.load_settings()
+        try:
+            speed_min = float(settings.get("speed_min", 0.5))
+            speed_max = float(settings.get("speed_max", 2.0))
+        except (TypeError, ValueError):
+            print("❌ Neplatné speed_min/speed_max v nastavení.")
+            return False
+        if not (0 < speed_min <= speed_max):
+            print(f"❌ Neplatný rozsah rychlosti: {speed_min}-{speed_max}.")
+            return False
+
+        corrections = {}
+        failed = 0
+        processed = 0
+
+        for name, data in rap_alignment.items():
+            if not isinstance(data, dict):
+                failed += 1
+                corrections[name] = {"status": "error", "reason": "invalid_alignment_entry"}
+                continue
+
+            src_current = self.gen_rap / f"{name}.mp4"
+            src_backup = backup_dir / f"{name}.mp4"
+            current_hash = file_hash(src_current) if src_current.exists() else ""
+            previous_output_hash = str(data.get("output_hash", ""))
+
+            # První běh: vytvoř neměnný zdrojový originál.
+            if not src_backup.exists():
+                if not src_current.exists() or not is_valid_media(src_current):
+                    print(f"  ❌ {name}: chybí nebo je neplatný zdrojový klip.")
+                    failed += 1
+                    corrections[name] = {"status": "error", "reason": "missing_source"}
+                    continue
+                shutil.copy2(str(src_current), str(src_backup))
+            # Uživatel mohl nahradit klip novou verzí. Hash našeho posledního výstupu
+            # umožní bezpečně rozlišit ruční změnu od našeho vlastního výsledku.
+            elif current_hash and previous_output_hash and current_hash != previous_output_hash:
+                print(f"  ℹ️ {name}: zjištěna ruční změna zdrojového klipu — obnovuji backup.")
+                shutil.copy2(str(src_current), str(src_backup))
+
+            src = src_backup
+            if not is_valid_media(src):
+                print(f"  ❌ {name}: backup není validní video.")
+                failed += 1
+                corrections[name] = {"status": "error", "reason": "invalid_backup"}
+                continue
+
+            match = data.get("song_match") or {}
+            try:
+                song_start = float(match["song_start"])
+                song_end = float(match["song_end"])
+            except (KeyError, TypeError, ValueError):
+                print(f"  ❌ {name}: chybí validní song_match.song_start/song_end.")
+                failed += 1
+                corrections[name] = {"status": "no_match", "speed_factor": 1.0}
+                continue
+
+            target_rap_duration = song_end - song_start
+            if target_rap_duration <= 0.02:
+                print(f"  ❌ {name}: neplatná cílová délka rapu {target_rap_duration:.3f}s.")
+                failed += 1
+                corrections[name] = {"status": "error", "reason": "invalid_target_duration"}
+                continue
+
+            try:
+                clip_duration = probe_duration(src)
+                rap_start = max(0.0, min(float(data.get("rap_start", 0.0)), clip_duration))
+                rap_end = max(rap_start, min(float(data.get("rap_end", clip_duration)), clip_duration))
+                source_rap_duration = rap_end - rap_start
+                before_duration = rap_start
+                after_duration = max(0.0, clip_duration - rap_end)
+                if source_rap_duration <= 0.02:
+                    raise ValueError("rap segment je příliš krátký")
+
+                raw_speed = source_rap_duration / target_rap_duration
+                speed = max(speed_min, min(speed_max, raw_speed))
+                speed = round(speed, 4)
+                clamped = abs(speed - raw_speed) > 0.0005
+
+                out = adjusted_dir / f"{name}.mp4"
+                if not self._adjust_rap_clip_segments(src, out, rap_start, rap_end, speed):
+                    raise RuntimeError("FFmpeg úprava rap segmentu selhala")
+                if not is_valid_media(out):
+                    raise RuntimeError("výstupní klip není validní")
+
+                actual_new_duration = probe_duration(out)
+                achieved_rap_duration = source_rap_duration / speed
+                expected_new_duration = before_duration + achieved_rap_duration + after_duration
+
+                # Fyzický výstup musí odpovídat výpočtu. Velká odchylka znamená chybu,
+                # ne důvod přepsat metadata podle teorie.
+                if abs(actual_new_duration - expected_new_duration) > 0.12:
+                    raise RuntimeError(
+                        f"délka výstupu {actual_new_duration:.3f}s neodpovídá očekávání {expected_new_duration:.3f}s"
+                    )
+
+                destination = self.gen_rap / f"{name}.mp4"
+                shutil.copy2(str(out), str(destination))
+                output_hash = file_hash(destination)
+
+                # Slova se nikdy nesmí transformovat opakovaně. První originální mapu
+                # uložíme pod words_source a při každém běhu počítáme výhradně z ní.
+                words_source = data.get("words_source")
+                if not isinstance(words_source, list):
+                    words_source = [dict(w) for w in data.get("words", []) if isinstance(w, dict)]
+                    data["words_source"] = [dict(w) for w in words_source]
+
+                transformed_words = []
+                for word in words_source:
+                    try:
+                        old_start = float(word.get("start", rap_start))
+                        old_end = float(word.get("end", old_start))
+                    except (TypeError, ValueError):
+                        continue
+                    nw = dict(word)
+                    # Transformujeme jen slova uvnitř rap segmentu. Before/after
+                    # timestampy zůstávají nedotčené.
+                    if old_end <= rap_start or old_start >= rap_end:
+                        nw["start"] = round(old_start, 4)
+                        nw["end"] = round(old_end, 4)
+                    else:
+                        s = max(rap_start, old_start)
+                        e = min(rap_end, old_end)
+                        nw["start"] = round(rap_start + (s - rap_start) / speed, 4)
+                        nw["end"] = round(rap_start + (e - rap_start) / speed, 4)
+                    transformed_words.append(nw)
+                data["words"] = transformed_words
+
+                data["rap_duration"] = round(achieved_rap_duration, 4)
+                data["clip_duration"] = round(actual_new_duration, 4)
+                data["before_duration"] = round(before_duration, 4)
+                data["after_duration"] = round(after_duration, 4)
+                data["target_rap_duration"] = round(target_rap_duration, 4)
+                data["speed_factor"] = speed
+                data["raw_speed_factor"] = round(raw_speed, 4)
+                data["speed_clamped"] = clamped
+                data["output_hash"] = output_hash
+                data["alignment_source_duration"] = round(clip_duration, 4)
+
+                status = "clamped" if clamped else "ok"
+                corrections[name] = {
+                    "status": status,
+                    "speed_factor": speed,
+                    "raw_speed_factor": round(raw_speed, 4),
+                    "new_duration": round(actual_new_duration, 4),
+                    "target_rap_duration": round(target_rap_duration, 4),
+                    "achieved_rap_duration": round(achieved_rap_duration, 4),
+                }
+                processed += 1
+                extra = " CLAMPED" if clamped else ""
+                print(
+                    f"  {'⚠️' if clamped else '✅'} {name}: speed={speed:.4f}x{extra} "
+                    f"rap {source_rap_duration:.3f}s → {achieved_rap_duration:.3f}s "
+                    f"(cíl {target_rap_duration:.3f}s)"
+                )
+            except Exception as exc:
+                failed += 1
+                corrections[name] = {
+                    "status": "error",
+                    "speed_factor": 1.0,
+                    "new_duration": round(probe_duration(src), 4) if is_valid_media(src) else 0.0,
+                    "reason": str(exc),
+                }
+                print(f"  ❌ {name}: {exc}")
+
+            # Průběžný checkpoint po každém klipu.
+            self._write_json(self.edit_dir / "rap_alignment.json", rap_alignment)
+            self._write_json(self.edit_dir / "speed_corrections.json", corrections)
+
+        if failed:
+            print(f"❌ align-rap dokončen s chybami: {processed} OK, {failed} selhalo.")
+            return False
+        print(f"✅ align-rap dokončen: {processed} rap klipů synchronizováno.")
+        return processed > 0
+'''
+
+          start = target.lineno - 1
+          end = target.end_lineno
+          text = ''.join(lines[:start]) + new_func + ''.join(lines[end:])
+
+          # Validator musí přijímat i legitimně ořezaný speed factor.
+          text = text.replace(
+              'if corr.get("status") != "ok":\n                        issues.append(f"{name}: korekce není OK ({corr.get(\'status\')})")',
+              'if corr.get("status") not in ("ok", "clamped"):\n                        issues.append(f"{name}: korekce není OK ({corr.get(\'status\')})")'
+          )
+
+          path.write_text(text, encoding='utf-8')
+          ast.parse(text)
+          print('robust align_rap_clips patch applied')
+          PY
+
+      - name: Verify syntax and behavior markers
+        run: |
+          python -m py_compile pro_pipeline.py
+          grep -q 'words_source' pro_pipeline.py
+          grep -q 'speed_clamped' pro_pipeline.py
+          grep -q 'status") not in ("ok", "clamped")' pro_pipeline.py
+
+      - name: Remove one-time workflow and commit
+        run: |
+          rm -f .github/workflows/_fix_align_rap.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add pro_pipeline.py .github/workflows/_fix_align_rap.yml
+          git commit -m 'Harden rap clip alignment and speed validation'
+          git push
