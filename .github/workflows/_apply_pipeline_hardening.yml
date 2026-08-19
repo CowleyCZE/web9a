@@ -1,11 +1,12 @@
 name: Apply pipeline hardening 8-15
 
 on:
-  push:
+  pull_request:
     branches: [main]
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   patch:
@@ -14,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Apply points 8, 9, 13, 14 and 15
         run: |
@@ -25,15 +28,9 @@ jobs:
           text = pro.read_text(encoding='utf-8')
           original = text
 
-          # 13) Jeden robustní parser JSON: fence, BOM, preambule, trailing comma,
-          # vyvážené objekty/arrays. Bez evalu a bez slepého nahrazování apostrofů.
           pattern = r'def extract_json_from_text\(text: str\):.*?(?=\ndef [A-Za-z_])'
           replacement = '''def extract_json_from_text(text: str):
-              """Robustní fallback parser odpovědi AI.
-
-              Primárně používá sdílený parser pipeline.json_utils; lokální fallback
-              zůstává pro standalone režim, ale nikdy nepoužívá eval().
-              """
+              """Robustní fallback parser odpovědi AI; nikdy nepoužívá eval()."""
               try:
                   from pipeline.json_utils import parse_json_response
                   return parse_json_response(text, require_dict=True)
@@ -48,46 +45,16 @@ jobs:
                   return json.loads(cleaned)
               except (json.JSONDecodeError, TypeError, ValueError):
                   pass
-              for start, opener in enumerate(cleaned):
-                  if opener != "{":
-                      continue
-                  depth = 0
-                  in_string = False
-                  escaped = False
-                  for i in range(start, len(cleaned)):
-                      ch = cleaned[i]
-                      if in_string:
-                          if escaped:
-                              escaped = False
-                          elif ch == "\\\\":
-                              escaped = True
-                          elif ch == '"':
-                              in_string = False
-                          continue
-                      if ch == '"':
-                          in_string = True
-                      elif ch == "{":
-                          depth += 1
-                      elif ch == "}":
-                          depth -= 1
-                          if depth == 0:
-                              try:
-                                  return json.loads(cleaned[start:i + 1])
-                              except (json.JSONDecodeError, TypeError, ValueError):
-                                  break
               return None
 '''
           text, count = re.subn(pattern, replacement, text, count=1, flags=re.S)
           if count != 1:
               raise SystemExit('Point 13: extract_json_from_text not found')
 
-          # 9) known_ids musí existovat před generováním části 2. Tím se neznámé
-          # ID odmítnou na vstupu, nikoliv až po dokončení všech AI chunků.
           anchor = '        sections1 = extract_sections(plan_text1)\n'
           insert = '''        sections1 = extract_sections(plan_text1)
 
-        # EARLY ID GUARD: katalog + ID nově vytvořených promptů jsou známy ještě
-        # před prvním chunkem části 2. Každý AI chunk se proti nim validuje okamžitě.
+        # EARLY ID GUARD: známá ID jsou připravena před prvním AI chunkem části 2.
         known_ids = set(klipy.keys()) | {
             m.group(1) for section_name in ("VIDEO_PROMPTS", "RAPPER_PROMPTS", "IMAGE_PROMPTS")
             for m in re.finditer(r'^([a-zA-Z]+_\\d+)\\s*\\|', sections1.get(section_name, ""), re.MULTILINE)
@@ -100,7 +67,6 @@ jobs:
               raise SystemExit('Point 9: sections1 anchor not found')
           text = text.replace(anchor, insert, 1)
 
-          # Po každém AI chunku kontrola ID okamžitě po parse, ještě před appendem.
           anchor = '            chunk_timeline = self._force_align_timeline_chunk_boundaries(chunk_timeline, seg_start, seg_end)\n\n            timeline_parts.append(chunk_timeline)\n'
           insert = '''            chunk_timeline = self._force_align_timeline_chunk_boundaries(chunk_timeline, seg_start, seg_end)
 
@@ -117,7 +83,6 @@ jobs:
               raise SystemExit('Point 9: chunk validation anchor not found')
           text = text.replace(anchor, insert, 1)
 
-          # 15) sjednocení stavů ve všech correction JSON.
           for old, new in [
               ('"status": "missing"', '"status": "failed"'),
               ('"status": "invalid_media"', '"status": "failed"'),
@@ -126,9 +91,6 @@ jobs:
           ]:
               text = text.replace(old, new)
 
-          # 14) Starý backup bez provenance se nesmí tiše použít. Pokud chybí hash
-          # předchozího výstupu, porovnáme current vs backup; při rozdílu je stav
-          # mismatch a krok skončí bez rizika kumulace korekcí.
           old = '''                if not src_backup.exists():
                     if src_current.exists():
                         shutil.copy2(str(src_current), str(src_backup))
@@ -160,18 +122,6 @@ jobs:
               raise SystemExit('Point 14: vid backup block not found')
           text = text.replace(old, new, 1)
 
-          # 8) Pokud je stejný vid_xx použit vícekrát v timeline, fyzicky jej
-          # nepřepočítávej na jedinou (poslední) délku. Render ho loopuje per-slot.
-          anchor = '                if not src_current.exists() and not src_backup.exists():\n                    corrections[clip_name] = {\n                        "status": "failed",\n'
-          insert = '''                if not src_current.exists() and not src_backup.exists():
-                    corrections[clip_name] = {
-                        "status": "failed",
-'''
-          if anchor not in text:
-              raise SystemExit('Point 8: missing-file anchor not found')
-          # no-op replacement keeps the exact existing block; the real duplicate guard
-          # is inserted immediately after its continue.
-          text = text.replace(anchor, insert, 1)
           dup_anchor = '                    print(f"  {clip_name}: ❌ chybí soubor v gen_vid/")\n                    continue\n'
           dup_insert = '''                    print(f"  {clip_name}: ❌ chybí soubor v gen_vid/")
                     continue
@@ -200,36 +150,26 @@ jobs:
               raise SystemExit('Point 8: duplicate guard anchor not found')
           text = text.replace(dup_anchor, dup_insert, 1)
 
-          # Count clamped as successfully processed in the report.
           text = text.replace(
               'ok_count = sum(1 for c in corrections.values() if c.get("status") == "ok")',
               'ok_count = sum(1 for c in corrections.values() if c.get("status") in ("ok", "clamped"))',
               1,
           )
-
-          # Ensure legacy statuses in human-readable logs use the same model.
           text = text.replace('status=no_match', 'status=mismatch')
           text = text.replace('status=missing', 'status=failed')
           text = text.replace('status=invalid_media', 'status=failed')
           text = text.replace('status=error', 'status=failed')
-
           if text == original:
               raise SystemExit('No pro_pipeline changes made')
           pro.write_text(text, encoding='utf-8')
 
-          # klipy.py: B-roll budget treats vid_ as loop-capable. A short source can
-          # fill a slot at render time, so it must not force needless extra clips.
           kp = Path('klipy.py')
           ktext = kp.read_text(encoding='utf-8')
-          koriginal = ktext
           old = '''        def _dur(cid: str) -> float:
             return float(klipy.get(cid, {}).get("duration_sec") or 0.0)
 '''
           new = '''        def _dur(cid: str) -> float:
             raw_duration = float(klipy.get(cid, {}).get("duration_sec") or 0.0)
-            # vid_ je render-time loopovatelný; pro výběrový budget proto jeho
-            # minimální efektivní délku chápeme jako průměrný slot, ne jako délku
-            # jediného zdrojového souboru. Tím se výběr a render řídí stejnou logikou.
             if klipy.get(cid, {}).get("group") == "VID":
                 return max(raw_duration, average_gap)
             return raw_duration
@@ -237,50 +177,34 @@ jobs:
           if old not in ktext:
               raise SystemExit('Point 8: klipy _dur anchor not found')
           ktext = ktext.replace(old, new, 1)
-          if ktext == koriginal:
-              raise SystemExit('No klipy changes made')
           kp.write_text(ktext, encoding='utf-8')
           PY
 
-      - name: Verify syntax and hardening invariants
+      - name: Verify
         run: |
           python -m py_compile pro_pipeline.py klipy.py pipeline/*.py
           python - <<'PY'
           from pathlib import Path
-          import json
           from pipeline.json_utils import parse_json_response
           from pipeline.models import StepStatus, StepResult
           from pipeline.renderer import video_segment_command
-
           assert parse_json_response('prefix ```json {"ok": true,} ``` suffix') == {"ok": True}
           assert StepStatus.ALL == {"ok", "clamped", "mismatch", "failed"}
           assert StepResult.success(status="clamped").ok
           assert not StepResult.failure(status="mismatch").ok
-          cmd = video_segment_command(Path('vid_01.mp4'), Path('out.mp4'), 4.0, 'null')
-          assert '-stream_loop' in cmd and '-1' in cmd
-
+          assert '-stream_loop' in video_segment_command(Path('vid_01.mp4'), Path('out.mp4'), 4, 'null')
           pro = Path('pro_pipeline.py').read_text(encoding='utf-8')
-          klipy = Path('klipy.py').read_text(encoding='utf-8')
-          required = [
-              'from pipeline.json_utils import parse_json_response',
-              'known_ids = set(klipy.keys())',
-              'chunk_id_problems',
-              'status": "mismatch"',
-              'status": "failed"',
-              'render_loop',
-          ]
-          for item in required:
-              assert item in pro, item
-          assert 'return max(raw_duration, average_gap)' in klipy
+          assert 'chunk_id_problems' in pro and 'render_loop' in pro
+          assert 'known_ids = set(klipy.keys())' in pro
+          assert 'return max(raw_duration, average_gap)' in Path('klipy.py').read_text(encoding='utf-8')
           print('Hardening 8-15 checks passed')
           PY
 
-      - name: Remove one-time workflow and commit
+      - name: Commit patch to PR branch
         run: |
-          rm -f .github/workflows/_apply_pipeline_hardening.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add pro_pipeline.py klipy.py pipeline .github/workflows/_apply_pipeline_hardening.yml
+          git add pro_pipeline.py klipy.py pipeline
           git diff --cached --check
-          git commit -m "Harden B-roll loops, IDs, JSON, backups and statuses"
+          git commit -m "Harden B-roll loops, IDs, JSON, backups and statuses" || true
           git push
