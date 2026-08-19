@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from .output_quality import RenderProfile
+from .broll import is_loopable_broll
 
 
 def video_segment_command(
@@ -13,16 +14,16 @@ def video_segment_command(
     profile: RenderProfile | None = None,
     loop_short_broll: bool | None = None,
 ) -> list[str]:
-    """Sestaví segment renderu.
+    """Sestaví segment renderu podle centrální B-roll fit politiky.
 
-    Krátké ``vid_`` B-rolly jsou loopovatelné až do délky slotu. Rozhodnutí je
-    zde centralizované, takže stejnou politiku používá každý render, místo aby
-    ji jednotlivé fáze implementovaly odlišně.
+    Krátké ``vid_`` B-rolly jsou legitimní zdroje: pokud jsou kratší než
+    timeline slot, renderer je opakuje. Delší zdroj se naopak ořízne pomocí
+    ``-t``. Tím renderer nemusí předem fyzicky měnit zdrojové MP4.
     """
     if duration <= 0:
         raise ValueError("Délka segmentu musí být kladná")
     if loop_short_broll is None:
-        loop_short_broll = source.stem.lower().startswith("vid_") and not is_image
+        loop_short_broll = is_loopable_broll(source) and not is_image
 
     command = ["ffmpeg", "-hide_banner", "-y"]
     if is_image:
