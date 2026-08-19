@@ -3,25 +3,35 @@ from __future__ import annotations
 from collections.abc import Callable, Iterable
 from typing import Any
 
-from .models import StepResult
+from .models import StepResult, StepStatus
 
 
 def execute_step(name: str, action: Callable[[], Any]) -> StepResult:
-    """Spustí legacy krok a převede jeho výsledek na jednotný StepResult.
+    """Spustí legacy krok a převede výsledek na jednotný stavový model.
 
-    Legacy metody často vracejí None při úspěchu, True/False při validaci nebo
-    mohou vyhodit výjimku. Pouze explicitní False znamená selhání; None je
-    kvůli zpětné kompatibilitě považováno za úspěch.
+    Legacy metody mohou vracet None, bool, StepResult nebo dict s ``status``.
+    ``None`` zůstává kvůli zpětné kompatibilitě úspěchem; explicitní False je
+    ``failed``. Stav ``clamped``/``mismatch`` lze vrátit přes StepResult nebo
+    slovník, aniž by se ztratil při orchestrace.
     """
     try:
         value = action()
     except Exception as exc:
-        return StepResult.failure(f"{name}: {type(exc).__name__}: {exc}")
-    if value is False:
-        return StepResult.failure(f"{name}: krok oznámil neúspěch", value=value)
+        return StepResult.failure(f"{name}: {type(exc).__name__}: {exc}", status=StepStatus.FAILED)
+
     if isinstance(value, StepResult):
         return value
-    return StepResult.success(value=value)
+
+    if isinstance(value, dict) and "status" in value:
+        status = StepStatus.normalize(value.get("status"))
+        if status in {StepStatus.OK, StepStatus.CLAMPED}:
+            return StepResult.success(value=value, status=status)
+        return StepResult.failure(f"{name}: krok skončil ve stavu {status}", value=value, status=status)
+
+    if value is False:
+        return StepResult.failure(f"{name}: krok oznámil neúspěch", value=value, status=StepStatus.FAILED)
+
+    return StepResult.success(value=value, status=StepStatus.OK)
 
 
 def execute_sequence(steps: Iterable[tuple[str, Callable[[], Any]]]) -> StepResult:
@@ -32,7 +42,7 @@ def execute_sequence(steps: Iterable[tuple[str, Callable[[], Any]]]) -> StepResu
         warnings.extend(result.warnings)
         values[name] = result.value
         if not result.ok:
-            return StepResult.failure(*result.errors, value=values, warnings=warnings)
+            return StepResult.failure(*result.errors, value=values, warnings=warnings, status=result.status)
     return StepResult.success(value=values, warnings=warnings)
 
 
