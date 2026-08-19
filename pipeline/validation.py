@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import math
 from collections.abc import Iterable
+from pathlib import Path
 
 from .models import TimelineEntry
+from .broll import validate_source_for_slot
 
 
 def validate_timeline(
@@ -38,3 +40,20 @@ def validate_timeline(
                 f"Timeline přesahuje délku songu ({entries[-1].end:.3f}s > {song_duration:.3f}s)"
             )
     return errors
+
+
+def validate_media_fit(
+    clip_id: str,
+    source: Path | str,
+    actual_duration: float,
+    target_duration: float,
+) -> tuple[bool, str]:
+    """Validate physical media against a timeline slot using render policy.
+
+    A short ``vid_XX`` is valid because renderer loops it at render time.
+    Non-loopable short media remains a mismatch.
+    """
+    ok, mode = validate_source_for_slot(source, actual_duration, target_duration)
+    if ok:
+        return True, mode
+    return False, f"{clip_id}: {mode}"
