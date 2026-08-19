@@ -11,12 +11,24 @@ def video_segment_command(
     video_filter: str,
     is_image: bool = False,
     profile: RenderProfile | None = None,
+    loop_short_broll: bool | None = None,
 ) -> list[str]:
+    """Sestaví segment renderu.
+
+    Krátké ``vid_`` B-rolly jsou loopovatelné až do délky slotu. Rozhodnutí je
+    zde centralizované, takže stejnou politiku používá každý render, místo aby
+    ji jednotlivé fáze implementovaly odlišně.
+    """
     if duration <= 0:
         raise ValueError("Délka segmentu musí být kladná")
+    if loop_short_broll is None:
+        loop_short_broll = source.stem.lower().startswith("vid_") and not is_image
+
     command = ["ffmpeg", "-hide_banner", "-y"]
     if is_image:
         command += ["-loop", "1"]
+    elif loop_short_broll:
+        command += ["-stream_loop", "-1"]
     command += ["-t", f"{duration:.3f}", "-i", str(source), "-vf", video_filter, "-an"]
     if profile is None:
         command += ["-c:v", "libx264", "-preset", "medium", "-crf", "16" if is_image else "15", "-pix_fmt", "yuv420p"]
@@ -30,8 +42,6 @@ def concat_manifest(parts: list[Path], manifest: Path) -> Path:
     if not parts:
         raise ValueError("Nelze vytvořit concat manifest bez segmentů")
     manifest.parent.mkdir(parents=True, exist_ok=True)
-    # FFmpeg concat syntax vyžaduje file řádek; cesty jsou absolutní a apostrofy
-    # se escapují podle syntaxe concat demuxeru.
     lines = []
     for part in parts:
         escaped = str(part).replace("'", "'\\''")
