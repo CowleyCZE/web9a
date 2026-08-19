@@ -5,6 +5,9 @@ import subprocess
 from pathlib import Path
 
 
+HASH_ALGORITHM = "sha256"
+
+
 def stringify_command(command) -> list[str]:
     return [str(part) for part in command]
 
@@ -65,16 +68,21 @@ def is_valid_media(path: Path, min_size: int = 500) -> bool:
 
 
 def file_hash(path: Path) -> str:
+    """Stabilní obsahový fingerprint pro backup/provenance kontrolu.
+
+    Od této verze je hash explicitně označen algoritmem. Staré neoznačené MD5
+    hodnoty se záměrně nepovažují za kompatibilní s novým fingerprintem.
+    """
     if not path.exists():
         return ""
-    digest = hashlib.md5()
+    digest = hashlib.sha256()
     try:
         with path.open("rb") as stream:
             for chunk in iter(lambda: stream.read(1024 * 1024), b""):
                 digest.update(chunk)
-        return digest.hexdigest()
+        return f"{HASH_ALGORITHM}:{digest.hexdigest()}"
     except OSError:
         return ""
 
 
-__all__ = ["stringify_command", "run_cmd", "run_ffmpeg", "probe_duration", "is_valid_media", "file_hash"]
+__all__ = ["HASH_ALGORITHM", "stringify_command", "run_cmd", "run_ffmpeg", "probe_duration", "is_valid_media", "file_hash"]
